@@ -1,0 +1,137 @@
+/***
+Lock Page
+***/
+body {
+	background-color: #ffffff !important;
+	padding: 0;
+	margin: 0;
+}
+
+.brank {
+    margin: 20px 0px 0px 20px;
+}
+.page-lock {
+	margin: 20px 0px 0px 0px;
+    background-color: #3d3d3d !important;
+    min-height: 500px;
+}
+
+.page-lock .page-logo {
+	margin-bottom: 0px;
+
+}
+
+.page-lock .page-body {	
+   width: 800px;
+
+   padding: 10px;
+   padding-top: 150px;
+   margin:auto;
+   background: url(../image/bg-white-lock.png) repeat;
+}
+
+.page_bottom {
+	background-color: #ffffff !important;
+    min-height: 600px;
+}
+/*
+.page-lock .page-body:after,
+.page-lock .page-body:before {
+	display: table;
+	content: "";
+	line-height: 0;
+}
+
+.page-lock .page-body:after {
+	clear: both;
+}
+*/
+
+.page-lock .page-footer {
+   margin-top: 10px;
+   text-align: left !important;
+   font-size: 12px;
+   color: #333;
+}
+
+.page-lock img.page-lock-img {
+	float: left;
+	width: 200px;
+	height: auto;
+}
+
+.page-lock .page-lock-info {
+    margin-top: -60px;
+	float: right;
+	width: 280px;
+}
+
+.page-lock .page-lock-info h1 {
+	margin-top: -5px;
+	font-weight: 380;
+	color: #fff;
+	font-size: 28px;
+	line-height: 32px;
+}
+
+.page-lock .page-lock-info span {
+	color: #eee;
+	display: block;
+	font-size: 14px;
+	margin-top: -5px;
+	margin-bottom: 10px;
+} 
+
+.page-lock .page-lock-info span em {
+	color: #333;
+	font-size: 14px;
+	font-style: normal;
+}
+
+.page-lock .page-lock-info form {
+	margin: 28px 0;
+}
+
+.page-lock .page-lock-info input {
+	background: #fff;
+}
+
+.page-lock .relogin {
+	margin-top: 10px;
+}
+
+.page-lock .relogin a {
+	color: #e1e1e1;
+}
+
+/*Responsive*/
+@media (max-width: 480px) {
+	.page-lock {
+	   top:0px;
+	   width: 260px;
+	   margin-top: 20px;
+	   margin-left: -140px;
+	}	
+
+	.page-lock .page-body {	
+		padding: 10px;
+	    text-align: center;	
+		width: 260px;
+	}
+
+	.page-lock img.page-lock-img {
+		float: none !important;
+		display: block;
+		margin: 0 auto;
+		text-align: center;
+		margin-bottom: 15px;
+	}
+	.page-lock .page-lock-info {
+		float: none !important;
+		width: 260px;		
+		margin: 0 auto;
+	}
+	.page-lock .page-lock-info1 form {
+		margin-bottom: 0;
+	}	
+}

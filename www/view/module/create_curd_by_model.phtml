@@ -1,0 +1,10 @@
+{% extends "common/tabview.phtml" %}
+
+{% block tabview_title %}创建模块{% endblock %}
+
+{% block tabview_tabs_set %}
+{% set tabview_tabs = [
+{"name":'新建模块', "id": "add_new", "active":true, "template": "module/new_curd"} ,
+{"name":'预览', "id": "preview", "template": "module/preview" }
+] %}
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+{{ partial("common/styles") }}
+</head>
+
+<body class="page-header-fixed" >
+
+<!-- header -->
+{{ partial("common/header") }}
+
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+
+    <!-- Sidebar -->
+    {{ partial("common/sidebar") }}
+
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+        <!--
+        <div id="portlet-config" class="modal hide">
+            <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button"></button>
+                <h3>Widget Settings</h3>
+            </div>
+            <div class="modal-body">
+                Widget settings form goes here
+            </div>
+        </div>
+        -->
+        <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+
+        <div class="container-fluid">
+            <!-- Breadcrumb part -->
+            <div class="row-fluid">
+                <div class="span12">
+                    <h4>&nbsp;</h4>
+                    {{ partial("common/breadcrumb") }}
+
+                </div>
+            </div>
+            <!-- Content part -->
+            <div id="dashboard">
+                <div class="row-fluid">
+                    {% include content_phtml %}
+                </div>
+            </div>
+        </div>
+
+
+        <!-- END PAGE CONTAINER-->
+    </div>
+    <!-- END PAGE -->
+</div>
+<!-- END CONTAINER -->
+
+{{ partial("common/footer") }}
+
+</body>
+{{ partial("common/scripts") }}
+{{ partial(content_javascript_phtml) }}
+</html>

@@ -1,0 +1,63 @@
+
+body {
+    font-family: Consolas;
+}
+
+.charts
+{
+    width:75%;
+}
+
+.charts2
+{
+    width:75%;
+}
+
+.calendar-container .fc-event
+{
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    color: #701E1E;
+    font-size: .85em;
+    cursor: default;
+}
+
+.header .navbar-inner
+{
+    height: 50px;
+}
+
+.calendar-container td.highlight .fc-event
+{
+    border: 1px solid red;
+    background-color: #ffffff;
+    color: #701E1E;
+    font-size: .85em;
+    cursor: default;
+}
+
+.header .navbar-inner
+{
+    height: 50px;
+}
+
+.online{
+    font-size: 10px;
+    color: lightgray;
+}
+
+.list-input input
+{
+    color:gray;
+}
+
+
+.list-input input:focus
+{
+    color:black;
+}
+
+table select
+{
+    width:110px;
+}

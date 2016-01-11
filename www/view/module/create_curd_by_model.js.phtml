@@ -1,0 +1,128 @@
+<script>
+
+    function navigateToPreviewTab(data) {
+        $('a[href="#preview"]').click();
+    }
+
+    function addFieldInfoRow(fi) {
+        var t = $('#fields_action_row_template');
+
+        var tbody = $('#fields_action_table tbody');
+        var r = t.clone();
+        console.log(t, tbody);
+        var fieldName = fi['Field'];
+        var fieldType = fi['Type'];
+        r.attr('field', fieldName).css('display', '').removeAttr('id');
+        r.find('td[field=field] span.field_name').text(fieldName);
+        r.find('td[field=field] span.field_type').text(fieldType);
+        r.find('td[field=field_type] span').text(fieldType);
+        r.find('td[field=field_name] span').text(fi['Field']);
+        r.find('td[field=field_name] span').text(fi['Field']);
+        r.find('td[field=field_name] span').text(fi['Field']);
+        r.find('td[field=field_name] span').text(fi['Field']);
+        r.appendTo(tbody);
+    }
+
+    function initFieldsConfigList(data) {
+        var tbody = $('#fields_action_table tbody');
+        tbody.empty();
+        var fields = data.fields;
+        for (var i in fields) {
+            var fi = fields[i];
+            console.log(fields[i]);
+            addFieldInfoRow(fi);
+        }
+    }
+
+    function initFieldNameLists(data) {
+        var fields = data.fields;
+        var commitFieldSelect = $('#commit_field_select');
+        var deleteFieldSelect = $('#delete_field_select');
+        var template = '<option value="{field_name}">{field_name}&nbsp;&nbsp;{field_type}</option>'
+        var fieldNameList = [];
+        for (var i in fields) {
+            var fi = fields[i];
+            var fieldName = fi['Field'];
+            var fieldType = fi['Type'];
+            fieldNameList.push(fieldName);
+
+            var o = template.format({field_name: fieldName, field_type: fieldType});
+
+            var o1 = $(o);
+            var o2 = $(o);
+            o1.appendTo(commitFieldSelect);
+            o2.appendTo(deleteFieldSelect);
+        }
+
+
+
+
+    }
+
+    function collectFieldConfig(tr) {
+        var fieldName = tr.find('td[field=field] span.field_name').text();
+        var fieldMode = tr.find('td[field=field_mode] select').val();
+        var hideInList = tr.find('td[field=hide_in_list] select').val();
+        var hideInCreate = tr.find('td[field=hide_in_create] select').val();
+        var hideInUpdate = tr.find('td[field=hide_in_update] select').val();
+
+        var o = {
+            fieldName: fieldName,
+            fieldMode: fieldMode,
+            hideInList:hideInList,
+            hideInCreate:hideInCreate,
+            hideInUpdate:hideInUpdate,
+        };
+        console.log(o);
+        return o;
+    }
+
+    function collectFieldsConfig() {
+        var info = {Fields:[]};
+        var trs = $('#fields_action_table tbody tr');
+
+        trs.each(function(index, tr){
+            var tr = $(tr);
+            var i = collectFieldConfig(tr);
+            info['Fields'].push(i)
+        });
+        return info;
+    }
+
+
+    $(function(){
+        $('#load-model-button').click(function(){
+            $.post("/module/info",
+                    {
+                        table:'kx_user', model:"KxUser"
+                    },
+                    function(data){
+                        // console.log(typeof(data));
+                        var data = data.toJson();
+                        if (data.error == 0) {
+                            initFieldsConfigList(data.data);
+                            initFieldNameLists(data.data);
+                        }
+                    });
+        });
+
+        $('#preview-button').click(function(){
+            var info = collectFieldsConfig();
+            console.log(info)
+            $.post("/module/preview",
+                {
+                    prefix: 'kx',
+                    table_name: "hello_world",
+                    info: info,
+                },
+                function(data) {
+                    var data = data.toJson();
+                    if (data.error == 0) {
+                        navigateToPreviewTab(data);
+                    }
+                });
+            return false;
+        });
+
+    });
+</script>

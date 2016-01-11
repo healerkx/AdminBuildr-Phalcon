@@ -1,0 +1,21 @@
+{
+  "builder": {
+    "path":      "d:\\Projects\\AdminBuildr",
+    "scripts-path": "D:\\Projects\\PyScripts\\adminbuildr"
+  },
+
+  "product": {
+    "name": "Badmin",
+    "path": "d:\\Projects\\Badmin",
+    "workDir": "www",
+    "mysql": {
+      "host": "127.0.0.1",
+      "port": 3306,
+      "dbname": "badmin",
+      "username": "root",
+      "password": "root"
+    }
+
+  }
+
+}

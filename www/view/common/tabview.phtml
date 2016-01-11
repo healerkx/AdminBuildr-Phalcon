@@ -1,0 +1,27 @@
+<div class="span12">
+    <div class="portlet box blue tabbable">
+        <div class="portlet-title">
+            <div class="caption"><i class="icon-reorder"></i>{% block tabview_title %}{% endblock %}</div>
+        </div>
+        <div class="portlet-body">
+            <div class="tabbable portlet-tabs">
+                <ul class="nav nav-tabs">
+                    {% block tabview_tabs_set %}{% endblock %}
+                    {% for tabview_tab in tabview_tabs|reverse %}
+                    <li {% if (has(tabview_tab, "active")) %}class="active"{% endif %}><a href="#{{ tabview_tab['id'] }}" data-toggle="tab" tab="add">{{ tabview_tab['name'] }}</a></li>
+                    {% endfor %}
+                </ul>
+                <div class="tab-content">
+
+                    {% for tabview_tab in tabview_tabs|reverse %}
+                    <div class="tab-pane {% if (has(tabview_tab, "active")) %}active{% endif %}" id="{{ tabview_tab['id'] }}">
+                        <div class="admin-list">
+                            {{ partial(tabview_tab["template"]) }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

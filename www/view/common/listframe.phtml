@@ -1,0 +1,33 @@
+<div class="span12">
+    <div class="portlet box blue tabbable">
+        <div class="portlet-title">
+            <div class="caption"><i class="icon-reorder"></i>{% block tabview_title %}{% endblock %}</div>
+
+            <div class="actions">
+
+                <a href="#" class="btn green"><i class="icon-plus"></i>Add</a>
+                <!--
+                <div class="btn-group">
+                    <a class="btn green" href="#" data-toggle="dropdown">
+                        <i class="icon-cogs"></i> Tools
+                        <i class="icon-angle-down"></i>
+                    </a>
+
+                    <ul class="dropdown-menu pull-right">
+                        <li><a href="#"><i class="icon-pencil"></i> Edit</a></li>
+                        <li><a href="#"><i class="icon-trash"></i> Delete</a></li>
+                        <li><a href="#"><i class="icon-ban-circle"></i> Ban</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="i"></i> Make admin</a></li>
+                    </ul>
+                </div>
+                -->
+
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            {% block list_content %}{% endblock %}
+        </div>
+    </div>
+</div>

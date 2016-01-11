@@ -1,0 +1,14 @@
+{% extends "common/tabview.phtml" %}
+
+{% block tabview_title %}创建新的应用{% endblock %}
+
+{% block tabview_tabs_set %}
+{% set tabview_tabs = [
+    {"name":'新建应用', "id": "add_new", "active":true, "template": "app/addnew"} ,
+    {"name":'操作记录', "id": "history", "template": "app/addnew" }
+] %}
+{% endblock %}
+
+{% block a %}
+<div>sddd</div>
+{% endblock %}

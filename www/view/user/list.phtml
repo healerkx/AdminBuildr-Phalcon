@@ -1,0 +1,48 @@
+{% extends "common/listframe.phtml" %}
+{% block list_content %}
+
+<br>
+
+<table class="table table-striped table-bordered table-hover dataTable" id="sample_2" aria-describedby="sample_2_info">
+
+    <thead>
+
+    <tr role="row">
+        <th style="width: 24px;" class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="">
+            <div class="checker"><span><input type="checkbox" class="group-checkable" data-set="#sample_2 .checkboxes"></span>
+            </div>
+        </th>
+        <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample_2" rowspan="1" colspan="1"
+            aria-label="Username: activate to sort column ascending" style="width: 115px;">Username
+        </th>
+        <th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample_2" rowspan="1" colspan="1"
+            aria-label="Email: activate to sort column ascending" style="width: 217px;">Email
+        </th>
+        <th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample_2" rowspan="1" colspan="1"
+            aria-label="Status: activate to sort column ascending" style="width: 122px;">Status
+        </th>
+    </tr>
+
+    </thead>
+
+
+    <tbody role="alert" aria-live="polite" aria-relevant="all">
+
+    {% for user in users %}
+        <tr class="gradeX odd">
+
+            <td class=" sorting_1">
+                <div class="checker"><span><input type="checkbox" class="checkboxes" value="1"></span></div>
+            </td>
+            <td class=" ">{{user}}</td>
+
+            <td class="hidden-480 "><a href="mailto:shuxer@gmail.com">shuxer@gmail.com</a></td>
+            <td class=" "><span class="label label-success">Approved</span></td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
