@@ -81,7 +81,7 @@ class ModuleController extends AbBaseController
     }
 
     private function createModelConfigFile($workbenchPath, $modelName, $data) {
-        $workingModelFile = "$workbenchPath\\modelconfig\\{$modelName}.json";
+        $workingModelFile = "$workbenchPath\\model\\config\\{$modelName}.json";
 
         $content = json_encode($data);
         file_put_contents($workingModelFile, $content);

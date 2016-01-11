@@ -15,7 +15,7 @@ class AbBaseQuery
     public function __construct($clz)
     {
         $this->clz = $clz;
-
+var_dump($clz);
         $this->query = $clz::query();
     }
 
@@ -43,7 +43,12 @@ class AbBaseQuery
             $order = $params['order'];
             $this->query = $this->query->orderBy($order);
         }
+        try {
+            return $this->query->execute();
+        } catch (Exception $e) {
 
-        return $this->query->execute();
+        }
+
+
     }
 }

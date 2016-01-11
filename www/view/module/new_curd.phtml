@@ -101,7 +101,7 @@
     <!-- 保存/提交相关 -->
     <div class="clearfix">
         <div class="margin-bottom-10 margin-right-20 pull-left">
-            <input type="checkbox" name="remember" value="1"/>支持提交
+            <input id="commit_support" type="checkbox" name="remember" value="1"/>支持提交
         </div>
 
         <div class="margin-bottom-10 margin-right-20 pull-left">
@@ -111,14 +111,14 @@
             </select>
         </div>
         <div class="margin-bottom-10 margin-right-20 pull-left">
-            <input type="text" name="delete_value" placeholder="该字段值表达已经提交"/>
+            <input id="commit_field_value" type="text" name="delete_value" placeholder="该字段值表达已经提交"/>
         </div>
     </div>
     <hr>
     <!-- 删除相关 -->
     <div class="clearfix">
         <div class="margin-bottom-10 margin-right-20 pull-left">
-            <input type="checkbox" name="remember" value="1"/>支持删除
+            <input id="delete_support" type="checkbox" name="remember" value="1"/>支持删除
         </div>
 
         <div class="margin-bottom-10 margin-right-20 pull-left">
@@ -128,7 +128,7 @@
             </select>
         </div>
         <div class="margin-bottom-10 margin-right-20 pull-left">
-            <input type="text" name="delete_value" placeholder="该字段值表达已经删除"/>
+            <input id="delete_field_value" type="text" name="delete_value" placeholder="该字段值表达已经删除"/>
         </div>
     </div>
 

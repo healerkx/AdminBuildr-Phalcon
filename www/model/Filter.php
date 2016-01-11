@@ -13,6 +13,7 @@ class Filter
     {
         $this->compiler->addFunction('has', 'Filter::has');
         $this->compiler->addFilter('reverse', 'Filter::reverse');
+        $this->compiler->addFilter('invoke', 'Filter::invoke');
     }
 
     public static function has($obj, $field) {
@@ -21,6 +22,11 @@ class Filter
 
     public static function reverse($array) {
         return array_reverse($array);
+    }
+
+    public static function invoke($obj) {
+
+
     }
 
 

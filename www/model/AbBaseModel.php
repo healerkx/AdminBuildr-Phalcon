@@ -8,41 +8,42 @@ class AbBaseModel extends Model
      * @param bool|false $order
      * @return mixed
      */
-    public function search($search, $order=false)
+    public static function search($search, $order=false)
     {
-        $clz = get_class();
+        $clz = get_called_class();
         $query = new AbBaseQuery($clz);
 
         $binds = array();
         foreach ($search as $key => $value)
         {
-            $condition = $this->getCondition($key, $value);
+            if ($key == '_url') {
+                continue;
+            }
 
+            $cb = self::getCondition($key, $value);
+            $condition = $cb[0];
+            $bind = $cb[1];
             $query->addCondition($condition);
 
-            $binds[$key] = $value;
+            $binds = array_merge($binds, $bind);
+
         }
 
-        if (method_exists($this, 'beforeSearch'))
+        if (method_exists($clz, 'beforeSearch'))
         {
-            $this->onSearch($query);
+            $clz::onSearch($query);
         }
 
         $params = array('binds' => $binds);
         if ($order) {
             $params['order'] = $order;
         }
+
         return $query->execute($params);
     }
 
-    public function getCondition($key, $value)
+    public static function getCondition($key, $value)
     {
-        $searchOnMethod = "searchOn_{$key}";
-        if (method_exists($this, $searchOnMethod))
-        {
-            return $this->$searchOnMethod($key, $value);
-        }
-        // Default condition is key=value
         return array("{$key}=:{$key}:", array($key => $value));
     }
 }

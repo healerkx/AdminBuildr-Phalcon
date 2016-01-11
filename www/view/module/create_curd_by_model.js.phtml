@@ -29,7 +29,7 @@
         var fields = data.fields;
         for (var i in fields) {
             var fi = fields[i];
-            console.log(fields[i]);
+            // console.log(fields[i]);
             addFieldInfoRow(fi);
         }
     }
@@ -38,6 +38,8 @@
         var fields = data.fields;
         var commitFieldSelect = $('#commit_field_select');
         var deleteFieldSelect = $('#delete_field_select');
+        commitFieldSelect.empty();
+        deleteFieldSelect.empty();
         var template = '<option value="{field_name}">{field_name}&nbsp;&nbsp;{field_type}</option>'
         var fieldNameList = [];
         for (var i in fields) {
@@ -53,9 +55,6 @@
             o1.appendTo(commitFieldSelect);
             o2.appendTo(deleteFieldSelect);
         }
-
-
-
 
     }
 
@@ -78,14 +77,34 @@
     }
 
     function collectFieldsConfig() {
-        var info = {Fields:[]};
+        var info = {
+            FieldsConfig:[],
+            CommitSupport:{},
+            DeleteSupport:{}};
         var trs = $('#fields_action_table tbody tr');
 
         trs.each(function(index, tr){
             var tr = $(tr);
             var i = collectFieldConfig(tr);
-            info['Fields'].push(i)
+            info['FieldsConfig'].push(i)
         });
+
+        var commitSupportChecked = $('#commit_support').attr('checked');
+        info['CommitSupport'].support = 'No';
+        if (commitSupportChecked == 'checked') {
+            info['CommitSupport'].support = 'Yes';
+            info['CommitSupport'].field = $('#commit_field_select').val();
+            info['CommitSupport'].value = $('#commit_field_value').val();
+        }
+
+        var deleteSupportChecked = $('#delete_support').attr('checked');
+        info['DeleteSupport'].support = 'No';
+        if (deleteSupportChecked == 'checked') {
+            info['DeleteSupport'].support = 'Yes';
+            info['DeleteSupport'].field = $('#delete_field_select').val();
+            info['DeleteSupport'].value = $('#delete_field_value').val();
+        }
+
         return info;
     }
 

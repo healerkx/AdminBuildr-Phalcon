@@ -11,6 +11,14 @@ class AbBaseController extends Controller
         $data['content_phtml'] = $view;
         $data['content_javascript_phtml'] = self::getJavaScriptTemplateName($view);
 
+        if (array_key_exists('item_has_operator', $data) && $data['item_has_operator']) {
+            if (method_exists($this, 'itemOperator')) {
+                $data['item_operators'] = $this->itemOperator();
+            } else {
+                $data['item_operators'] = array();
+            }
+        }
+
         $this->view->setVars($data);
         $this->view->pick('common/main');
     }
