@@ -62,7 +62,7 @@ class ModuleController extends AbBaseController
         $modelName = $this->request->get('model');
         $tableName = $this->request->get('table');
 
-        $a = $this->db->fetchAll("describe $tableName");
+        $a = $this->db->fetchAll("SHOW FULL COLUMNS FROM $tableName");
         $data = array();
         $fields = array();
         foreach ($a as $i) {

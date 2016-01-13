@@ -12,20 +12,30 @@
         console.log(t, tbody);
         var fieldName = fi['Field'];
         var fieldType = fi['Type'];
+        var fieldComment = fi['Comment'];
         r.attr('field', fieldName).css('display', '').removeAttr('id');
         r.find('td[field=field] span.field_name').text(fieldName);
         r.find('td[field=field] span.field_type').text(fieldType);
+        r.find('td[field=field_text] input').val(fieldComment);
         r.find('td[field=field_type] span').text(fieldType);
         r.find('td[field=field_name] span').text(fi['Field']);
         r.find('td[field=field_name] span').text(fi['Field']);
         r.find('td[field=field_name] span').text(fi['Field']);
         r.find('td[field=field_name] span').text(fi['Field']);
+
+        if (fi['Key'] == 'PRI') {
+            var modeSelect = r.find('td[field=field_mode] select');
+            modeSelect.append('<option value="primaryKey">主键ID</option>')
+            modeSelect.val('primaryKey').attr('disabled', 'disabled');
+        }
+
         r.appendTo(tbody);
     }
 
     function initFieldsConfigList(data) {
         var tbody = $('#fields_action_table tbody');
         tbody.empty();
+        console.log(data)
         var fields = data.fields;
         for (var i in fields) {
             var fi = fields[i];
@@ -61,6 +71,7 @@
     function collectFieldConfig(tr) {
         var fieldName = tr.find('td[field=field] span.field_name').text();
         var fieldMode = tr.find('td[field=field_mode] select').val();
+        var fieldText = tr.find('td[field=field_text] input').val();
         var hideInList = tr.find('td[field=hide_in_list] select').val();
         var hideInCreate = tr.find('td[field=hide_in_create] select').val();
         var hideInUpdate = tr.find('td[field=hide_in_update] select').val();
@@ -68,6 +79,7 @@
         var o = {
             fieldName: fieldName,
             fieldMode: fieldMode,
+            fieldText: fieldText,
             hideInList:hideInList,
             hideInCreate:hideInCreate,
             hideInUpdate:hideInUpdate,
@@ -85,8 +97,11 @@
 
         trs.each(function(index, tr){
             var tr = $(tr);
-            var i = collectFieldConfig(tr);
-            info['FieldsConfig'].push(i)
+            var o = collectFieldConfig(tr);
+            if (o['fieldMode'] == 'primaryKey') {
+                info['PrimaryKey'] = o['fieldName'];
+            }
+            info['FieldsConfig'].push(o)
         });
 
         var commitSupportChecked = $('#commit_support').attr('checked');
@@ -111,27 +126,30 @@
 
     $(function(){
         $('#load-model-button').click(function(){
+            var tableName = $('#table_name').val();
             $.post("/module/info",
-                    {
-                        table:'kx_user', model:"KxUser"
-                    },
-                    function(data){
-                        // console.log(typeof(data));
-                        var data = data.toJson();
-                        if (data.error == 0) {
-                            initFieldsConfigList(data.data);
-                            initFieldNameLists(data.data);
-                        }
-                    });
+                {
+                    table:tableName, model:""
+                },
+                function(data){
+                    // console.log(typeof(data));
+                    var data = data.toJson();
+                    if (data.error == 0) {
+                        initFieldsConfigList(data.data);
+                        initFieldNameLists(data.data);
+                    }
+                });
         });
 
         $('#preview-button').click(function(){
             var info = collectFieldsConfig();
-            console.log(info)
+            var prefix = $('#model_prefix').val();
+            var tableName = $('#table_name').val();
+
             $.post("/module/preview",
                 {
-                    prefix: 'kx',
-                    table_name: "hello_world",
+                    prefix: prefix,
+                    table_name: tableName,
                     info: info,
                 },
                 function(data) {

@@ -61,3 +61,8 @@ table select
 {
     width:110px;
 }
+
+table input
+{
+    width:150px;
+}

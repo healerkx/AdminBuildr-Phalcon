@@ -17,7 +17,8 @@ class AdminRoleController extends AbBaseController
             'item_has_checkbox' => true,
             'item_has_operator' => true,
             'headers' => KxAdminRole::headers(),
-            'items' => $items
+            'items' => $items,
+            'target_field' => 'role_id'
         );
         parent::show('adminrole/index', $data);
     }
@@ -26,12 +27,19 @@ class AdminRoleController extends AbBaseController
         parent::result(array('a' => 2));
     }
 
-    public function updateAction() {
-        parent::result(array('a' => 3));
+    public function updateAction($id) {
+        $item = KxAdminRole::findFirst($id);
+        parent::result(array('a' => $item->toArray()));
     }
 
-    public function deleteAction() {
-        parent::result(array('a' => 4));
+    public function deleteAction($id) {
+        $item = KxAdminRole::findFirst($id);
+        $deleteField = 'deleted';
+        $deleteValue = 1;
+        $item->$deleteField = $deleteValue;
+        //parent::dump($item);
+        $deleted = $item->save();
+        parent::result(array('id' => $id, 'deleted' => $deleted));
     }
 
     public function itemOperator() {

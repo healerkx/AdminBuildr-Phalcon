@@ -15,7 +15,7 @@
 
             <div class="input-icon left">
                 <i class="icon-map-marker"></i>
-                <input class="m-wrap span8" type="text" placeholder="prefix_name">
+                <input id="model_prefix" class="m-wrap span8" type="text" placeholder="prefix_name">
             </div>
         </div>
 
@@ -24,7 +24,7 @@
 
             <div class="input-icon left">
                 <i class="icon-map-marker"></i>
-                <input class="m-wrap span12" type="text" placeholder="table_name">
+                <input id="table_name" class="m-wrap span12" type="text" placeholder="table_name">
             </div>
         </div>
     </div>
@@ -36,6 +36,7 @@
                 <tr>
                     <td>字段</td>
                     <td title="列表页字段行为">模式</td>
+                    <td title="字段显式名称">名称</td>
                     <td title="新增页字段行为">列表</td>
                     <td title="新增页字段行为">新增</td>
                     <td title="编辑页字段行为">编辑</td>
@@ -50,7 +51,6 @@
 
                     <td field="field_mode">
                         <select name="field_mode">
-                            <option value="pk">主键ID</option>
                             <option value="fk">关联ID</option>
                             <option value="number">数字</option>
                             <option value="text">文本</option>
@@ -62,6 +62,9 @@
                             <option value="img">图片</option>
                             <option value="file">文件链接</option>
                         </select>
+                    </td>
+                    <td field="field_text">
+                        <input name="field_text"/>
                     </td>
                     <td field="hide_in_list">
                         <select name="hide_in_list">
