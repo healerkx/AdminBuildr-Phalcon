@@ -3,6 +3,10 @@
 use \Phalcon\Mvc\Controller;
 use \Phalcon\Debug\Dump;
 
+/**
+ * Class AbBaseController
+ * 
+ */
 class AbBaseController extends Controller
 {
 

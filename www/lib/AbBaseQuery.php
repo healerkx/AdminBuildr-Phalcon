@@ -15,7 +15,7 @@ class AbBaseQuery
     public function __construct($clz)
     {
         $this->clz = $clz;
-var_dump($clz);
+
         $this->query = $clz::query();
     }
 
@@ -46,9 +46,7 @@ var_dump($clz);
         try {
             return $this->query->execute();
         } catch (Exception $e) {
-
+            return false;
         }
-
-
     }
 }

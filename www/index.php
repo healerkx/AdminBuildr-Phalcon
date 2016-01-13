@@ -12,6 +12,7 @@ $loader->registerDirs(
     array(
         './controller',
         './model',
+        './lib'
     )
 )->register();
 
@@ -53,7 +54,7 @@ $di->set('view', function() {
 
 
 $di->set('db', function() {
-    $config = Config::getMySQLConnection();
+    $config = AdminBuilderConfig::getMySQLConnection();
     $config['options'] = array(
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
     );

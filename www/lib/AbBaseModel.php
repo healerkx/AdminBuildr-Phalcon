@@ -1,6 +1,9 @@
 <?php
 use \Phalcon\Mvc\Model;
 
+/**
+ * Class AbBaseModel
+ */
 class AbBaseModel extends Model
 {
     /**

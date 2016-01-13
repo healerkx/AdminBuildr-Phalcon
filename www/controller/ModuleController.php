@@ -43,7 +43,7 @@ class ModuleController extends AbBaseController
 
         $controllerName = $modelName . "Controller";
 
-        $workbenchPath = Config::getConfig('product')['path'] . '\\workbench';
+        $workbenchPath = AdminBuilderConfig::getConfig('product')['path'] . '\\workbench';
 
         // Create model config file to workbench
         $this->createModelConfigFile($workbenchPath, $modelName, $p);
