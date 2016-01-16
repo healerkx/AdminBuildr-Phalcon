@@ -6,6 +6,16 @@
 <script>
 
     function navigateToPreviewTab(data) {
+        console.log(data)
+        var filesTab = $('table.file-preview tbody');
+        var template = $('#files_template');
+        var files = data.files;
+        for (var i in data.files) {
+            var file = files[i];
+            var line = $(template).clone().css('display', '');
+            line.find('td span').text(file);
+            line.appendTo(filesTab)
+        }
         $('a[href="#preview"]').click();
     }
 
@@ -180,7 +190,7 @@
                 function(data) {
                     var data = data.toJson();
                     if (data.error == 0) {
-                        navigateToPreviewTab(data);
+                        navigateToPreviewTab(data.data);
                     }
                 });
             return false;

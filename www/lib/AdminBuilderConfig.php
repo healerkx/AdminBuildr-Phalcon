@@ -1,5 +1,6 @@
 <?php
 
+
 class AdminBuilderConfig extends CConfig
 {
     public static function getConfigPath($fileName='')

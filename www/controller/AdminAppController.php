@@ -1,5 +1,6 @@
 <?php
 
+
 class AdminAppController extends AbBaseController
 {
     /**

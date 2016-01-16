@@ -5,10 +5,8 @@
  * A module means a bundle of CURD
  */
 
-
 class ModuleController extends AbBaseController
 {
-
     public function indexAction()
     {
         parent::show('module/index', false);
@@ -59,6 +57,7 @@ class ModuleController extends AbBaseController
         parent::result(array(
             'model' => $modelName,
             'controller' => $controllerName,
+            'files' => array('a', 'b'),
             'build' => $c));
     }
 

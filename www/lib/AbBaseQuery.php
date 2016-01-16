@@ -1,4 +1,5 @@
 <?php
+
 use Phalcon\Mvc\Model\Criteria;
 
 class AbBaseQuery
