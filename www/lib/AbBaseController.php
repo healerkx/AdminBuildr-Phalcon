@@ -5,11 +5,14 @@ use \Phalcon\Debug\Dump;
 
 /**
  * Class AbBaseController
- * 
+ *
  */
 class AbBaseController extends Controller
 {
-
+    /**
+     * @param $view
+     * @param array $data
+     */
     public function show($view, $data=array()) {
 
         $data['content_phtml'] = $view;

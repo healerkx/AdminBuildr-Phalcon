@@ -17,7 +17,11 @@ class ModuleController extends AbBaseController
     public function createAction($method='curdByModel') {
         if ($method == 'curdByModel') {
 
-            parent::show('module/create_curd_by_model', false);
+            $tableNames = $this->tableNames();
+
+            $data = array('table_names' => $tableNames);
+
+            parent::show('module/create_curd_by_model', $data);
         } else {
 
         }
@@ -49,13 +53,13 @@ class ModuleController extends AbBaseController
         $this->createModelConfigFile($workbenchPath, $modelName, $p);
 
         // generate temp files to preview
-        $c = Python3::run("build_controller.py", "--module=$modelName --workbench=\"$workbenchPath\"");
-        $m = Python3::run("build_model.py", "--module=$modelName --workbench=\"$workbenchPath\"");
+        $c = Python3::run("build_mvc.py", "--module=$modelName --workbench=\"$workbenchPath\"");
+
 
         parent::result(array(
             'model' => $modelName,
             'controller' => $controllerName,
-            'build_controller' => $c));
+            'build' => $c));
     }
 
     public function infoAction() {
@@ -74,6 +78,15 @@ class ModuleController extends AbBaseController
 
         parent::result($data);
 
+    }
+
+    private function tableNames() {
+        $a = $this->db->fetchAll("SHOW tables");
+        $tableNames = array();
+        foreach ($a as $table) {
+            array_push($tableNames, $table['Tables_in_badmin']);
+        }
+        return $tableNames;
     }
 
     private function getTableInfo($tableName) {

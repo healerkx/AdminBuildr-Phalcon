@@ -1,13 +1,4 @@
-<div class="span10 booking-search">
-
-    <div class="clearfix margin-bottom-10">
-        <label>请输入MySQL连接</label>
-
-        <div class="input-icon left">
-            <i class="icon-map-marker"></i>
-            <input class="m-wrap span12" type="text" placeholder="host:port:username:password">
-        </div>
-    </div>
+<div class="span12 booking-search">
 
     <div class="clearfix">
         <div class="margin-bottom-10 margin-right-20 pull-left">
@@ -19,13 +10,19 @@
             </div>
         </div>
 
-        <div class="margin-bottom-10 pull-left">
-            <label>请输入表名称</label>
 
-            <div class="input-icon left">
-                <i class="icon-map-marker"></i>
-                <input id="table_name" class="m-wrap span12" type="text" placeholder="table_name">
+        <div class="control-group ">
+            <label class="control-label">请选择数据库表名称</label>
+
+            <div class="controls">
+                <select id="table_name" class="span6 chosen" data-placeholder="请选择数据库表名称" tabindex="1">
+                    <option value=""></option>
+                    {% for table_name in table_names %}
+                    <option value="{{table_name}}">{{table_name}}</option>
+                    {% endfor %}
+                </select>
             </div>
+
         </div>
     </div>
 
@@ -93,6 +90,9 @@
                             <option value="4">离散集合</option>
                         </select>
                     </td>
+                    <td>
+                        <a class="btn blue" data-toggle="modal" href="#responsive">更多</a>
+                    </td>
                 </tr>
             </thead>
             <tbody>
@@ -142,3 +142,5 @@
 
 
 </div>
+
+{% include "module/more-dialog.phtml" %}

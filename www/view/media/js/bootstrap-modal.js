@@ -33,6 +33,7 @@
 		constructor: Modal,
 
 		init: function (element, options) {
+			console.log(element, options)
 			this.options = options;
 
 			this.$element = $(element)
