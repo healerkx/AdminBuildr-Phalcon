@@ -43,20 +43,15 @@ class ModuleController extends AbBaseController
 
         $modelName = self::tableNameToModelName($tableName);
 
-        $controllerName = $modelName . "Controller";
+        $path = AdminBuilderConfig::getConfig('product')['path'] . '\\www';
 
-        $workbenchPath = AdminBuilderConfig::getConfig('product')['path'] . '\\workbench';
+        $this->createModelConfigFile($path, $modelName, $p);
 
-        // Create model config file to workbench
-        $this->createModelConfigFile($workbenchPath, $modelName, $p);
-
-        // generate temp files to preview
-        $c = Python3::run("build_mvc.py", "--module=$modelName --workbench=\"$workbenchPath\"");
-
+        $cmdLine = "--prefix=$prefix --table=$tableName --config=\"$path\"";
+        $c = Python3::run("build_mvc.py", $cmdLine);
 
         parent::result(array(
             'model' => $modelName,
-            'controller' => $controllerName,
             'files' => array('a', 'b'),
             'build' => $c));
     }
@@ -92,8 +87,8 @@ class ModuleController extends AbBaseController
         $this->db->execute('select create table');
     }
 
-    private function createModelConfigFile($workbenchPath, $modelName, $data) {
-        $workingModelFile = "$workbenchPath\\model\\config\\{$modelName}.json";
+    private function createModelConfigFile($path, $modelName, $data) {
+        $workingModelFile = "$path\\model\\config\\{$modelName}.json";
 
         $content = json_encode($data);
         file_put_contents($workingModelFile, $content);
