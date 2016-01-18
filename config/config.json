@@ -7,6 +7,7 @@
   "product": {
     "name": "Badmin",
     "path": "d:\\Projects\\Badmin",
+    "host": "http://localhost:777",
     "workDir": "www",
     "template-ext-name": "phtml",
     "mysql": {

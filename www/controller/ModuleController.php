@@ -50,9 +50,13 @@ class ModuleController extends AbBaseController
         $cmdLine = "--prefix=$prefix --table=$tableName --config=\"$path\"";
         $c = Python3::run("build_mvc.py", $cmdLine);
 
+        $targetHost = AdminBuilderConfig::getConfig('product')['host'];
+
+        $testListUrl = "$targetHost/$modelName";
         parent::result(array(
             'model' => $modelName,
             'files' => array('a', 'b'),
+            'test_list_url' => $testListUrl,
             'build' => $c));
     }
 

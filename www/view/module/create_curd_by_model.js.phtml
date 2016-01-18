@@ -7,6 +7,9 @@
 
     function navigateToPreviewTab(data) {
         console.log(data)
+
+        $('#test_list_url').attr('href', data['test_list_url']);
+
         var filesTab = $('table.file-preview tbody');
         var template = $('#files_template');
         var files = data.files;
