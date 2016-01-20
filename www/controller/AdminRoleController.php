@@ -5,11 +5,12 @@ class AdminRoleController extends AbBaseController
 
     public function indexAction() {
 
-        $allRoles = KxAdminRole::search($_GET);
+        $result = KxAdminRole::search($_GET);
+
 
         $items = array();
-        if ($allRoles) {
-            $items = $allRoles->toArray();
+        if ($result['items']) {
+            $items = $result['items']->toArray();
         }
 
         //parent::dump($allRoles->toArray());
@@ -17,6 +18,7 @@ class AdminRoleController extends AbBaseController
             'item_has_checkbox' => true,
             'item_has_operator' => true,
             'headers' => KxAdminRole::headers(),
+            'count' => $result['count'],
             'items' => $items,
             'target_field' => 'role_id'
         );

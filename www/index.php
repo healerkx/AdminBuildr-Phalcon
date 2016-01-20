@@ -54,7 +54,7 @@ $di->set('view', function() {
 
 
 $di->set('db', function() {
-    $config = AdminBuilderConfig::getMySQLConnection();
+    $config = ApplicationConfig::getMySQLConnection();
     $config['options'] = array(
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
     );

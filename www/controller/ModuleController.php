@@ -43,14 +43,14 @@ class ModuleController extends AbBaseController
 
         $modelName = self::tableNameToModelName($tableName);
 
-        $path = AdminBuilderConfig::getConfig('product')['path'] . '\\www';
+        $path = ApplicationConfig::getConfig('product')['path'] . '\\www';
 
         $this->createModelConfigFile($path, $modelName, $p);
 
         $cmdLine = "--prefix=$prefix --table=$tableName --config=\"$path\"";
         $c = Python3::run("build_mvc.py", $cmdLine);
 
-        $targetHost = AdminBuilderConfig::getConfig('product')['host'];
+        $targetHost = ApplicationConfig::getConfig('product')['host'];
 
         $testListUrl = "$targetHost/$modelName";
         parent::result(array(

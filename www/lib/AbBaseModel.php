@@ -15,7 +15,7 @@ class AbBaseModel extends Model
     {
         $clz = get_called_class();
         $query = new AbBaseQuery($clz);
-
+        $count = $query->count();
         $binds = array();
         foreach ($search as $key => $value)
         {
@@ -42,7 +42,11 @@ class AbBaseModel extends Model
             $params['order'] = $order;
         }
 
-        return $query->execute($params);
+        $items = $query->execute($params);
+        return array(
+            'count' => $count,
+            'items' => $items
+        );
     }
 
     public static function getCondition($key, $value)

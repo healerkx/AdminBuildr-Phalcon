@@ -9,7 +9,7 @@ class Python3
      * @return string
      */
     public static function run($pythonFile, $params=false) {
-        $builder = AdminBuilderConfig::getConfig('builder');
+        $builder = ApplicationConfig::getConfig('builder');
         $builderPath = $builder['scripts-path'];
 
         return exec("python $builderPath\\$pythonFile $params");

@@ -33,6 +33,12 @@ class AbBaseQuery
         $this->conditionCount += 1;
     }
 
+    public function count()
+    {
+        $clz = $this->clz;
+        return  $clz::count();
+    }
+
     public function execute($params=array())
     {
         if (array_key_exists('binds', $params)) {
