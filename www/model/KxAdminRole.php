@@ -14,4 +14,5 @@ class KxAdminRole extends AbBaseModel
             'create_time' => '创建时间',
         );
     }
+
 }

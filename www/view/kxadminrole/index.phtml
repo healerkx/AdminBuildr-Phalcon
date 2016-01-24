@@ -1,0 +1,10 @@
+{% extends "common/tabview.phtml" %}
+
+{% block tabview_title %}管理员角色列表{% endblock %}
+
+{% block tabview_tabs_set %}
+{% set tabview_tabs = [
+{"name":'管理员角色列表', "id": "list_role", "active":true, "template": "kxadminrole/list"},
+{"name":'管理员列表', "id": "list_admin_user", "template": "kxadminrole/list_admin_user"}
+] %}
+{% endblock %}

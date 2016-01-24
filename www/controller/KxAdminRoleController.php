@@ -1,6 +1,6 @@
 <?php
 
-class AdminRoleController extends AbBaseController
+class KxAdminRoleController extends AbBaseController
 {
 
     public function indexAction() {
@@ -22,13 +22,16 @@ class AdminRoleController extends AbBaseController
             'items' => $items,
             'target_field' => 'role_id'
         );
-        parent::show('adminrole/index', $data);
+        parent::show('kxadminrole/index', $data);
     }
 
     public function createAction() {
         parent::result(array('a' => 2));
     }
 
+    /**
+     * @access Follow(kxAdminRole/index)
+     */
     public function updateAction($id) {
         $item = KxAdminRole::findFirst($id);
         parent::result(array('a' => $item->toArray()));
@@ -44,11 +47,37 @@ class AdminRoleController extends AbBaseController
         parent::result(array('id' => $id, 'deleted' => $deleted));
     }
 
+    /**
+     * @param $id
+     * @access Follow(kxAdminRole/index)
+     */
+    public function listAdminUserAction($id)
+    {
+        $roles = KxAdminRole::find();
+        $rs = KxAdminUserRole::find("role_id=$id");
+        $users = array();
+        foreach ($rs as $r) {
+            $user = $r->KxAdminUser->toArray();
+            array_push($users, $user[0]);
+        }
+
+        $data = array(
+            'current' => $id,
+            'roles' => $roles->toArray(),
+            'users' => $users
+        );
+        parent::show('kxadminrole/list_admin_user_tab', $data);
+    }
+
+
+
     public function itemOperator() {
         // array for operators
         return array(
             array('name' => '编辑', 'operator' => 'edit', 'action' => 'adminRole/update'),
+            array('name' => '用户列表', 'operator' => 'listAdminUser', 'action' => 'kxAdminRole/listAdminUser'),
             array('name' => '删除', 'operator' => 'delete', 'action' => 'adminRole/delete')
+
         );
     }
 }

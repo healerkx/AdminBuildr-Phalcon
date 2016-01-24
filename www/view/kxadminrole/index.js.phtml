@@ -17,6 +17,13 @@
         })
     }
 
+    function listAdminUser(a) {
+        var action = a.attr('action');
+        var target = a.attr('target');
+        // TODO: Confirm to edit
+        window.location.href = action + "/" + target;
+    }
+
     $(function(){
 
         // operators delegates
@@ -26,7 +33,9 @@
             if (operator == 'edit') {
                 editItem(a);
             } else if (operator == 'delete') {
-                deleteItem(a)
+                deleteItem(a);
+            } else if (operator == 'listAdminUser') {
+                listAdminUser(a);
             }
         });
 

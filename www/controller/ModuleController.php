@@ -47,7 +47,8 @@ class ModuleController extends AbBaseController
 
         $this->createModelConfigFile($path, $modelName, $p);
 
-        $cmdLine = "--prefix=$prefix --table=$tableName --config=\"$path\"";
+        $configPath = ApplicationConfig::getConfigPath('config.json');
+        $cmdLine = "--prefix=$prefix --table=$tableName --config=\"$configPath\"";
         $c = Python3::run("build_mvc.py", $cmdLine);
 
         $targetHost = ApplicationConfig::getConfig('product')['host'];
@@ -60,6 +61,9 @@ class ModuleController extends AbBaseController
             'build' => $c));
     }
 
+    /**
+     * @access Guest
+     */
     public function infoAction() {
         $modelName = $this->request->get('model');
         $tableName = $this->request->get('table');
@@ -94,7 +98,7 @@ class ModuleController extends AbBaseController
     private function createModelConfigFile($path, $modelName, $data) {
         $workingModelFile = "$path\\model\\config\\{$modelName}.json";
 
-        $content = json_encode($data);
+        $content = json_encode($data, JSON_UNESCAPED_UNICODE);
         file_put_contents($workingModelFile, $content);
         return true;
     }

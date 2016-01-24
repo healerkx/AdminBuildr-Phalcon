@@ -1,6 +1,6 @@
 <?php
 
-class AdminUserController extends AbBaseController
+class KxAdminUserController extends AbBaseController
 {
     public function listAction()
     {

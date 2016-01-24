@@ -2,6 +2,8 @@
 
 use Phalcon\Loader,
     Phalcon\DI\FactoryDefault,
+    Phalcon\Mvc\Dispatcher,
+    Phalcon\Events\Manager as EventsManager,
     Phalcon\Mvc\Application,
     Phalcon\Mvc\View,
     Phalcon\Mvc\View\Engine\Volt;
@@ -12,12 +14,33 @@ $loader->registerDirs(
     array(
         './controller',
         './model',
-        './lib'
+        './lib',
+        './plugin'
     )
 )->register();
 
 
 $di = new FactoryDefault();
+
+$di->set('dispatcher', function () {
+
+    // Create an events manager
+    $eventsManager = new EventsManager();
+
+    // Listen for events produced in the dispatcher using the Security plugin
+    $eventsManager->attach('dispatch:beforeExecuteRoute', new SecurityPlugin);
+
+    // Handle exceptions and not-found exceptions using NotFoundPlugin
+    // $eventsManager->attach('dispatch:beforeException', new NotFoundPlugin);
+
+    $dispatcher = new Dispatcher();
+
+    // Assign the events manager to the dispatcher
+    $dispatcher->setEventsManager($eventsManager);
+
+    return $dispatcher;
+});
+
 
 $di->set('voltService', function ($view, $di) {
     $volt = new Volt($view, $di);
