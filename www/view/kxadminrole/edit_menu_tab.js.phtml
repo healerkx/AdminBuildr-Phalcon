@@ -1,0 +1,50 @@
+<script>
+
+    function addNewMenuGroup(name) {
+        var t = $('#group-template');
+        var groupEditPane = $('#group-edit-pane');
+        var m = t.clone();
+        m.css('display', '');
+        m.removeAttr('group-template').find('input.name').val(name);
+        m.appendTo(groupEditPane)
+    }
+
+    function initMenuGroup(names) {
+        for (var i in names) {
+            var name = names[i];
+            addNewMenuGroup(name)
+        }
+    }
+
+    function exchangeItems(a, b) {
+
+        a.insertBefore(b);
+
+    }
+
+    function updateAllMenuGroups() {
+
+    }
+
+    $(function(){
+
+        $('#group-edit-pane').delegate('a.edit', 'click', function(){
+            var item = $(this).parent();
+
+        });
+
+        $('#group-edit-pane').delegate('a.moveUp, a.moveDown', 'click', function(){
+            var $t = $(this);
+            var direct = $t.attr('direct');
+            var item = $(this).parent().parent();
+            if (direct == 'd') {
+                exchangeItems(item.next(), item);
+            } else if (direct == 'u') {
+                exchangeItems(item, item.prev());
+            }
+
+        });
+
+        initMenuGroup(['权限管理', '用户管理']);
+    });
+</script>

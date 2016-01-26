@@ -1,0 +1,10 @@
+{% extends "common/tabview.phtml" %}
+
+{% block tabview_title %}导航菜单设置{% endblock %}
+
+{% block tabview_tabs_set %}
+{% set tabview_tabs = [
+{"name":'导航菜单', "id": "menu_", "active":true, "template": "kxadminrole/edit_menu"},
+{"name":'导航菜单分组', "id": "menu_group", "template": "kxadminrole/edit_menu_group"}
+] %}
+{% endblock %}
