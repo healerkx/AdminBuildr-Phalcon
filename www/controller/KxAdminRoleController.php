@@ -63,10 +63,35 @@ class KxAdminRoleController extends AbBaseController
     public function editMenuAction($roleId) {
         $controllerNodes = $this->getControllerNodes();
 
+        $role = KxAdminRole::findFirst($roleId);
+        if (!$role) {
+            // TODO: 没有这个角色
+        }
+        $tabTitle = "角色菜单设置 > {$role->name}";
+        $data = array(
+            'controllerNodes' => $controllerNodes,
+            'tab_title' => $tabTitle
+        );
+        parent::show('kxadminrole/edit_menu_tab', $data);
+    }
+
+    public function updateMenuGroupsAction($roleId) {
+        $controllerNodes = $this->getControllerNodes();
+
         $data = array(
             'controllerNodes' => $controllerNodes,
         );
-        parent::show('kxadminrole/edit_menu_tab', $data);
+        return parent::result($data);
+    }
+
+    public function aaaAction() {
+        $views = [
+            ["name"=>'导航菜单1', "active"=>true, "template"=> "kxadminrole/a"],
+            ["name"=>'导航菜单2', "template"=> "kxadminrole/b"]
+        ];
+
+        $data = array();
+        return parent::showTabViews($views, '导航总管理', $data);
     }
 
     public function deleteAction($id) {
@@ -74,7 +99,7 @@ class KxAdminRoleController extends AbBaseController
         $deleteField = 'deleted';
         $deleteValue = 1;
         $item->$deleteField = $deleteValue;
-        //parent::dump($item);
+
         $deleted = $item->save();
         parent::result(array('id' => $id, 'deleted' => $deleted));
     }

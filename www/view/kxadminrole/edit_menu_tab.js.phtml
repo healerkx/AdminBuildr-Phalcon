@@ -12,18 +12,30 @@
     function initMenuGroup(names) {
         for (var i in names) {
             var name = names[i];
-            addNewMenuGroup(name)
+            addNewMenuGroup(id, name)
         }
     }
 
     function exchangeItems(a, b) {
-
         a.insertBefore(b);
-
     }
 
-    function updateAllMenuGroups() {
+    function collectMenuGroupsInfo() {
+        $('#group-edit-pane').find('.group').each(function(){
+            var t = $(this);
+            console.log(t.find('input').val());
+        });
+    }
 
+    function updateMenuGroups() {
+        var p = collectMenuGroupsInfo();
+        var id = 1;
+        $.post('kxAdminRole/updateMenuGroups/' + id, p, function (data) {
+            var d = data.toJson();
+            if (d.error == 0) {
+                window.location.href = 'kxAdminRole/editMenu';
+            }
+        });
     }
 
     $(function(){
