@@ -12,17 +12,27 @@ class ModuleController extends AbBaseController
         parent::show('module/index', false);
     }
 
-    public function createAction($method='curdByModel') {
-        if ($method == 'curdByModel') {
-
-            $tableNames = $this->tableNames();
-
-            $data = array('table_names' => $tableNames);
-
-            parent::show('module/create_curd_by_model', $data);
+    /**
+     * @param string $method
+     */
+    public function createAction($method='curdFromModel') {
+        if ($method == 'curdFromModel') {
+            $this->createCurdFromModel();
         } else {
 
         }
+    }
+
+    private function createCurdFromModel() {
+        $tableNames = $this->tableNames();
+
+        $views = [
+            ["name" =>'新建模块', "template"=> "module/new_curd"] ,
+            ["name" =>'预览', "template" => "module/new_curd_preview"]];
+
+        $data = array('table_names' => $tableNames);
+
+        parent::showTabViews($views, '创建CURD模块', $data);
     }
 
     public function updateAction() {

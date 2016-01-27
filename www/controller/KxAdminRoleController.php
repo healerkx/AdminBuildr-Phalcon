@@ -86,9 +86,10 @@ class KxAdminRoleController extends AbBaseController
 
     public function aaaAction() {
         $views = [
-            ["name"=>'导航菜单1', "active"=>true, "template"=> "kxadminrole/a"],
+            ["name"=>'导航菜单1', "template"=> "kxadminrole/a"],
             ["name"=>'导航菜单2', "template"=> "kxadminrole/b"]
         ];
+
 
         $data = array();
         return parent::showTabViews($views, '导航总管理', $data);

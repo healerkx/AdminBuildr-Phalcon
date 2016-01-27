@@ -8,15 +8,20 @@
  */
 class KxAdminNodeController extends AbBaseController
 {
+    /**
+     *
+     */
     public function indexAction()
     {
         //parent::dump($this->getAdminNodes());
         $nodes = $this->sync($this->getActionAccessLists(), $this->getAdminNodes());
 
+        $views = array('name' => 'Action管理', 'template' => 'kxadminnode/actions');
         $data = array(
             'controllers' => $nodes
         );
-        parent::show('kxadminnode/index', $data);
+
+        parent::showTabViews($views, '系统节点管理', $data);
     }
 
     private static function hasControllerActionInNodes($controller, $action, &$nodes)
