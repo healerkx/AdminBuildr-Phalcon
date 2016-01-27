@@ -1,9 +1,0 @@
-{% extends "common/tabview.phtml" %}
-
-{% block tabview_title %}管理员列表{% endblock %}
-
-{% block tabview_tabs_set %}
-{% set tabview_tabs = [
-{"name":'管理员列表查看', "id": "list_role", "active":true, "template": "kxadminrole/edit_node"}
-] %}
-{% endblock %}

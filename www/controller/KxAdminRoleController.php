@@ -2,11 +2,11 @@
 
 class KxAdminRoleController extends AbBaseController
 {
-
-    public function indexAction() {
-
+    /**
+     *
+     */
+    public function listAction() {
         $result = KxAdminRole::search($_GET);
-
 
         $items = array();
         if ($result['items']) {
@@ -22,7 +22,12 @@ class KxAdminRoleController extends AbBaseController
             'items' => $items,
             'target_field' => 'role_id'
         );
-        parent::show('kxadminrole/index', $data);
+
+        $views = [
+            ['name' => '管理员角色列表', "template" => "kxadminrole/list_admin_role"],
+            ];
+
+        parent::showTabViews($views, '管理员角色管理', $data);
     }
 
     public function createAction() {
@@ -53,7 +58,8 @@ class KxAdminRoleController extends AbBaseController
         $data = array(
             'controllerNodes' => $controllerNodes,
         );
-        parent::show('kxadminrole/edit_node_tab', $data);
+        $views = array('name' => '节点访问控制', 'template' => 'kxadminrole/edit_node');
+        parent::showTabViews($views, '节点访问控制', $data);
     }
 
     /**
@@ -72,7 +78,11 @@ class KxAdminRoleController extends AbBaseController
             'controllerNodes' => $controllerNodes,
             'tab_title' => $tabTitle
         );
-        parent::show('kxadminrole/edit_menu_tab', $data);
+        $views = [
+            ["name" => '导航菜单', "template" => "kxadminrole/edit_menu"],
+            ["name" => '导航菜单分组', "template" => "kxadminrole/edit_menu_group"]
+            ];
+        parent::showTabViews($views, $tabTitle, $data);
     }
 
     public function updateMenuGroupsAction($roleId) {
@@ -82,17 +92,6 @@ class KxAdminRoleController extends AbBaseController
             'controllerNodes' => $controllerNodes,
         );
         return parent::result($data);
-    }
-
-    public function aaaAction() {
-        $views = [
-            ["name"=>'导航菜单1', "template"=> "kxadminrole/a"],
-            ["name"=>'导航菜单2', "template"=> "kxadminrole/b"]
-        ];
-
-
-        $data = array();
-        return parent::showTabViews($views, '导航总管理', $data);
     }
 
     public function deleteAction($id) {
@@ -124,11 +123,17 @@ class KxAdminRoleController extends AbBaseController
             'roles' => $roles->toArray(),
             'users' => $users
         );
-        parent::show('kxadminrole/list_admin_user_tab', $data);
+
+        $views = [
+            ['name' => '管理员角色列表', "template" => "kxadminrole/list_admin_user"],
+        ];
+
+        parent::showTabViews($views, '管理员角色管理', $data);
     }
 
-
-
+    /**
+     * @return array
+     */
     public function itemOperator() {
         // array for operators
         return array(
@@ -136,7 +141,6 @@ class KxAdminRoleController extends AbBaseController
             array('name' => '菜单管理', 'operator' => 'editMenu', 'action' => 'kxAdminRole/editMenu'),
             array('name' => '用户列表', 'operator' => 'listAdminUser', 'action' => 'kxAdminRole/listAdminUser'),
             array('name' => '删除', 'operator' => 'delete', 'action' => 'kxAdminRole/delete')
-
         );
     }
 }
