@@ -5,7 +5,7 @@ class ApplicationConfig extends CConfig
 {
     public static function getConfigPath($fileName='')
     {
-        return "..\\config\\" . $fileName;
+        return dirname(dirname(dirname(__FILE__))) . "\\config\\" . $fileName;
     }
 
     public static function getConfig($key=false)

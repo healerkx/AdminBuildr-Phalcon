@@ -28,7 +28,7 @@ class ModuleController extends AbBaseController
 
         $views = [
             ["name" =>'新建模块', "template"=> "module/new_curd"] ,
-            ["name" =>'预览', "template" => "module/new_curd_preview"]];
+            ["name" =>'预览', 'id' => 'preview', "template" => "module/new_curd_preview"]];
 
         $data = array('table_names' => $tableNames);
 
@@ -59,6 +59,7 @@ class ModuleController extends AbBaseController
 
         $configPath = ApplicationConfig::getConfigPath('config.json');
         $cmdLine = "--prefix=$prefix --table=$tableName --config=\"$configPath\"";
+
         $c = Python3::run("build_mvc.py", $cmdLine);
 
         $targetHost = ApplicationConfig::getConfig('product')['host'];
@@ -66,7 +67,8 @@ class ModuleController extends AbBaseController
         $testListUrl = "$targetHost/$modelName";
         parent::result(array(
             'model' => $modelName,
-            'files' => array('a', 'b'),
+            'files' => json_decode($c),
+            'cmd_line' => $cmdLine,
             'test_list_url' => $testListUrl,
             'build' => $c));
     }

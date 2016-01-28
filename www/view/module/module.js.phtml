@@ -107,7 +107,9 @@
     }
 
     function collectFieldsConfig() {
+        var title = $('#module_title').val();
         var info = {
+            Title: title,
             FieldsConfig:[],
             CommitSupport:{},
             DeleteSupport:{}};
