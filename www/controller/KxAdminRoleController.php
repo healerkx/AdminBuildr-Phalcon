@@ -59,16 +59,19 @@ class KxAdminRoleController extends AbBaseController
         if (!$role) {
             // TODO: 没有这个角色
         }
-        $tabTitle = "角色访问控制 > {$role->name}";
+
+        $menuGroups = array(array('id'=>1, 'name'=>"ddd"), array('id'=>1, 'name'=>'Name'));
+
         $data = array(
             'controllerNodes' => $controllerNodes,
-            'tab_title' => $tabTitle
+            'edit_menu_groups' => $menuGroups,
+            'role_name' => $role->name
         );
         $views = [
-            ["name" => '导航菜单', "template" => "kxadminrole/edit"],
+            ["name" => '访问控制', "template" => "kxadminrole/edit"],
             ["name" => '导航菜单分组', "template" => "kxadminrole/edit_menu_group"]
         ];
-        parent::showTabViews($views, $tabTitle, $data);
+        parent::showTabViews($views, '角色访问控制', $data);
     }
 
     public function updateMenuGroupsAction($roleId) {

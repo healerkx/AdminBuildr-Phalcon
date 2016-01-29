@@ -1,18 +1,22 @@
 <script>
+    var menuGroup = '{{ edit_menu_groups|json_encode }}'.toJson();
+</script>
 
-    function addNewMenuGroup(name) {
+<script>
+
+    function addNewMenuGroup(id, name) {
         var t = $('#group-template');
         var groupEditPane = $('#group-edit-pane');
         var m = t.clone();
-        m.css('display', '');
+        m.css('display', '').attr('menu_group_id', id);
         m.removeAttr('group-template').find('input.name').val(name);
         m.appendTo(groupEditPane)
     }
 
-    function initMenuGroup(names) {
-        for (var i in names) {
-            var name = names[i];
-            addNewMenuGroup(id, name)
+    function initMenuGroup(nemus) {
+        for (var i in nemus) {
+            var nemu = nemus[i];
+            addNewMenuGroup(nemu.id, nemu.name)
         }
     }
 
@@ -57,6 +61,6 @@
 
         });
 
-        initMenuGroup(['权限管理', '用户管理']);
+        initMenuGroup(menuGroup);
     });
 </script>
