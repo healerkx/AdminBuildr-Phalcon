@@ -52,36 +52,22 @@ class KxAdminRoleController extends AbBaseController
      * @param $roleId
      * @access Follow(kxAdminRole/index)
      */
-    public function editNodeAction($roleId) {
-        $controllerNodes = $this->getControllerNodes();
-
-        $data = array(
-            'controllerNodes' => $controllerNodes,
-        );
-        $views = array('name' => '节点访问控制', 'template' => 'kxadminrole/edit_node');
-        parent::showTabViews($views, '节点访问控制', $data);
-    }
-
-    /**
-     * @param $roleId
-     * @access Follow(kxAdminRole/index)
-     */
-    public function editMenuAction($roleId) {
+    public function editAction($roleId) {
         $controllerNodes = $this->getControllerNodes();
 
         $role = KxAdminRole::findFirst($roleId);
         if (!$role) {
             // TODO: 没有这个角色
         }
-        $tabTitle = "角色菜单设置 > {$role->name}";
+        $tabTitle = "角色访问控制 > {$role->name}";
         $data = array(
             'controllerNodes' => $controllerNodes,
             'tab_title' => $tabTitle
         );
         $views = [
-            ["name" => '导航菜单', "template" => "kxadminrole/edit_menu"],
+            ["name" => '导航菜单', "template" => "kxadminrole/edit"],
             ["name" => '导航菜单分组', "template" => "kxadminrole/edit_menu_group"]
-            ];
+        ];
         parent::showTabViews($views, $tabTitle, $data);
     }
 
@@ -137,8 +123,7 @@ class KxAdminRoleController extends AbBaseController
     public function itemOperator() {
         // array for operators
         return array(
-            array('name' => '节点管理', 'operator' => 'editNode', 'action' => 'kxAdminRole/editNode'),
-            array('name' => '菜单管理', 'operator' => 'editMenu', 'action' => 'kxAdminRole/editMenu'),
+            array('name' => '编辑', 'operator' => 'edit', 'action' => 'kxAdminRole/edit'),
             array('name' => '用户列表', 'operator' => 'listAdminUser', 'action' => 'kxAdminRole/listAdminUser'),
             array('name' => '删除', 'operator' => 'delete', 'action' => 'kxAdminRole/delete')
         );

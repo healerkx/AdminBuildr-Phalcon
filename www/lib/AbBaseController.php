@@ -46,6 +46,8 @@ class AbBaseController extends Controller
             }
         }
 
+        $data['menu_groups'] = $this->getMenu();
+
         $data['tabview_title'] = $viewsTitle;
         $data['content_phtml'] = 'common/tabview2';
 
@@ -73,6 +75,26 @@ class AbBaseController extends Controller
     public function dump($var) {
         echo (new Dump)->variables($var);
         exit;
+    }
+
+    private function getMenuGroup() {
+
+    }
+
+    private function getMenu() {
+        $menu = array(
+            array(
+                'name' => '系统管理',
+                'active' => false,
+                'sub_menus' => array(array('name'=>'SSS'), array('name' => "444"))
+            ),
+            array(
+                'name' => '系统管理2',
+                'active' => true,
+                'sub_menus' => array(array('name'=>'www'), array('name' => "555"), array('name' => "555"))
+            )
+        );
+        return $menu;
     }
 
     /**

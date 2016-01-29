@@ -1,0 +1,50 @@
+<!-- 编辑节点和菜单, for Some Role, 能否访问, 显示在哪个MenuGroup中. -->
+<div class="span12">
+    <div>
+        <table class="table table-striped table-bordered table-hover table-full-width dataTable">
+            <thead>
+            <td><b>Controller</b></td>
+            <td><b>Action</b></td>
+            <td><b>说明</b></td>
+            <td><b>访问控制</b></td>
+            <td><b>菜单控制</b></td>
+
+            </thead>
+            {% for controller, actions in controllerNodes %}
+            {% for i, action in actions %}
+            <tr node_id="{{ action['node_id'] }}">
+                {% if i == 0 %}
+                <td rowspan="{{ actions|length }}" class="span2">
+                    {{ controller }}
+                </td>
+                {% endif %}
+
+                <!-- Action col -->
+                <td controller="{{ controller }}"
+                    action="{{action['action']}}"
+                    class="span3">
+                    <a href="{{ controller }}/{{action['action']}}">{{ controller }}/{{action['action']}}</a>
+                </td>
+                <td>
+                    <span>{{ action['name'] }}</span>
+                </td>
+                <td class="span2">
+                    <input type="checkbox">
+                </td>
+                <td class="span2">
+                    <select class="group-select">
+                        <option value="0">不显示</option>
+
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </table>
+    </div>
+
+    <button id="sync-button" class="btn blue btn-block">更新 <i class="m-icon-swapright m-icon-white"></i></button>
+
+</div>
+
+{% include "module/more-dialog.phtml" %}

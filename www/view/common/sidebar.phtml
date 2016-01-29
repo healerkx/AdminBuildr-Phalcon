@@ -1,5 +1,4 @@
 <!-- sidebar.phtml -->
-<!-- BEGIN SIDEBAR -->
 <div class="page-sidebar nav-collapse collapse" widget-class="Sidebar" widget-id="sidebar">
     <!-- BEGIN SIDEBAR MENU -->
     <ul class="page-sidebar-menu">
@@ -8,61 +7,22 @@
             <div class="sidebar-toggler hidden-phone"></div>
             <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
         </li>
-
-        <li class="start active" >
+        {% for menu_group in menu_groups %}
+        <li class="start {% if menu_group['active']==true %}active{% endif %}" >
             <a href="javascript:void(0)">
                 <i class="icon-home"></i>
-                <span class="title">监测网络</span>
-                <span class="selected"></span>
-            </a>
-            <ul class="sub-menu stations">
-                <!--
-				<li>
-					<a href="#station-row">北京顺义站</a>
-				</li>
-				-->
-            </ul>
-        </li>
-
-        <!-- 运营 -->
-        <!--
-		<li class="start">
-			<a href="index.html">
-			<i class="icon-home"></i>
-			<span class="title">数据分析</span>
-			<span class="selected"></span>
-			</a>
-			<ul class="sub-menu">
-				<li>
-					<a href="#add-secret-row">数据比较</a>
-				</li>
-			</ul>
-		</li>
-		-->
-
-        <!-- 管理 -->
-        <li class="start">
-            <a href="javascript:void(0)">
-                <i class="icon-home"></i>
-                <span class="title">系统管理</span>
+                <span class="title">{{menu_group['name']}}</span>
                 <span class="selected"></span>
             </a>
             <ul class="sub-menu">
-                <li>
-                    <a href="#admin-row">用户管理</a>
-                </li>
-                <li>
-                    <a href="#admin-sm-row">短信报警管理</a>
-                </li>
-                <!--
-                <li>
-                    <a href="#admin-row">自动站管理</a>
-                </li>
-                -->
+                {% for menu in menu_group['sub_menus'] %}
+				<li>
+					<a href="javascript:void(0)">{{menu['name']}}</a>
+				</li>
+                {% endfor %}
             </ul>
         </li>
-
+        {% endfor %}
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>
-<!-- END SIDEBAR -->
