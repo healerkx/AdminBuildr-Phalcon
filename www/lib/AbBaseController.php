@@ -46,7 +46,7 @@ class AbBaseController extends Controller
             }
         }
 
-        $data['menu_groups'] = $this->getMenu();
+        $data['menu_groups'] = $this->getMenuArray();
 
         $data['tabview_title'] = $viewsTitle;
         $data['content_phtml'] = 'common/tabview2';
@@ -81,20 +81,38 @@ class AbBaseController extends Controller
 
     }
 
-    private function getMenu() {
-        $menu = array(
-            array(
-                'name' => '系统管理',
-                'active' => false,
-                'sub_menus' => array(array('name'=>'SSS'), array('name' => "444"))
-            ),
-            array(
-                'name' => '系统管理2',
-                'active' => true,
-                'sub_menus' => array(array('name'=>'www'), array('name' => "555"), array('name' => "555"))
-            )
-        );
-        return $menu;
+    private function getCurrentAction() {
+        $dispatcher = $this->getDI()->getShared('dispatcher');
+
+        return array($dispatcher->getControllerName(), $dispatcher->getActionName());
+    }
+
+    private function getMenuArray() {
+        $current = $this->getCurrentAction();
+        $currentUrl = implode('/', $current);
+
+        // $s = $this->session->get('a');
+        $menuArr = ApplicationConfig::getMenu($this->session);
+
+        // Compare current Url to active the menu group
+        $activeSet = false;
+        foreach ($menuArr as &$i) {
+            $subMenu = $i['sub_menus'];
+            foreach ($subMenu as $s) {
+                $url = $s['url'];
+                if ($url == $currentUrl) {
+                    $i['active'] = true;
+                    $activeSet = true;
+                    break;
+                }
+            }
+            if ($activeSet) { break; }
+        }
+
+        if (!$activeSet) {
+
+        }
+        return $menuArr;
     }
 
     /**

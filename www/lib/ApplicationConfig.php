@@ -21,7 +21,28 @@ class ApplicationConfig extends CConfig
 
     public static function getMySQLConnection() {
         $c = self::getConfig('product');
-        file_put_contents("aaa.txt", "d", FILE_APPEND);
+
         return $c['mysql'];
+    }
+
+    public static function getMenu($session) {
+        $user = $session->get('user');
+
+
+
+        file_put_contents('ss.txt', json_encode($session), FILE_APPEND);
+        $menuArr = array(
+            array(
+                'name' => '系统管理',
+                'active' => false,
+                'sub_menus' => array(array('name' => '创建模块', 'url' => 'kxAdminRole/edit'), array('name' => "444"))
+            ),
+            array(
+                'name' => '系统管理2',
+                'active' => false,
+                'sub_menus' => array(array('name'=>'www'), array('name' => '创建模块', 'url' => 'module/create'), array('name' => "555"))
+            )
+        );
+        return $menuArr;
     }
 }

@@ -39,11 +39,12 @@ class KxAdminRoleController extends AbBaseController
         $result = array();
         foreach ($nodes as $node)
         {
+            $nodeId = $node->node_id;
             $controller = $node->controller;
             $action = $node->action;
             $name = $node->name;
 
-            $result[$controller][] = array('action' => $action, 'name' => $name);
+            $result[$controller][] = array('node_id' => $nodeId, 'action' => $action, 'name' => $name);
         }
         return $result;
     }
@@ -53,12 +54,44 @@ class KxAdminRoleController extends AbBaseController
      * @access Follow(kxAdminRole/index)
      */
     public function editAction($roleId) {
-        $controllerNodes = $this->getControllerNodes();
-
+        if (!isset($roleId)) {
+            // TODO: 没有参数
+            // TODO: Redirect to ...
+        }
         $role = KxAdminRole::findFirst($roleId);
         if (!$role) {
             // TODO: 没有这个角色
+            // TODO: Redirect to ...
         }
+
+        $access = KxAdminAccess::getAccess($role->role_id);
+        $controllerNodes = $this->getControllerNodes();
+
+
+        foreach ($controllerNodes as $controller => &$nodes) {
+            foreach ($nodes as &$node) {
+                $node['access'] = false;
+                $node['menu_group_id'] = 0;
+
+                //
+                $nodeId = $node['node_id'];
+                foreach ($access as $a) {
+                    $accessNodeId = $a['node_id'];
+
+                    if ($nodeId == $accessNodeId) {
+                        $node['access'] = true;
+                        $node['menu_group_id'] = $a['menu_group_id'];
+                        break;
+                    }
+
+                }
+            }
+            unset($node);
+        }
+        unset($nodes);
+
+
+        // parent::dump($controllerNodes);
 
         $menuGroups = array(array('id'=>1, 'name'=>"ddd"), array('id'=>1, 'name'=>'Name'));
 

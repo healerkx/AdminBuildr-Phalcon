@@ -31,7 +31,7 @@ class ModuleController extends AbBaseController
             ["name" =>'预览', 'id' => 'preview', "template" => "module/new_curd_preview"]];
 
         $data = array('table_names' => $tableNames);
-
+        $this->session->set('a', '323');
         parent::showTabViews($views, '创建CURD模块', $data);
     }
 

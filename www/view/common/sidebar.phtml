@@ -17,7 +17,7 @@
             <ul class="sub-menu">
                 {% for menu in menu_group['sub_menus'] %}
 				<li>
-					<a href="javascript:void(0)">{{menu['name']}}</a>
+					<a href="{{menu['url']}}">{{menu['name']}}</a>
 				</li>
                 {% endfor %}
             </ul>
