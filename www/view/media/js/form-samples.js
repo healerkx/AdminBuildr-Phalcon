@@ -2,7 +2,7 @@ var FormSamples = function () {
 
 
     return {
-        //main function to initiate the module
+        //main function to initiate the abmodule
         init: function () {
 
             // use select2 dropdown instead of chosen as select2 works fine with bootstrap on responsive layouts.

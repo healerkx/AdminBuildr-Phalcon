@@ -35,7 +35,7 @@ var UIModals = function () {
     }
 
     return {
-        //main function to initiate the module
+        //main function to initiate the abmodule
         init: function () {
             initModals();
         }

@@ -28,7 +28,7 @@
 (function( factory ) {
 	"use strict";
 
-	// Define as an AMD module if possible
+	// Define as an AMD abmodule if possible
 	if ( typeof define === 'function' && define.amd )
 	{
 		define( ['jquery'], factory );

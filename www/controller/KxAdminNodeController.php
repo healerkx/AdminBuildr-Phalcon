@@ -13,7 +13,6 @@ class KxAdminNodeController extends AbBaseController
      */
     public function indexAction()
     {
-        //parent::dump($this->getAdminNodes());
         $nodes = $this->sync($this->getActionAccessLists(), $this->getAdminNodes());
 
         $views = array('name' => 'Action管理', 'template' => 'kxadminnode/actions');
@@ -91,7 +90,7 @@ class KxAdminNodeController extends AbBaseController
     }
 
     private function getActionAccessLists() {
-        $controllerNames = ['ModuleController', 'ReportController'];
+        $controllerNames = ['AbModuleController', 'AbReportController'];
         $result = array();
         foreach ($controllerNames as $controllerName) {
             $actions = $this->getActionAccessList($controllerName);
@@ -103,7 +102,6 @@ class KxAdminNodeController extends AbBaseController
 
     private function getActionAccessList($className)
     {
-        // $className = 'ModuleController';
         $clz = new ReflectionClass($className);
         $methods = $clz->getMethods(ReflectionMethod::IS_PUBLIC);
 

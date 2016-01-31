@@ -1,7 +1,7 @@
 var UITree = function () {
 
     return {
-        //main function to initiate the module
+        //main function to initiate the abmodule
         init: function () {
             // handle collapse/expand for tree_1
             $('#tree_1_collapse').click(function () {

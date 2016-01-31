@@ -138,8 +138,8 @@ class AbBaseController extends Controller
     }
 
     /**
-     * Render module/a and module/b in a tab view,
-     * view will try to include module/a.js.phtml, module/b.js.phtml and module/module.js.phtml as common
+     * Render abmodule/a and abmodule/b in a tab view,
+     * view will try to include abmodule/a.js.phtml, abmodule/b.js.phtml and abmodule/abmodule.js.phtml as common
      * @param $tabViews
      * @return array
      */
@@ -148,7 +148,7 @@ class AbBaseController extends Controller
         foreach ($tabViews as $tabView) {
             $template = $tabView['template'];
 
-            // each module has a common js tpl file.
+            // each abmodule has a common js tpl file.
             $parts = explode('/', $template);
             $module = $parts[0];
             array_push($result, "{$module}/{$module}.js");

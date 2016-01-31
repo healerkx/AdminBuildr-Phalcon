@@ -2,7 +2,7 @@ var Calendar = function () {
 
 
     return {
-        //main function to initiate the module
+        //main function to initiate the abmodule
         init: function () {
 
             App.addResponsiveHandler(function () {

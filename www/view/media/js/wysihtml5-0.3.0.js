@@ -258,7 +258,7 @@ window['rangy'] = (function() {
     };
 
     Module.prototype.createError = function(msg) {
-        return new Error("Error in Rangy " + this.name + " module: " + msg);
+        return new Error("Error in Rangy " + this.name + " abmodule: " + msg);
     };
 
     api.createModule = function(name, initFunc) {
@@ -6315,7 +6315,7 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
   
 })(wysihtml5);
 /**
- * Inspired by the rangy CSS Applier module written by Tim Down and licensed under the MIT license.
+ * Inspired by the rangy CSS Applier abmodule written by Tim Down and licensed under the MIT license.
  * http://code.google.com/p/rangy/
  *
  * changed in order to be able ...

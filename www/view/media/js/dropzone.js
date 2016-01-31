@@ -25,7 +25,7 @@ function require(path, parent, orig) {
   var module = require.modules[resolved];
 
   // perform real require()
-  // by invoking the module's
+  // by invoking the abmodule's
   // registered function
   if (!module.exports) {
     module.exports = {};
@@ -113,7 +113,7 @@ require.normalize = function(curr, path) {
 };
 
 /**
- * Register module at `path` with callback `definition`.
+ * Register abmodule at `path` with callback `definition`.
  *
  * @param {String} path
  * @param {Function} definition
@@ -125,7 +125,7 @@ require.register = function(path, definition) {
 };
 
 /**
- * Alias a module definition.
+ * Alias a abmodule definition.
  *
  * @param {String} from
  * @param {String} to
@@ -191,7 +191,7 @@ require.relative = function(parent) {
   };
 
   /**
-   * Check if module is defined at `path`.
+   * Check if abmodule is defined at `path`.
    */
 
   localRequire.exists = function(path) {

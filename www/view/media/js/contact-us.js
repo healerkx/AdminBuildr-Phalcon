@@ -1,7 +1,7 @@
 var ContactUs = function () {
 
     return {
-        //main function to initiate the module
+        //main function to initiate the abmodule
         init: function () {
 			var map;
 			$(document).ready(function(){

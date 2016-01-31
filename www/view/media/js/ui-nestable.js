@@ -12,7 +12,7 @@ var UINestable = function () {
 
 
     return {
-        //main function to initiate the module
+        //main function to initiate the abmodule
         init: function () {
 
             // activate Nestable for list 1

@@ -1,7 +1,7 @@
 var CoomingSoon = function () {
 
     return {
-        //main function to initiate the module
+        //main function to initiate the abmodule
         init: function () {
 
             $.backstretch([

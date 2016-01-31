@@ -444,7 +444,7 @@ var FormComponents = function () {
     }
 
     return {
-        //main function to initiate the module
+        //main function to initiate the abmodule
         init: function () {
             handleWysihtml5();
             handleToggleButtons();

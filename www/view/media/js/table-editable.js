@@ -2,7 +2,7 @@ var TableEditable = function () {
 
     return {
 
-        //main function to initiate the module
+        //main function to initiate the abmodule
         init: function () {
             function restoreRow(oTable, nRow) {
                 var aData = oTable.fnGetData(nRow);

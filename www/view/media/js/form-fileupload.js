@@ -2,7 +2,7 @@ var FormFileUpload = function () {
 
 
     return {
-        //main function to initiate the module
+        //main function to initiate the abmodule
         init: function () {
 
             // Initialize the jQuery File Upload widget:

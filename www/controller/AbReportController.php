@@ -5,7 +5,7 @@
  * Date: 2016/1/15
  * Time: 19:28
  */
-class ReportController extends AbBaseController
+class AbReportController extends AbBaseController
 {
     public function indexAction()
     {

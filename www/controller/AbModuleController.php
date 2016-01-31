@@ -2,14 +2,14 @@
 
 /**
  * Class ModuleController
- * A module means a bundle of CURD
+ * A abmodule means a bundle of CURD
  */
 
-class ModuleController extends AbBaseController
+class AbModuleController extends AbBaseController
 {
     public function indexAction()
     {
-        parent::show('module/index', false);
+        parent::show('abmodule/index', false);
     }
 
     /**
@@ -27,8 +27,8 @@ class ModuleController extends AbBaseController
         $tableNames = $this->tableNames();
 
         $views = [
-            ["name" =>'新建模块', "template"=> "module/new_curd"] ,
-            ["name" =>'预览', 'id' => 'preview', "template" => "module/new_curd_preview"]];
+            ["name" =>'新建模块', "template"=> "abmodule/new_curd"] ,
+            ["name" =>'预览', 'id' => 'preview', "template" => "abmodule/new_curd_preview"]];
 
         $data = array('table_names' => $tableNames);
         $this->session->set('a', '323');
