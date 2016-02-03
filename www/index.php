@@ -61,6 +61,9 @@ $di->set('voltService', function ($view, $di) {
     return $volt;
 });
 
+
+
+
 // Registering the view component
 $di->set('view', function() {
     $view = new View();
@@ -75,6 +78,10 @@ $di->set('view', function() {
     return $view;
 });
 
+
+$di['tag'] = function() {
+    return new AbTag();
+};
 
 
 $di->set('db', function() {

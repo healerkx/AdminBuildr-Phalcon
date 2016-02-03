@@ -69,4 +69,16 @@ class Strings
     {
         return preg_replace('%(?:\xF0[\x90-\xBF][\x80-\xBF]{2}| [\xF1-\xF3][\x80-\xBF]{3}| \xF4[\x80-\x8F][\x80-\xBF]{2})%xs', '', $string);
     }
-} 
+
+    public static function format($str, $arr)
+    {
+        $values = array_values($arr);
+        $keys = array_keys($arr);
+
+        foreach ($keys as $k => $v) {
+            $keys[$k] = '/{{\s*'.$v.'\s*}}/';
+        }
+
+        return preg_replace($keys, $values, $str);
+    }
+}

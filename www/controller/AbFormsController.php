@@ -9,4 +9,7 @@
 class AbFormsController extends AbBaseController
 {
 
+    public function createAction() {
+
+    }
 }

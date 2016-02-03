@@ -161,7 +161,7 @@ kx.loadString = function(fileName, pathName)
 
 function $templateString(str, vars)
 {
-	if ( ! $templateString.templateVarRegex )
+	if (!$templateString.templateVarRegex)
 	{
 		$templateString.templateVarRegex = /\{%\$[a-z0-9-]+%\}/gi;
 	}
@@ -398,10 +398,10 @@ $class("kx.Weblet", kx.Widget, {
 
 		if (this._templateVars)
 		{
-			this._templateString = hj.templateString(this._templateString, this._templateVars);
+			this._templateString = $templateString(this._templateString, this._templateVars);
 		}
 
-		this._domNode = $(this._templateString);
+		this._domNode = this._domNode || $(this._templateString);
 		this.onCreated && this.onCreated(this._domNode, params);
 		return this._domNode;
 	},
@@ -564,16 +564,18 @@ kx.activeWeb = function(node, args)
 	node.find('div[widget-class]').each(function(){
 		var div = $(this);
         var created = div.attr('widget-created');
+
         if (created != "true")
         {
             var widgetClassName = div.attr('widget-class');
             var common = div.attr('common');
             if (!String.isEmpty(widgetClassName))
             {
-
+				// !
                 var widgetClass = $getClassByName(widgetClassName);
+				if (!widgetClass) return true;
                 var widgetId = div.attr('widget-id');
-                // console.debug(widgetClassName);
+
                 var widget = new widgetClass(widgetId);
                 if (common)
                 {

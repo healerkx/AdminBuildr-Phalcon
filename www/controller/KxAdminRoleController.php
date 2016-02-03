@@ -31,7 +31,20 @@ class KxAdminRoleController extends AbBaseController
     }
 
     public function createAction() {
-        parent::result(array('a' => 2));
+        $views = [
+            ['name' => '新建角色', "template" => "kxadminrole/item"],
+        ];
+        parent::showTabViews($views, '新建角色', $data);
+    }
+
+    public function updateAction($id) {
+
+        parent::showTabViews($views, '新建角色', $data);
+    }
+
+    public function viewAction($id) {
+
+        parent::showTabViews($views, '新建角色', $data);
     }
 
     private function getControllerNodes() {
