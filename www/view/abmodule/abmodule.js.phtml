@@ -147,7 +147,7 @@
     $(function(){
         //FormComponents.init();
 
-        $.getJSON('/module/tableNames', function (data) {
+        $.getJSON('/abmodule/tableNames', function (data) {
             if (data.error == 0) {
                 var tableNameSelect = $('#table_name');
                 var a = data.data;
@@ -165,7 +165,7 @@
 
         $('#load-model-button').click(function(){
             var tableName = $('#table_name').val();
-            $.post("/module/info",
+            $.post("/abmodule/info",
                 {
                     table:tableName, model:""
                 },
@@ -184,7 +184,7 @@
             var prefix = $('#model_prefix').val();
             var tableName = $('#table_name').val();
 
-            $.post("/module/preview",
+            $.post("/abmodule/preview",
                 {
                     prefix: prefix,
                     table_name: tableName,

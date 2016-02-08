@@ -66,7 +66,7 @@ class AbBaseController extends Controller
     }
 
     public function error($errorCode, $data) {
-        exit(json_encode(array(
+        return exit(json_encode(array(
             'error' => $errorCode,
             'data' => $data
         )));
