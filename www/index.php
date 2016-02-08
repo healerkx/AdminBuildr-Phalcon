@@ -115,7 +115,7 @@ try {
 
     ini_set('date.timezone','Asia/Shanghai');
     $t1 = microtime(true);
-    $application = new Application($di);
+    $application = new KxApplication($di);
     echo $application->handle()->getContent();
 
     $t2 = microtime(true);

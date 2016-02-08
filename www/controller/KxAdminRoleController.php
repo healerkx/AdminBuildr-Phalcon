@@ -34,17 +34,34 @@ class KxAdminRoleController extends AbBaseController
         $views = [
             ['name' => '新建角色', "template" => "kxadminrole/item"],
         ];
+        $init = KxAdminRole::getEmptyItem();
+        //parent::dump($init);
+        $data = array('itemViewMode' => 'create', 'i' => $init);
         parent::showTabViews($views, '新建角色', $data);
     }
 
     public function updateAction($id) {
-
-        parent::showTabViews($views, '新建角色', $data);
+        if (!isset($id)) {
+            parent::redirect('common/error', "This action need parameter \$id");
+        }
+        $views = [
+            ['name' => '更新角色信息', "template" => "kxadminrole/item"],
+        ];
+        $item = KxAdminRole::getItemById($id);
+        $data = array('itemViewMode' => 'update', 'i' => $item);
+        parent::showTabViews($views, '更新角色信息', $data);
     }
 
     public function viewAction($id) {
-
-        parent::showTabViews($views, '新建角色', $data);
+        if (!isset($id)) {
+            parent::redirect('common/error', "This action need parameter \$id");
+        }
+        $views = [
+            ['name' => '查看角色信息', "template" => "kxadminrole/item"],
+        ];
+        $item = KxAdminRole::getItemById($id);
+        $data = array('itemViewMode' => 'view', 'i' => $item);
+        parent::showTabViews($views, '查看角色信息', $data);
     }
 
     private function getControllerNodes() {
@@ -103,8 +120,6 @@ class KxAdminRoleController extends AbBaseController
         }
         unset($nodes);
 
-
-        // parent::dump($controllerNodes);
 
         $menuGroups = array(array('id'=>1, 'name'=>"ddd"), array('id'=>1, 'name'=>'Name'));
 

@@ -1,11 +1,11 @@
 <div class="form-horizontal">
 
     <div class="control-group">
-        {{ text_field("tagType":"abTag", 'value':'sss', 'hint':"ddd") }}
+        {{ text_field("tagType":"abTag", 'label':'名字', 'value':i['name'], 'hint':"ddd") }}
     </div>
 
     <div class="control-group">
-        {{ select("tagType":"abTag", 'data':[1, 2], 'value':'sss', 'hint':"dd2d", 'searchable':2) }}
+        {{ select("tagType":"abTag", 'label':'Addr', 'data':[{'value':1, 'name':'AAA'}, {'value':2, 'name':'BBB'}], 'value':'sss', 'hint':"dd2d", 'searchable':2) }}
     </div>
 
 

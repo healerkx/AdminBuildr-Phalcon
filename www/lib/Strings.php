@@ -76,9 +76,10 @@ class Strings
         $keys = array_keys($arr);
 
         foreach ($keys as $k => $v) {
-            $keys[$k] = '/{{\s*'.$v.'\s*}}/';
+            $keys[$k] = "/{{\\s*$v\\s*}}/";
         }
 
-        return preg_replace($keys, $values, $str);
+        $str = preg_replace($keys, $values, $str);
+        return $str;
     }
 }

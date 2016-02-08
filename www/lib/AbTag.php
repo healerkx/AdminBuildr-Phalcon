@@ -29,7 +29,9 @@ class AbTag extends Tag
     static public function textField($parameters)
     {
         if (self::isAbFormField($parameters)) {
-            return AbTag::formTextField($parameters);
+            $view = KxApplication::current()->view;
+            $itemViewMode = $view->getVar('itemViewMode');
+            return AbTag::formTextField($parameters, $itemViewMode);
         }
         return Tag::textField($parameters);
     }
@@ -37,7 +39,9 @@ class AbTag extends Tag
     static public function select($parameters, $data = NULL)
     {
         if (self::isAbFormField($parameters)) {
-            return AbTag::formSelect($parameters);
+            $view = KxApplication::current()->view;
+            $itemViewMode = $view->getVar('itemViewMode');
+            return AbTag::formSelect($parameters, $itemViewMode);
         }
         $data = $parameters['data'];
         return Tag::select($parameters, $data);
@@ -46,13 +50,13 @@ class AbTag extends Tag
     /**********************************************************************/
 
 
-    private static function formTextField($p) {
+    private static function formTextField($p, $itemViewMode) {
         $html = <<<HD
 <div class="Select">
-    <label class="control-label">{{ label}}</label>
+    <label class="control-label">{{label}}</label>
 
     <div class="controls">
-        <input type="text" placeholder="{{placeholder}}" class="m-wrap small" value={{value}} />
+        <input type="text" placeholder="{{placeholder}}" class="m-wrap small" value="{{value}}" />
         <span class="help-inline">{{ hint }}</span>
     </div>
 </div>
@@ -61,7 +65,7 @@ HD;
         return Strings::format($html, $p);
     }
 
-    private static function formSelect($p) {
+    private static function formSelect($p, $itemViewMode) {
         $html1 = <<<HD1
 <div class="Text">
     <label class="control-label">{{label}}</label>
@@ -79,14 +83,22 @@ HD2;
 
         $data = $p['data'];
         unset($p['data']);
-        $options = '';
+        $options = '<option value="0">请选择</option>';
         foreach ($data as $i)
         {
-            $options .= '<option>' . $i . '</option>';
+            $v = $i;
+            if (!is_array($i)) {
+                $v = array(
+                    'name' => $i, 'value' => $i
+                );
+            }
+
+            $option = '<option value="{{value}}">{{name}}</option>';
+            $options .= Strings::format($option, $v);
         }
 
-
         $html = $html1 . $options . $html2;
+
         self::emptyHolder($p, ['label', 'placeholder', 'value', 'hint', 'searchable']);
         if ($p['searchable'] != '') {
             $p['searchable'] = 'chosen';

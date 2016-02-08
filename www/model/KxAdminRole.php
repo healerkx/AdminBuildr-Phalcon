@@ -15,4 +15,13 @@ class KxAdminRole extends AbBaseModel
         );
     }
 
+
+    public static function getItemById($id) {
+        if ($id == 0) {
+
+        }
+        $item = KxAdminRole::findFirst($id);
+        return $item->toArray();
+    }
+
 }

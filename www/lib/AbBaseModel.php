@@ -53,4 +53,21 @@ class AbBaseModel extends Model
     {
         return array("{$key}=:{$key}:", array($key => $value));
     }
+
+    public static function getEmptyItem() {
+        $clz = get_called_class();
+        $headers = $clz::headers();
+
+        $item = array();
+        foreach ($headers as $header => $_) {
+            $item[$header] = '';
+        }
+        return $item;
+    }
+
+    public static function getItemById($id) {
+        $clz = get_called_class();
+        $item = $clz::findFirst($id);
+        return $item->toArray();
+    }
 }

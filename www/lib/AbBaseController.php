@@ -72,6 +72,16 @@ class AbBaseController extends Controller
         )));
     }
 
+    public function forward($controllerAction) {
+        list($controller, $action) = explode('/', $controllerAction);
+        $this->dispatcher->forward(
+            array("controller" => $controller, "action" => $action));
+    }
+
+    public function redirect($controllerAction) {
+        $this->response->redirect($controllerAction)->sendHeaders();
+    }
+
     public function dump($var) {
         echo (new Dump)->variables($var);
         exit;
