@@ -30,6 +30,7 @@ class AbModuleController extends AbBaseController
             ["name" =>'新建模块', "template"=> "abmodule/new_curd"] ,
             ["name" =>'预览', 'id' => 'preview', "template" => "abmodule/new_curd_preview"]];
 
+        parent::addDialog('Select设置', 'abmodule/dialog-select', '保存');
         $data = array('table_names' => $tableNames);
         $this->session->set('a', '323');
         parent::showTabViews($views, '创建CURD模块', $data);

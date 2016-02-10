@@ -143,6 +143,12 @@
         return info;
     }
 
+    // TODO: Move some where common
+    function showDialog(button, href) {
+        href = '#' + href.replace('/', '_');
+        button.attr('href', href).show();
+    }
+
 
     $(function(){
         //FormComponents.init();
@@ -197,6 +203,11 @@
                     }
                 });
             return false;
+        });
+
+
+        $('#fields_action_table').delegate('.more', 'click', function(){
+            showDialog($(this), 'abmodule/dialog-select');
         });
 
     });

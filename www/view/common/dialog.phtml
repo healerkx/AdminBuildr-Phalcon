@@ -1,0 +1,6 @@
+{% extends "common/dialog_base.phtml" %}
+
+{% block dialog_id %}{{ dialog['dialog_id'] }}{% endblock %}
+{% block dialog_title %}{{ dialog['dialog_title'] }}{% endblock %}
+{% block dialog_ok %}{{ extract(dialog, 'dialog_ok', "确定") }}{% endblock %}
+{% block dialog_cancel %}{{ extract(dialog, 'dialog_cancel', "取消") }}{% endblock %}

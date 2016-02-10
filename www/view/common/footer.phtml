@@ -8,3 +8,7 @@
         </span>
     </div>
 </div>
+<!-- Dialog support after footer -->
+{% for dialog in dialogs %}
+{% include "common/dialog" with ['dialog':dialog] %}
+{% endfor %}

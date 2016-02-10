@@ -9,6 +9,8 @@ use \Phalcon\Debug\Dump;
  */
 class AbBaseController extends Controller
 {
+
+    private $dialogs = array();
     /**
      * @deprecated now
      * @param $view
@@ -51,6 +53,8 @@ class AbBaseController extends Controller
         $data['tabview_title'] = $viewsTitle;
         $data['content_phtml'] = 'common/tabview2';
 
+        $data['dialogs'] = $this->dialogs;
+
         $tabViews = self::convertTabViewArray($views);
 
         $data['tabview_variables'] = $tabViews;
@@ -59,6 +63,21 @@ class AbBaseController extends Controller
 
         $this->view->setVars($data);
         $this->view->pick('common/main');
+    }
+
+    public function addDialog($title, $template, $dialogOk = '', $dialogCancel = '') {
+
+        $dialogId = str_replace('/', '_', $template);
+        $dialog = array(
+            'dialog_id' => $dialogId,
+            'dialog_title' => $title,
+            'content' => $template,
+            'dialog_ok' => $dialogOk,
+            'dialog_cancel' => $dialogCancel
+            );
+
+        array_push($this->dialogs, $dialog);
+        return true;
     }
 
     public function result($data) {
