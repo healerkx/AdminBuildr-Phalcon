@@ -22,6 +22,10 @@
         $('a[href="#preview"]').click();
     }
 
+    function selectOneValueOnly(sel, val) {
+        sel.val(val).attr('disabled', 'disabled');
+    }
+
     function addFieldInfoRow(fi) {
         var t = $('#fields_action_row_template');
 
@@ -37,14 +41,15 @@
         r.find('td[field=field_text] input').val(fieldComment);
         r.find('td[field=field_type] span').text(fieldType);
         r.find('td[field=field_name] span').text(fi['Field']);
-        r.find('td[field=field_name] span').text(fi['Field']);
-        r.find('td[field=field_name] span').text(fi['Field']);
-        r.find('td[field=field_name] span').text(fi['Field']);
 
+        // PrimaryKey handling
         if (fi['Key'] == 'PRI') {
             var modeSelect = r.find('td[field=field_mode] select');
             modeSelect.append('<option value="primaryKey">主键ID</option>')
-            modeSelect.val('primaryKey').attr('disabled', 'disabled');
+
+            selectOneValueOnly(modeSelect, 'primaryKey');
+            selectOneValueOnly(r.find('td[field=hide_in_create] select'), 1);
+            selectOneValueOnly(r.find('td[field=hide_in_update] select'), 1);
         }
 
         r.appendTo(tbody);
@@ -53,7 +58,6 @@
     function initFieldsConfigList(data) {
         var tbody = $('#fields_action_table tbody');
         tbody.empty();
-        console.log(data)
         var fields = data.fields;
         for (var i in fields) {
             var fi = fields[i];
@@ -144,7 +148,7 @@
     }
 
     // TODO: Move some where common
-    function showDialog(button, href) {
+    function showDialog(button, href, context) {
         href = '#' + href.replace('/', '_');
         button.attr('href', href).show();
     }
@@ -161,7 +165,6 @@
                     var tabName = a[i]['Tables_in_badmin'];
 
                     var template = "<option value=\"{table_name}\">{table_name}</option>".format({table_name:tabName});
-                    console.log(template)
                     var t = $(template).clone();
                     t.appendTo(tableNameSelect);
                 }
@@ -207,7 +210,11 @@
 
 
         $('#fields_action_table').delegate('.more', 'click', function(){
-            showDialog($(this), 'abmodule/dialog-select');
+            var a = $(this);
+            var tr = a.parent().parent();
+            var o = collectFieldConfig(tr);
+            console.log(o);
+            showDialog(a, 'abmodule/dialog-select', {'info': o});
         });
 
     });
