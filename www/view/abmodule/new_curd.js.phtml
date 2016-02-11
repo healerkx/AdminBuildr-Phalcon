@@ -1,0 +1,36 @@
+<script>
+    $class('Dialog', null, {
+        showDialog: function(context, e) {
+            var _this = this;
+            var callback = function() {
+                if (_this.save()) {
+                    this.hide();
+                }
+            };
+
+            var h = this.template;
+            var href = '#' + h.replace('/', '_');
+            var target = $(href && href.replace(/.*(?=#[^\s]+$)/, '')); //strip for ie7
+            var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
+            e && e.preventDefault();
+            target.modal(option);
+
+        }
+
+    });
+
+    $class('SelectDialog', Dialog, {
+        template:'abmodule/dialog-select',
+
+        show: function (a, e, context) {
+            this.showDialog(a, e, context);
+        },
+
+        save: function () {
+            console.log("Save", this);
+            return true;
+        }
+    });
+
+
+</script>

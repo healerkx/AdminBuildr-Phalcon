@@ -147,13 +147,6 @@
         return info;
     }
 
-    // TODO: Move some where common
-    function showDialog(button, href, context) {
-        href = '#' + href.replace('/', '_');
-        button.attr('href', href).show();
-    }
-
-
     $(function(){
         //FormComponents.init();
 
@@ -209,12 +202,15 @@
         });
 
 
-        $('#fields_action_table').delegate('.more', 'click', function(){
+        $('#fields_action_table').delegate('.more', 'click', function(e){
+
             var a = $(this);
             var tr = a.parent().parent();
             var o = collectFieldConfig(tr);
-            console.log(o);
-            showDialog(a, 'abmodule/dialog-select', {'info': o});
+
+            var d = new SelectDialog();
+            d.show(o, e);
+
         });
 
     });

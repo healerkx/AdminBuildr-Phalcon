@@ -33,7 +33,6 @@
 		constructor: Modal,
 
 		init: function (element, options) {
-			console.log(element, options)
 			this.options = options;
 
 			this.$element = $(element)
@@ -59,8 +58,13 @@
 
 			if (this.isShown) return;
 
+            var onOk = this.options['onOk'];
+            if (onOk) {
+                this.$element
+                    .delegate('[dialog-ok]', 'click.dismiss.modal', $.proxy(onOk, this));
+            }
 			this.$element.trigger(e);
-
+            console.log(this);
 			if (e.isDefaultPrevented()) return;
 
 			this.escape();
