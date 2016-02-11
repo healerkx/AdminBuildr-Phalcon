@@ -22,11 +22,6 @@ body {
     cursor: default;
 }
 
-.header .navbar-inner
-{
-    height: 50px;
-}
-
 .calendar-container td.highlight .fc-event
 {
     border: 1px solid red;
@@ -38,7 +33,7 @@ body {
 
 .header .navbar-inner
 {
-    height: 50px;
+    height: 40px;
 }
 
 .online{

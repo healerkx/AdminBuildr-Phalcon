@@ -61,6 +61,7 @@ class AbBaseController extends Controller
         $data['dialogs'] = $this->dialogs;
         $data['breadcrumbs'] = $this->breadcrumbs;
         $data['breadcrumb_with_date_picker'] = $this->breadcrumbWithDatePicker;
+        $data['config'] = KxApplication::current()->getConfig();
 
         $tabViews = self::convertTabViewArray($views);
 
