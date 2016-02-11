@@ -35,11 +35,13 @@
             <!-- Breadcrumb part -->
             <div class="row-fluid">
                 <div class="span12">
+                    {% if breadcrumbs|length > 0 %}
                     <h4>&nbsp;</h4>
                     {{ partial("common/breadcrumb") }}
-
+                    {% endif %}
                 </div>
             </div>
+
             <!-- Content part -->
             <div id="dashboard">
                 <div class="row-fluid">

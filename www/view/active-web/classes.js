@@ -112,7 +112,7 @@ function $getClassByName(n)
 	{
 		w = w[s[i]] = w[s[i]] || {};
 	}
-	c = w[s[sl - 1]];
+	var c = w[s[sl - 1]];
 	return c;
 }
 
@@ -571,12 +571,13 @@ kx.activeWeb = function(node, args)
             var common = div.attr('common');
             if (!String.isEmpty(widgetClassName))
             {
-				// !
-                var widgetClass = $getClassByName(widgetClassName);
-				if (!widgetClass) return true;
+				var widgetClass = $getClassByName(widgetClassName);
+				if (!widgetClass)
+                    return true;
                 var widgetId = div.attr('widget-id');
 
                 var widget = new widgetClass(widgetId);
+
                 if (common)
                 {
                     widget.setCommon();

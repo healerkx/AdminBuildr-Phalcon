@@ -11,6 +11,11 @@ class AbBaseController extends Controller
 {
 
     private $dialogs = array();
+
+    private $breadcrumbs = array();
+
+    private $breadcrumbWithDatePicker = false;
+
     /**
      * @deprecated now
      * @param $view
@@ -54,6 +59,8 @@ class AbBaseController extends Controller
         $data['content_phtml'] = 'common/tabview2';
 
         $data['dialogs'] = $this->dialogs;
+        $data['breadcrumbs'] = $this->breadcrumbs;
+        $data['breadcrumb_with_date_picker'] = $this->breadcrumbWithDatePicker;
 
         $tabViews = self::convertTabViewArray($views);
 
@@ -78,6 +85,11 @@ class AbBaseController extends Controller
 
         array_push($this->dialogs, $dialog);
         return true;
+    }
+
+    public function showBreadcrumb($breadcrumbs, $breadcrumbWithDatePicker = true) {
+        $this->breadcrumbs = $breadcrumbs;
+        $this->breadcrumbWithDatePicker = $breadcrumbWithDatePicker;
     }
 
     public function result($data) {

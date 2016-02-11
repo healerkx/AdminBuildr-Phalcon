@@ -4,20 +4,21 @@
 $class("Breadcrumb", [kx.Widget, kx.EventMixin],
 {
     __constructor: function() {
-
     },
 
     onAttach: function() {
+        console.log('onAttach');
         $("body").bind("transfer-selected-time", kx.bind(this, "onDateRangeChanged"));
         this.setLevels([{"url": "#network", "name": "监测网络2", "type": "network"}]);
     },
 
-    onDateRangeChanged: function(e, beginTime, endTime) {
-        g.setBeginTime(beginTime['start']);
-        g.setEndTime(beginTime['end']);
+    onDateRangeChanged: function(e, date) {
+        g.setBeginTime(date['start']);
+        g.setEndTime(date['end']);
     },
 
     setLevels: function(levels) {
+        console.log('setLevels', levels);
         this._domNode.find("ul li.home").hide();
         this._domNode.find("ul li.home i.icon-angle-right").hide();
         var l = 0;

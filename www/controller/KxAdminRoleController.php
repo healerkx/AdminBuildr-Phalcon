@@ -132,6 +132,7 @@ class KxAdminRoleController extends AbBaseController
             ["name" => '访问控制', "template" => "kxadminrole/edit"],
             ["name" => '导航菜单分组', "template" => "kxadminrole/edit_menu_group"]
         ];
+        parent::showBreadcrumb([1, 2]);
         parent::showTabViews($views, '角色访问控制', $data);
     }
 

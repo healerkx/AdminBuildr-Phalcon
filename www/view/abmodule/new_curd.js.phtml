@@ -1,9 +1,9 @@
 <script>
     $class('Dialog', null, {
         showDialog: function(context, e) {
-            var _this = this;
+            var _thisDialog = this;
             var callback = function() {
-                if (_this.save()) {
+                if (_thisDialog.save()) {
                     this.hide();
                 }
             };
@@ -14,16 +14,32 @@
             var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
             e && e.preventDefault();
             target.modal(option);
-
         }
 
     });
 
-    $class('SelectDialog', Dialog, {
+    $class('TextDialog', Dialog, {
+
         template:'abmodule/dialog-select',
 
-        show: function (a, e, context) {
-            this.showDialog(a, e, context);
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            this.showDialog(context, e);
+        },
+
+        save: function () {
+            console.log("Save", this);
+            return true;
+        }
+    });
+
+    $class('SelectDialog', Dialog, {
+
+        template:'abmodule/dialog-select',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            this.showDialog(context, e);
         },
 
         save: function () {

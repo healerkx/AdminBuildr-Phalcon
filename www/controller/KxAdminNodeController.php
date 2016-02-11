@@ -20,6 +20,7 @@ class KxAdminNodeController extends AbBaseController
             'controllers' => $nodes
         );
 
+        parent::showBreadcrumb([1, 2], false);
         parent::showTabViews($views, '系统节点管理', $data);
     }
 
