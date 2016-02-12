@@ -32,7 +32,7 @@ class KxAdminRoleController extends AbBaseController
 
     public function createAction() {
         $views = [
-            ['name' => '新建角色', "template" => "kxadminrole/item"],
+            ['name' => '新建角色', "template" => "kxadminrole/create"],
         ];
         $init = KxAdminRole::getEmptyItem();
         //parent::dump($init);
@@ -45,7 +45,7 @@ class KxAdminRoleController extends AbBaseController
             parent::redirect('common/error', "This action need parameter \$id");
         }
         $views = [
-            ['name' => '更新角色信息', "template" => "kxadminrole/item"],
+            ['name' => '更新角色信息', "template" => "kxadminrole/update"],
         ];
         $item = KxAdminRole::getItemById($id);
         $data = array('itemViewMode' => 'update', 'i' => $item);
@@ -57,7 +57,7 @@ class KxAdminRoleController extends AbBaseController
             parent::redirect('common/error', "This action need parameter \$id");
         }
         $views = [
-            ['name' => '查看角色信息', "template" => "kxadminrole/item"],
+            ['name' => '查看角色信息', "template" => "kxadminrole/detail"],
         ];
         $item = KxAdminRole::getItemById($id);
         $data = array('itemViewMode' => 'view', 'i' => $item);

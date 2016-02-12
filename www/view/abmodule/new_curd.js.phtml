@@ -39,6 +39,11 @@
 
         show: function (context, e) {
             // TODO: fill data into dom.
+            var list = Widget.widgetById('entry-edit-list');
+            console.log(list);
+            if (list) {
+                list.init();
+            }
             this.showDialog(context, e);
         },
 
