@@ -31,7 +31,7 @@
 
         var tbody = $('#fields_action_table tbody');
         var r = t.clone();
-        console.log(t, tbody);
+
         var fieldName = fi['Field'];
         var fieldType = fi['Type'];
         var fieldComment = fi['Comment'];
@@ -48,8 +48,8 @@
             modeSelect.append('<option value="primaryKey">主键ID</option>')
 
             selectOneValueOnly(modeSelect, 'primaryKey');
-            selectOneValueOnly(r.find('td[field=hide_in_create] select'), 1);
-            selectOneValueOnly(r.find('td[field=hide_in_update] select'), 1);
+            //selectOneValueOnly(r.find('td[field=hide_in_create] select'), 1);
+            //selectOneValueOnly(r.find('td[field=hide_in_update] select'), 1);
         }
 
         r.appendTo(tbody);
@@ -94,17 +94,14 @@
         var fieldName = tr.find('td[field=field] span.field_name').text();
         var fieldMode = tr.find('td[field=field_mode] select').val();
         var fieldText = tr.find('td[field=field_text] input').val();
-        var hideInList = tr.find('td[field=hide_in_list] select').val();
-        var hideInCreate = tr.find('td[field=hide_in_create] select').val();
-        var hideInUpdate = tr.find('td[field=hide_in_update] select').val();
 
         var o = {
             fieldName: fieldName,
             fieldMode: fieldMode,
             fieldText: fieldText,
-            hideInList:hideInList,
-            hideInCreate:hideInCreate,
-            hideInUpdate:hideInUpdate,
+            //hideInList:hideInList,
+            //hideInCreate:hideInCreate,
+            //hideInUpdate:hideInUpdate,
         };
         console.log(o);
         return o;
@@ -208,8 +205,15 @@
             var tr = a.parent().parent();
             var o = collectFieldConfig(tr);
 
-            var d = new SelectDialog();
+            if (o.fieldMode == 'text' || o.fieldMode == 'number') {
+                var d = new TextDialog();
+            } else if (o.fieldMode == 'enum') {
+                var d = new SelectDialog();
+            } else {
+                var d = new TextDialog();
+            }
             d.show(o, e);
+
 
         });
 
