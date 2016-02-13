@@ -32,6 +32,8 @@ class AbModuleController extends AbBaseController
 
         parent::addDialog('下拉框(select)设置', 'abmodule/dialog-select');
         parent::addDialog('文本框(text)设置', 'abmodule/dialog-text');
+        parent::addDialog('关联ID(FK)设置', 'abmodule/dialog-fk');
+        parent::addDialog('行政区(Region)设置', 'abmodule/dialog-region');
 
         $data = array('table_names' => $tableNames);
         $this->session->set('a', '323');

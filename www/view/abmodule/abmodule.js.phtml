@@ -66,12 +66,8 @@
         }
     }
 
-    function initFieldNameLists(data) {
-        var fields = data.fields;
-        var commitFieldSelect = $('#commit_field_select');
-        var deleteFieldSelect = $('#delete_field_select');
-        commitFieldSelect.empty();
-        deleteFieldSelect.empty();
+    function fillTableFields($select, fields) {
+        $select.empty();
         var template = '<option value="{field_name}">{field_name}&nbsp;&nbsp;{field_type}</option>'
         var fieldNameList = [];
         for (var i in fields) {
@@ -81,13 +77,19 @@
             fieldNameList.push(fieldName);
 
             var o = template.format({field_name: fieldName, field_type: fieldType});
-
-            var o1 = $(o);
-            var o2 = $(o);
-            o1.appendTo(commitFieldSelect);
-            o2.appendTo(deleteFieldSelect);
+            $(o).appendTo($select);
         }
+    }
 
+    function initFieldNameLists(data) {
+        var fields = data.fields;
+        var commitFieldSelect = $('#commit_field_select');
+        var deleteFieldSelect = $('#delete_field_select');
+        var regionIdSelect = $('#region_id_select');
+
+        fillTableFields(commitFieldSelect, fields);
+        fillTableFields(deleteFieldSelect, fields);
+        fillTableFields(regionIdSelect, fields);
     }
 
     function collectFieldConfig(tr) {
@@ -140,6 +142,7 @@
 
         return info;
     }
+
 
     $(function(){
         //FormComponents.init();
@@ -202,10 +205,15 @@
             var tr = a.parent().parent();
             var o = collectFieldConfig(tr);
 
+
             if (o.fieldMode == 'text' || o.fieldMode == 'number') {
                 var d = new TextDialog();
             } else if (o.fieldMode == 'enum') {
                 var d = new SelectDialog();
+            } else if (o.fieldMode == 'fk') {
+                var d = new RelatedIdDialog();
+            } else if (o.fieldMode == 'region') {
+                var d = new RegionDialog();
             } else {
                 var d = new TextDialog();
             }

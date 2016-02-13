@@ -1,0 +1,46 @@
+{% include "abmodule/dialog-common.phtml" %}
+<div class="row-fluid">
+
+    <div>
+        <table class="table table-striped table-bordered table-hover table-full-width dataTable">
+            <tbody>
+            <tr>
+                <td><span>数据源表</span></td>
+                <td>
+                    <div class="controls">
+                        <select id="table_name_for_fk" class="span8" data-placeholder="Select a database table" tabindex="1">
+                            <option value="kx_user">User</option>
+                            {% for table_name in table_names %}
+                            <option value="{{table_name}}">{{table_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>列表显示字段</td>
+                <td>
+                    <input type="text"/><!-- TODO: select -->
+                </td>
+            </tr>
+
+            <tr>
+                <td>字段输入方式</td>
+                <td>
+                    <select>
+                        <option></option>
+                        <option></option>
+                    </select>
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+</div>

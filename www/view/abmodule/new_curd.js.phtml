@@ -83,5 +83,36 @@
         }
     });
 
+    $class('RelatedIdDialog', Dialog, {
+        template:'abmodule/dialog-fk',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+
+            this.showDialog(context, e);
+        },
+
+        save: function () {
+            console.log("Save", this);
+            return true;
+        }
+    });
+
+
+    $class('RegionDialog', Dialog, {
+        template:'abmodule/dialog-region',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+
+            this.showDialog(context, e);
+        },
+
+        save: function () {
+            console.log("Save", this);
+            return true;
+        }
+    });
+
 
 </script>
