@@ -9,7 +9,7 @@ $class("Breadcrumb", [kx.Widget, kx.EventMixin],
     onAttach: function() {
         console.log('onAttach');
         $("body").bind("transfer-selected-time", kx.bind(this, "onDateRangeChanged"));
-        this.setLevels([{"url": "#network", "name": "监测网络2", "type": "network"}]);
+        this.setLevels([{"url": "", "name": "", "type": ""}]);
     },
 
     onDateRangeChanged: function(e, date) {

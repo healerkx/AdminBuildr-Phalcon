@@ -28,26 +28,26 @@
                 selectOneValueOnly(r.find('td[field=hide_in_create] select'), 1);
                 selectOneValueOnly(r.find('td[field=hide_in_update] select'), 1);
             }
-
         },
 
         getVisibility: function() {
-            console.log(this._domNode);
             var tr = this._domNode.find('tr.visible');
-            console.log(tr);
+            // console.log(tr);
             var hideInList = tr.find('td[field=hide_in_list] select').val();
             var hideInCreate = tr.find('td[field=hide_in_create] select').val();
             var hideInUpdate = tr.find('td[field=hide_in_update] select').val();
-
+            var hideInDetail = tr.find('td[field=hide_in_detail] select').val();
             return {
                 hideInList:hideInList,
                 hideInCreate:hideInCreate,
                 hideInUpdate:hideInUpdate,
+                hideInDetail:hideInDetail
             };
         }
-
     });
 
+    // Derived classes
+    // ---------------
     $class('TextDialog', Dialog, {
 
         template:'abmodule/dialog-text',

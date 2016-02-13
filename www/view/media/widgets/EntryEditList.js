@@ -21,8 +21,7 @@ $class('EntryEditList', [kx.Widget, kx.ActionMixin, kx.EventMixin], {
 
     onAddEntry: function () {
         var entry = this._domNode.find('thead tr.entry-template');
-        var tr = entry.clone().removeClass('entry-template');
-        tr.css('display', '');
+        var tr = entry.clone().removeClass('entry-template').css('display', '');
         tr.appendTo(this.tBody);
         return tr;
     },

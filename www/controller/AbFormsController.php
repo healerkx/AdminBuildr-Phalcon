@@ -10,6 +10,11 @@ class AbFormsController extends AbBaseController
 {
 
     public function createAction() {
+        $views = [
+            ["name" =>'新建', "template" => "abforms/create"] ,
+            ["name" =>'预览', "template" => "abforms/preview"]];
 
+        $data = array();
+        parent::showTabViews($views, "Forms Creator", $data);
     }
 }
