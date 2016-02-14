@@ -30,10 +30,10 @@ class AbModuleController extends AbBaseController
             ["name" =>'新建模块', "template"=> "abmodule/new_curd"] ,
             ["name" =>'预览', 'id' => 'preview', "template" => "abmodule/new_curd_preview"]];
 
-        parent::addDialog('下拉框(select)设置', 'abmodule/dialog-select');
-        parent::addDialog('文本框(text)设置', 'abmodule/dialog-text');
-        parent::addDialog('关联ID(FK)设置', 'abmodule/dialog-fk');
-        parent::addDialog('行政区(Region)设置', 'abmodule/dialog-region');
+        parent::addDialog('下拉框设置', 'abmodule/dialog-select');
+        parent::addDialog('文本框设置', 'abmodule/dialog-text');
+        parent::addDialog('关联ID设置', 'abmodule/dialog-fk');
+        parent::addDialog('行政区设置', 'abmodule/dialog-region');
 
         $data = array('table_names' => $tableNames);
         $this->session->set('a', '323');

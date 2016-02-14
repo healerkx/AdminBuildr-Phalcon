@@ -14,7 +14,7 @@ return array(
         'name' => '访问权限',
         'active' => false,
         'sub_menus' => array(
-            array('name' => '编辑权限', 'url' => 'kxAdminRole/edit'),
+            array('name' => '编辑权限', 'url' => 'kxAdminRole/index'),
             array('name' => '节点管理', 'url' => 'kxAdminNode/index'),
         )
     )

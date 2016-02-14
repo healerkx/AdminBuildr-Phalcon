@@ -16,6 +16,8 @@ class AbBaseController extends Controller
 
     private $breadcrumbWithDatePicker = false;
 
+    private $preloadChinaProvince = false;
+
     /**
      * @deprecated now
      * @param $view
@@ -65,6 +67,10 @@ class AbBaseController extends Controller
 
         $tabViews = self::convertTabViewArray($views);
 
+        if ($this->preloadChinaProvince) {
+            $data['china_region_provinces'] = SysRegion::provinces();
+        }
+
         $data['tabview_variables'] = $tabViews;
         $tabViewsJsTpl = self::getTabViewJavaScriptTemplateName($tabViews);
         $data['js_tpl_files'] = $this->filterTemplateFiles($tabViewsJsTpl);
@@ -91,6 +97,10 @@ class AbBaseController extends Controller
     public function showBreadcrumb($breadcrumbs, $breadcrumbWithDatePicker = true) {
         $this->breadcrumbs = $breadcrumbs;
         $this->breadcrumbWithDatePicker = $breadcrumbWithDatePicker;
+    }
+
+    public function preloadChinaProvince() {
+        $this->preloadChinaProvince = true;
     }
 
     public function result($data) {

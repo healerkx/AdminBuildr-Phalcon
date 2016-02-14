@@ -5,7 +5,7 @@ class KxAdminRoleController extends AbBaseController
     /**
      *
      */
-    public function listAction() {
+    public function indexAction() {
         $result = KxAdminRole::search($_GET);
 
         $items = array();

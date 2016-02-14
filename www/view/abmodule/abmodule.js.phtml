@@ -67,6 +67,7 @@
     }
 
     function fillTableFields($select, fields) {
+        console.log(fields)
         $select.empty();
         var template = '<option value="{field_name}">{field_name}&nbsp;&nbsp;{field_type}</option>'
         var fieldNameList = [];
@@ -89,6 +90,7 @@
 
         fillTableFields(commitFieldSelect, fields);
         fillTableFields(deleteFieldSelect, fields);
+        fields.unshift({Field:'', Type:''});
         fillTableFields(regionIdSelect, fields);
     }
 

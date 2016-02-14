@@ -3,17 +3,11 @@
 
 class AjaxController extends AbBaseController
 {
-
-    public function result($data) {
-        return $this->error(0, $data);
+    public function citiesAction($provinceId) {
+        parent::result(SysRegion::cities($provinceId));
     }
 
-    public function error($errorCode, $data) {
-        exit(json_decode(array(
-            'error' => $errorCode,
-            'data' => $data
-        )));
+    public function countiesAction($cityId) {
+        parent::result(SysRegion::counties($cityId));
     }
-
-
 }

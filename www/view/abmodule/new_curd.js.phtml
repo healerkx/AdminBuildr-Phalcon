@@ -1,7 +1,11 @@
 <script>
-    $class('Dialog', null, {
+    $class('FieldPropertyDialog', null, {
 
         _domNode: null,
+
+        setTitle: function(title) {
+            this._domNode.find('div.modal-header span.field-name').text(title);
+        },
 
         showDialog: function(context, e) {
             var _thisDialog = this;
@@ -15,6 +19,7 @@
             var href = '#' + h.replace('/', '_');
             var target = $(href && href.replace(/.*(?=#[^\s]+$)/, '')); //strip for ie7
             this._domNode = target;
+            this.setTitle(context.fieldName);
             var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
             e && e.preventDefault();
 
@@ -48,7 +53,7 @@
 
     // Derived classes
     // ---------------
-    $class('TextDialog', Dialog, {
+    $class('TextDialog', FieldPropertyDialog, {
 
         template:'abmodule/dialog-text',
 
@@ -63,7 +68,7 @@
         }
     });
 
-    $class('SelectDialog', Dialog, {
+    $class('SelectDialog', FieldPropertyDialog, {
 
         template:'abmodule/dialog-select',
 
@@ -83,7 +88,7 @@
         }
     });
 
-    $class('RelatedIdDialog', Dialog, {
+    $class('RelatedIdDialog', FieldPropertyDialog, {
         template:'abmodule/dialog-fk',
 
         show: function (context, e) {
@@ -99,7 +104,7 @@
     });
 
 
-    $class('RegionDialog', Dialog, {
+    $class('RegionDialog', FieldPropertyDialog, {
         template:'abmodule/dialog-region',
 
         show: function (context, e) {

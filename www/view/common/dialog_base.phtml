@@ -1,7 +1,7 @@
 <div id="{% block dialog_id %}{% endblock %}" class="modal hide fade" tabindex="-1" data-width="760">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-        <h3>{% block dialog_title %}{% endblock %}</h3>
+        <h3>{% block dialog_title %}{% endblock %} (<span class="field-name"></span>)</h3>
     </div>
     <div class="modal-body">
         {{ partial(dialog['content']) }}

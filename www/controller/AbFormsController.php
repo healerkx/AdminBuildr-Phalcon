@@ -11,10 +11,20 @@ class AbFormsController extends AbBaseController
 
     public function createAction() {
         $views = [
-            ["name" =>'新建', "template" => "abforms/create"] ,
+            ["name" =>'新建', "template" => "abforms/create"],
             ["name" =>'预览', "template" => "abforms/preview"]];
 
         $data = array();
         parent::showTabViews($views, "Forms Creator", $data);
+    }
+
+    public function examplesAction() {
+        $views = [
+            ["name" =>'实例', "template" => "abforms/examples"]
+            ];
+
+        $data = array();
+        $this->preloadChinaProvince();
+        parent::showTabViews($views, "Forms Creator - Example", $data);
     }
 }
