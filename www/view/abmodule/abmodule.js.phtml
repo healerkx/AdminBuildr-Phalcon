@@ -86,12 +86,9 @@
         var fields = data.fields;
         var commitFieldSelect = $('#commit_field_select');
         var deleteFieldSelect = $('#delete_field_select');
-        var regionIdSelect = $('#region_id_select');
 
         fillTableFields(commitFieldSelect, fields);
         fillTableFields(deleteFieldSelect, fields);
-        fields.unshift({Field:'', Type:''});
-        fillTableFields(regionIdSelect, fields);
     }
 
     function collectFieldConfig(tr) {

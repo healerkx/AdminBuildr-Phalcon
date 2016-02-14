@@ -3,20 +3,22 @@
 
     <br>
     <!-- Region select -->
-    <div widget-class="RegionSelector" widget-id="province" mode="province" class="pull-left margin-right-20">
-        <select>
-            <option value="-1">请选择省</option>
-            {% for p in china_region_provinces %}
-            <option value="{{p['sys_region_id']}}">{{p['sys_region_name']}}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div widget-class="RegionSelector" widget-id="city" mode="city" class="pull-left margin-right-20" listen-to="province">
-        <select >
-        </select>
-    </div>
-    <div widget-class="RegionSelector" widget-id="county" mode="county" class="pull-left" listen-to="city">
-        <select >
-        </select>
+    <div class="control-group">
+        <div widget-class="RegionSelector" widget-id="province" mode="province" class="pull-left margin-right-20">
+            <select>
+                <option value="-1">请选择省</option>
+                {% for p in china_region_provinces %}
+                <option value="{{p['sys_region_id']}}">{{p['sys_region_name']}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div widget-class="RegionSelector" widget-id="city" mode="city" class="pull-left margin-right-20" listen-to="province">
+            <select >
+            </select>
+        </div>
+        <div widget-class="RegionSelector" widget-id="county" mode="county" class="pull-left" listen-to="city">
+            <select >
+            </select>
+        </div>
     </div>
 </div>

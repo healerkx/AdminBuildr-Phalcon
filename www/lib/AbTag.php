@@ -47,11 +47,23 @@ class AbTag extends Tag
         return Tag::select($parameters, $data);
     }
 
+    static public function tagHtml($tagName, $parameters = NULL, $selfClose = NULL, $onlyStart = NULL, $useEol = NULL)
+    {
+        if ('province' == $tagName) {
+            return self::province($parameters[0]);
+        } else if ('city' == $tagName) {
+            return self::city($parameters[0], $parameters[1]);
+        } else if ('county' == $tagName) {
+            return self::county($parameters[0], $parameters[1]);
+        }
+        return Tag::tagHtml($tagName, $parameters, $selfClose, $onlyStart, $useEol);
+    }
+
     /**********************************************************************/
 
 
     private static function formTextField($p, $itemViewMode) {
-        $html = <<<HD
+        $html = <<<HTML
 <div class="Select">
     <label class="control-label">{{label}}</label>
 
@@ -60,26 +72,26 @@ class AbTag extends Tag
         <span class="help-inline">{{ hint }}</span>
     </div>
 </div>
-HD;
+HTML;
         self::emptyHolder($p, ['label', 'placeholder', 'value', 'hint']);
         return Strings::format($html, $p);
     }
 
     private static function formSelect($p, $itemViewMode) {
-        $html1 = <<<HD1
+        $html1 = <<<HTML
 <div class="Text">
     <label class="control-label">{{label}}</label>
 
     <div class="controls">
         <select type="text" class="m-wrap small {{searchable}}">
-HD1;
+HTML;
 
-        $html2 = <<<HD2
+        $html2 = <<<HTML
         </select>
         <span class="help-inline">{{hint}}</span>
     </div>
 </div>
-HD2;
+HTML;
 
         $data = $p['data'];
         unset($p['data']);
@@ -105,5 +117,47 @@ HD2;
         }
 
         return Strings::format($html, $p);
+    }
+
+    private static function province($widgetId)
+    {
+        $html1 = <<<HTML
+<div widget-class="RegionSelector" widget-id="{{widget_id}}" mode="province" class="pull-left margin-right-20" style="float: left">
+    <select>
+        <option value="-1">请选择省</option>
+HTML;
+        $options = array();
+        foreach (SysRegion::provinces() as $p) {
+            $o = "<option value=\"{$p['sys_region_index']}\">{$p['sys_region_name']}</option>";
+            array_push($options, $o);
+        }
+        $options = join('', $options);
+
+        $html2 = <<<HTML
+    </select>
+</div>
+HTML;
+        return Strings::format($html1 . $options . $html2, array('widget_id' => $widgetId));
+
+    }
+
+    private static function city($widgetId, $listenTo) {
+        $html = <<<HTML
+<div widget-class="RegionSelector" widget-id="{$widgetId}" mode="city" class="pull-left margin-right-20" listen-to="{$listenTo}">
+    <select >
+    </select>
+</div>
+HTML;
+    return $html;
+    }
+
+    private static function county($widgetId, $listenTo) {
+        $html = <<<HTML
+<div widget-class="RegionSelector" widget-id="{$widgetId}" mode="county" class="pull-left margin-right-20" listen-to="{$listenTo}">
+    <select >
+    </select>
+</div>
+HTML;
+        return $html;
     }
 }
