@@ -5,7 +5,7 @@
     <!-- Region select -->
     <div class="control-group">
         <div widget-class="RegionSelector" widget-id="province" mode="province" class="pull-left margin-right-20">
-            <select>
+            <select field="">
                 <option value="-1">请选择省</option>
                 {% for p in china_region_provinces %}
                 <option value="{{p['sys_region_id']}}">{{p['sys_region_name']}}</option>
@@ -13,11 +13,11 @@
             </select>
         </div>
         <div widget-class="RegionSelector" widget-id="city" mode="city" class="pull-left margin-right-20" listen-to="province">
-            <select >
+            <select field="">
             </select>
         </div>
         <div widget-class="RegionSelector" widget-id="county" mode="county" class="pull-left" listen-to="city">
-            <select >
+            <select field="">
             </select>
         </div>
     </div>

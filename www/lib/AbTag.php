@@ -50,11 +50,11 @@ class AbTag extends Tag
     static public function tagHtml($tagName, $parameters = NULL, $selfClose = NULL, $onlyStart = NULL, $useEol = NULL)
     {
         if ('province' == $tagName) {
-            return self::province($parameters[0]);
+            return self::province($parameters[0], $parameters[1]);
         } else if ('city' == $tagName) {
-            return self::city($parameters[0], $parameters[1]);
+            return self::city($parameters[0], $parameters[1], $parameters[2]);
         } else if ('county' == $tagName) {
-            return self::county($parameters[0], $parameters[1]);
+            return self::county($parameters[0], $parameters[1], $parameters[2]);
         }
         return Tag::tagHtml($tagName, $parameters, $selfClose, $onlyStart, $useEol);
     }
@@ -68,12 +68,12 @@ class AbTag extends Tag
     <label class="control-label">{{label}}</label>
 
     <div class="controls">
-        <input type="text" placeholder="{{placeholder}}" class="m-wrap small" value="{{value}}" />
+        <input type="text" placeholder="{{placeholder}}" class="m-wrap small" field="{{field}}" value="{{value}}" />
         <span class="help-inline">{{ hint }}</span>
     </div>
 </div>
 HTML;
-        self::emptyHolder($p, ['label', 'placeholder', 'value', 'hint']);
+        self::emptyHolder($p, ['label', 'placeholder', 'field', 'value', 'hint']);
         return Strings::format($html, $p);
     }
 
@@ -83,7 +83,7 @@ HTML;
     <label class="control-label">{{label}}</label>
 
     <div class="controls">
-        <select type="text" class="m-wrap small {{searchable}}">
+        <select type="text" field='{{field}}' class="m-wrap small {{searchable}}">
 HTML;
 
         $html2 = <<<HTML
@@ -111,7 +111,7 @@ HTML;
 
         $html = $html1 . $options . $html2;
 
-        self::emptyHolder($p, ['label', 'placeholder', 'value', 'hint', 'searchable']);
+        self::emptyHolder($p, ['label', 'placeholder', 'field', 'value', 'hint', 'searchable']);
         if ($p['searchable'] != '') {
             $p['searchable'] = 'chosen';
         }
@@ -119,11 +119,11 @@ HTML;
         return Strings::format($html, $p);
     }
 
-    private static function province($widgetId)
+    private static function province($widgetId, $field)
     {
         $html1 = <<<HTML
 <div widget-class="RegionSelector" widget-id="{{widget_id}}" mode="province" class="pull-left margin-right-20" style="float: left">
-    <select>
+    <select field='{$field}'>
         <option value="-1">请选择省</option>
 HTML;
         $options = array();
@@ -141,20 +141,20 @@ HTML;
 
     }
 
-    private static function city($widgetId, $listenTo) {
+    private static function city($widgetId, $field, $listenTo) {
         $html = <<<HTML
 <div widget-class="RegionSelector" widget-id="{$widgetId}" mode="city" class="pull-left margin-right-20" listen-to="{$listenTo}">
-    <select >
+    <select field='{$field}'>
     </select>
 </div>
 HTML;
     return $html;
     }
 
-    private static function county($widgetId, $listenTo) {
+    private static function county($widgetId, $field, $listenTo) {
         $html = <<<HTML
 <div widget-class="RegionSelector" widget-id="{$widgetId}" mode="county" class="pull-left margin-right-20" listen-to="{$listenTo}">
-    <select >
+    <select field='{$field}'>
     </select>
 </div>
 HTML;
