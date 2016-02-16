@@ -57,6 +57,17 @@
 {% include 'common/form_commit.js.phtml' %}
 {% endif %}
 <script>
+    function callEither(a, b, args, obj) {
+        if (typeof(a) == 'string') {
+            a = window[a];
+        }
+        if (typeof(a) != 'function') {
+            a = b;
+        }
+
+        return a.apply(obj, args);
+    }
+
     jQuery(document).ready(function() {
         App.init(); // initlayout and core plugins
         UIModals.init();

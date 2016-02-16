@@ -3,11 +3,16 @@
 
         _domNode: null,
 
+        _tr: null,
+
         setTitle: function(title) {
             this._domNode.find('div.modal-header span.field-name').text(title);
         },
 
-        showDialog: function(context, e) {
+        showDialog: function(tr, e) {
+            this._tr = tr;
+            var context = collectFieldConfig(tr);
+
             var _thisDialog = this;
             var callback = function() {
                 if (_thisDialog.save()) {
@@ -51,10 +56,11 @@
             };
         },
 
-        getValue: function() {
-            var v = this.getVisibility();
-            var p = this.getProperties();
-            return $.extend(v, p);
+        saveValue: function() {
+            var v = this.getVisibility(), p = this.getProperties();
+            var more = $.extend(v, p);
+            this._tr.data('more', more);
+            return more;
         }
     });
 
@@ -70,8 +76,7 @@
         },
 
         save: function () {
-            console.log("Save", this.getVisibility());
-            return true;
+            return this.saveValue();
         }
     });
 
@@ -101,8 +106,7 @@
         },
 
         save: function () {
-            console.log("Save", this.getValue());
-            return true;
+            return this.saveValue();
         }
     });
 
@@ -116,8 +120,7 @@
         },
 
         save: function () {
-            console.log("Save", this);
-            return true;
+            return this.saveValue();
         }
     });
 
@@ -140,8 +143,7 @@
         },
 
         save: function () {
-            console.log("Save", this);
-            return true;
+            return this.saveValue();
         }
     });
 

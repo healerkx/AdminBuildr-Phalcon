@@ -66,7 +66,6 @@ class AbModuleController extends AbBaseController
         $cmdLine = "--prefix=$prefix --table=$tableName --config=\"$configPath\"";
 
         $c = Python3::run("build_mvc.py", $cmdLine);
-
         $targetHost = ApplicationConfig::getConfig('product')['host'];
 
         $testListUrl = "$targetHost/$modelName";

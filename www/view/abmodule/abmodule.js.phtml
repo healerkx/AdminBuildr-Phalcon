@@ -95,11 +95,12 @@
         var fieldName = tr.find('td[field=field] span.field_name').text();
         var fieldMode = tr.find('td[field=field_mode] select').val();
         var fieldText = tr.find('td[field=field_text] input').val();
-
+        var more = tr.data('more') || null;
         var o = {
             fieldName: fieldName,
             fieldMode: fieldMode,
-            fieldText: fieldText
+            fieldText: fieldText,
+            more: more
         };
         console.log(o);
         return o;
@@ -142,6 +143,9 @@
         return info;
     }
 
+    function exchangeItems(a, b) {
+        a.insertBefore(b);
+    }
 
     $(function(){
         //FormComponents.init();
@@ -179,6 +183,7 @@
 
         $('#preview-button').click(function(){
             var info = collectFieldsConfig();
+            console.log(info);
             var prefix = $('#model_prefix').val();
             var tableName = $('#table_name').val();
 
@@ -189,7 +194,9 @@
                     info: info,
                 },
                 function(data) {
+                    console.log(data)
                     var data = data.toJson();
+                    console.log(data)
                     if (data.error == 0) {
                         navigateToPreviewTab(data.data);
                     }
@@ -204,7 +211,6 @@
             var tr = a.parent().parent();
             var o = collectFieldConfig(tr);
 
-
             if (o.fieldMode == 'text' || o.fieldMode == 'number') {
                 var d = new TextDialog();
             } else if (o.fieldMode == 'enum') {
@@ -216,7 +222,18 @@
             } else {
                 var d = new TextDialog();
             }
-            d.show(o, e);
+            d.show(tr, e);
+        });
+
+        $('#fields_action_table').delegate('a.moveUp, a.moveDown', 'click', function(e) {
+            var $t = $(this);
+            var direct = $t.attr('direct');
+            var item = $(this).parent().parent();
+            if (direct == 'd') {
+                exchangeItems(item.next(), item);
+            } else if (direct == 'u') {
+                exchangeItems(item, item.prev());
+            }
         });
 
     });

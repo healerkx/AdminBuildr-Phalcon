@@ -1,5 +1,5 @@
 <script>
-    function collect() {
+    function _collectFormData() {
         var form = $('#the-form');
         var post = {};
         form.find('[field]').each(function(){
@@ -12,8 +12,8 @@
         return post;
     }
 
-    function save() {
-        var post = collect();
+    function saveFormData($collect) {
+        var post = callEither($collect, _collectFormData);
         console.log(post);
         $.post('{{ formSaveActionUrl }}', post, function(data){
             var d = data.toJson();
@@ -29,7 +29,7 @@
     $(function(){
 
         $('#the-form a.save').click(function(){
-            save();
+            saveFormData('collectFormData');
         });
 
     });
