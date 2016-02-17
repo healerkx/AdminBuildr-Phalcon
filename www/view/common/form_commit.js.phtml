@@ -1,36 +1,22 @@
 <script>
-    function _collectFormData() {
-        var form = $('#the-form');
-        var post = {};
-        form.find('[field]').each(function(){
-            var $this = $(this);
-            var field = $this.attr('field'), value = $this.val();
-            if (!String.isEmpty(field)) {
-                post[field] = value;
-            }
-        });
-        return post;
-    }
 
-    function saveFormData($collect) {
-        var post = callEither($collect, _collectFormData);
-        console.log(post);
-        $.post('{{ formSaveActionUrl }}', post, function(data){
-            var d = data.toJson();
-            if (d.error == 0) {
-                // TODO: Save success
-                console.log(d.data);
-            } else {
+    var validateArgs = {
+        showErrors: function(e) {
+            console.log(3, e)
+        },
 
-            }
-        });
-    }
+        submitHandler: function(form)
+        {
+            $(form).ajaxSubmit({
+                url: $options.action,
+                success: function(data) {
+                    if ($options.handler) {
+                        $options.handler.apply(null, [data, form]);
+                    }
+                }
+            });
+        }
+    };
 
-    $(function(){
-
-        $('#the-form a.save').click(function(){
-            saveFormData('collectFormData');
-        });
-
-    });
+    var validator = $('#the-form').validate($.extend(validateArgs, $options));
 </script>

@@ -68,7 +68,7 @@ class AbTag extends Tag
     <label class="control-label">{{label}}</label>
 
     <div class="controls">
-        <input type="text" placeholder="{{placeholder}}" class="m-wrap small" field="{{field}}" value="{{value}}" />
+        <input type="text" placeholder="{{placeholder}}" class="m-wrap small" name="{{field}}" value="{{value}}" />
         <span class="help-inline">{{ hint }}</span>
     </div>
 </div>
@@ -83,7 +83,7 @@ HTML;
     <label class="control-label">{{label}}</label>
 
     <div class="controls">
-        <select type="text" field='{{field}}' class="m-wrap small {{searchable}}">
+        <select type="text" name='{{field}}' class="m-wrap small {{searchable}}">
 HTML;
 
         $html2 = <<<HTML
@@ -123,7 +123,7 @@ HTML;
     {
         $html1 = <<<HTML
 <div widget-class="RegionSelector" widget-id="{{widget_id}}" mode="province" class="pull-left margin-right-20" style="float: left">
-    <select field='{$field}'>
+    <select name='{$field}'>
         <option value="-1">请选择省</option>
 HTML;
         $options = array();
@@ -144,7 +144,7 @@ HTML;
     private static function city($widgetId, $field, $listenTo) {
         $html = <<<HTML
 <div widget-class="RegionSelector" widget-id="{$widgetId}" mode="city" class="pull-left margin-right-20" listen-to="{$listenTo}">
-    <select field='{$field}'>
+    <select name='{$field}'>
     </select>
 </div>
 HTML;
@@ -154,7 +154,7 @@ HTML;
     private static function county($widgetId, $field, $listenTo) {
         $html = <<<HTML
 <div widget-class="RegionSelector" widget-id="{$widgetId}" mode="county" class="pull-left margin-right-20" listen-to="{$listenTo}">
-    <select field='{$field}'>
+    <select name='{$field}'>
     </select>
 </div>
 HTML;

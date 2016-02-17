@@ -11,6 +11,8 @@
 <script src="media/js/jquery.slimscroll.min.js" type="text/javascript"></script>
 
 <script src="media/js/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="media/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="media/js/jquery.form.js" type="text/javascript"></script>
 <script src="media/js/jquery.cookie.min.js" type="text/javascript"></script>
 <script src="media/js/jquery.uniform.min.js" type="text/javascript" ></script>
 <script src="media/js/chosen.jquery.min.js" type="text/javascript" ></script>
@@ -53,9 +55,6 @@
 <script src="media/widgets/EntryEditList.js" type="text/javascript"></script>
 <script src="media/widgets/RegionSelector.js" type="text/javascript"></script>
 
-{% if formSaveActionUrl is defined %}
-{% include 'common/form_commit.js.phtml' %}
-{% endif %}
 <script>
     function callEither(a, b, args, obj) {
         if (typeof(a) == 'string') {

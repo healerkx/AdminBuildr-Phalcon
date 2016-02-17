@@ -63,4 +63,8 @@
 {% for js_tpl_file in js_tpl_files %}
 {{ partial(js_tpl_file) }}
 {% endfor %}
+
+{% if formSaveActionUrl is defined %}
+{% include 'common/form_commit.js.phtml' %}
+{% endif %}
 </html>
