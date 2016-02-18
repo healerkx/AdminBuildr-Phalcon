@@ -142,6 +142,17 @@
             });
         },
 
+        getProperties: function () {
+            var trList = this._domNode.find('div[widget-class] tbody tr');
+            var values = [];
+            trList.each(function() {
+                var tr = $(this);
+                var value = tr.find('input.value').val(), name = tr.find('input.name').val();
+                values.push({'value': value, 'name': name });
+            });
+            return {values: values};
+        },
+
         save: function () {
             return this.saveValue();
         }

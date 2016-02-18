@@ -64,12 +64,12 @@ class AbTag extends Tag
 
     private static function formTextField($p, $itemViewMode) {
         $html = <<<HTML
-<div class="Select">
+<div class="Text">
     <label class="control-label">{{label}}</label>
 
     <div class="controls">
         <input type="text" placeholder="{{placeholder}}" class="m-wrap small" name="{{field}}" value="{{value}}" />
-        <span class="help-inline">{{ hint }}</span>
+        <span class="help-inline"></span>
     </div>
 </div>
 HTML;
@@ -79,7 +79,7 @@ HTML;
 
     private static function formSelect($p, $itemViewMode) {
         $html1 = <<<HTML
-<div class="Text">
+<div class="Select">
     <label class="control-label">{{label}}</label>
 
     <div class="controls">
@@ -88,7 +88,7 @@ HTML;
 
         $html2 = <<<HTML
         </select>
-        <span class="help-inline">{{hint}}</span>
+        <span class="help-inline"></span>
     </div>
 </div>
 HTML;
