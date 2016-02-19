@@ -8,24 +8,6 @@ class AbTag extends Tag
 
     const AbTag = 'abTag';
 
-    private static function isAbFormField($p) {
-        if (array_key_exists(self::TagType, $p) &&
-            $p[self::TagType] == self::AbTag) {
-            return true;
-        }
-        return false;
-    }
-
-    private static function emptyHolder(&$p, $a)
-    {
-        foreach ($a as $i) {
-            if (array_key_exists($i, $p) && $p[$i]) {
-            } else {
-                $p[$i] = '';
-            }
-        }
-    }
-
     static public function textField($parameters)
     {
         if (self::isAbFormField($parameters)) {
@@ -47,6 +29,17 @@ class AbTag extends Tag
         return Tag::select($parameters, $data);
     }
 
+    static public function dateField($parameters)
+    {
+        if (self::isAbFormField($parameters)) {
+            $view = KxApplication::current()->view;
+            $itemViewMode = $view->getVar('itemViewMode');
+            return AbTag::formDateField($parameters, $itemViewMode);
+        }
+
+        return Tag::dateField($parameters);
+    }
+
     static public function tagHtml($tagName, $parameters = NULL, $selfClose = NULL, $onlyStart = NULL, $useEol = NULL)
     {
         if ('province' == $tagName) {
@@ -60,7 +53,23 @@ class AbTag extends Tag
     }
 
     /**********************************************************************/
+    private static function isAbFormField($p) {
+        if (array_key_exists(self::TagType, $p) &&
+            $p[self::TagType] == self::AbTag) {
+            return true;
+        }
+        return false;
+    }
 
+    private static function emptyHolder(&$p, $a)
+    {
+        foreach ($a as $i) {
+            if (array_key_exists($i, $p) && $p[$i]) {
+            } else {
+                $p[$i] = '';
+            }
+        }
+    }
 
     private static function formTextField($p, $itemViewMode) {
         $html = <<<HTML
@@ -73,7 +82,7 @@ class AbTag extends Tag
     </div>
 </div>
 HTML;
-        self::emptyHolder($p, ['label', 'placeholder', 'field', 'value', 'hint']);
+        self::emptyHolder($p, ['label', 'placeholder', 'field', 'value']);
         return Strings::format($html, $p);
     }
 
@@ -111,12 +120,28 @@ HTML;
 
         $html = $html1 . $options . $html2;
 
-        self::emptyHolder($p, ['label', 'placeholder', 'field', 'value', 'hint', 'searchable']);
+        self::emptyHolder($p, ['label', 'placeholder', 'field', 'value', 'searchable']);
         if ($p['searchable'] != '') {
             $p['searchable'] = 'chosen';
         }
 
         return Strings::format($html, $p);
+    }
+
+    private static function formDateField($params)
+    {
+        $html = <<<HTML
+<div class="DTP">
+    <label class="control-label">{{label}}</label>
+    <div class="controls">
+        <input class="m-wrap m-ctrl-medium date-picker" readonly
+               placeholder="{{placeholder}}" size="16" type="text"
+               name="{{field}}" value="{{value}}"/>
+    </div>
+</div>
+HTML;
+        self::emptyHolder($params, ['label', 'placeholder', 'field', 'value']);
+        return Strings::format($html, $params);
     }
 
     private static function province($widgetId, $field)

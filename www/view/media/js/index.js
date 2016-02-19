@@ -867,6 +867,12 @@ var Index = function () {
                 });
 
             }, 60000);
+        },
+
+        initDateAndTimePicker: function() {
+            $('input.date-picker').datepicker({
+                format: 'yyyy-mm-dd',
+            });
         }
 
     };
