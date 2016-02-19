@@ -77,12 +77,14 @@ class AbTag extends Tag
     <label class="control-label">{{label}}</label>
 
     <div class="controls">
-        <input type="text" placeholder="{{placeholder}}" class="m-wrap small" name="{{field}}" value="{{value}}" />
+        <input type="text" placeholder="{{placeholder}}" class="m-wrap small" {{validate}} name="{{field}}" value="{{value}}" />
         <span class="help-inline"></span>
     </div>
 </div>
 HTML;
         self::emptyHolder($p, ['label', 'placeholder', 'field', 'value']);
+        $p['validate'] = self::dataRules($p['validate']);
+
         return Strings::format($html, $p);
     }
 
@@ -184,5 +186,20 @@ HTML;
 </div>
 HTML;
         return $html;
+    }
+
+
+    private static function dataRules($array)
+    {
+        $rules = array();
+        foreach ($array as $key => $value) {
+            //$value = 1? "'true'";
+            if (is_numeric($key) && in_array($value, array("required", "email"))) {
+                array_push($rules, "data-rule-$value='true'");
+                continue;
+            }
+            array_push($rules, "data-rule-$key='$value'");
+        }
+        return implode(' ', $rules);
     }
 }
