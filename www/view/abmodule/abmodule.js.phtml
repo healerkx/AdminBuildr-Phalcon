@@ -219,8 +219,10 @@
                 var d = new RelatedIdDialog();
             } else if (o.fieldMode == 'region') {
                 var d = new RegionDialog();
-            } else {
-                var d = new TextDialog();
+            } else if (o.fieldMode == 'file') {
+                var d = new FileDialog();
+            } else if (o.fieldMode == 'image') {
+                var d = new ImageDialog();
             }
             d.show(tr, e);
         });

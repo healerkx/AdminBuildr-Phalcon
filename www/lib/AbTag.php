@@ -48,6 +48,10 @@ class AbTag extends Tag
             return self::city($parameters[0], $parameters[1], $parameters[2]);
         } else if ('county' == $tagName) {
             return self::county($parameters[0], $parameters[1], $parameters[2]);
+        } else if ('img_upload' == $tagName) {
+            return self::imageUpload($parameters);
+        } else if ('file_upload' == $tagName) {
+            return self::fileUpload($parameters);
         }
         return Tag::tagHtml($tagName, $parameters, $selfClose, $onlyStart, $useEol);
     }
@@ -188,6 +192,57 @@ HTML;
         return $html;
     }
 
+    private static function imageUpload($parameters) {
+        $html = <<<HTML
+<label class="control-label">Image Upload</label>
+<div class="controls">
+    <div class="fileupload fileupload-new" data-provides="fileupload">
+        <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+            <img src="media/image/AAAAAA&amp;text=no+image" alt="" />
+        </div>
+        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+        <div>
+            <span class="btn btn-file"><span class="fileupload-new">选择文件</span>
+            <span class="fileupload-exists">Change</span>
+            <input type="file" class="default" /></span>
+            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+        </div>
+    </div>
+    <!--
+    <span class="label label-important">NOTE!</span>
+    <span>
+    Attached image thumbnail is
+    supported in Latest Firefox, Chrome, Opera,
+    Safari and Internet Explorer 10 only
+    </span>
+    -->
+</div>
+HTML;
+        return Strings::format($html, $parameters);
+    }
+
+    private static function fileUpload($parameters) {
+        $html = <<<HTML
+<label class="control-label">Advanced</label>
+<div class="controls">
+    <div class="fileupload fileupload-new" data-provides="fileupload">
+        <div class="input-append">
+            <div class="uneditable-input">
+                <i class="icon-file fileupload-exists"></i>
+                <span class="fileupload-preview"></span>
+            </div>
+            <span class="btn btn-file">
+            <span class="fileupload-new">选择文件</span>
+            <span class="fileupload-exists">Change</span>
+            <input type="file" class="default" />
+            </span>
+            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+        </div>
+    </div>
+</div>
+HTML;
+        return Strings::format($html, $parameters);
+    }
 
     private static function dataRules($array)
     {

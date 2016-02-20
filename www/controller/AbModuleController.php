@@ -34,6 +34,8 @@ class AbModuleController extends AbBaseController
         parent::addDialog('文本框设置', 'abmodule/dialog-text');
         parent::addDialog('关联ID设置', 'abmodule/dialog-fk');
         parent::addDialog('行政区设置', 'abmodule/dialog-region');
+        parent::addDialog('文件上传设置', 'abmodule/dialog-file');
+        parent::addDialog('图片上传设置', 'abmodule/dialog-img');
 
         $data = array('table_names' => $tableNames);
         $this->session->set('a', '323');

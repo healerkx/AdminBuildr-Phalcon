@@ -158,5 +158,53 @@
         }
     });
 
+    $class('FileDialog', FieldPropertyDialog, {
+        template:'abmodule/dialog-file',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            var domNode = this.showDialog(context, e);
+        },
+
+        getProperties: function () {
+            var trList = this._domNode.find('div[widget-class] tbody tr');
+            var values = [];
+            trList.each(function() {
+                var tr = $(this);
+                var value = tr.find('input.value').val(), name = tr.find('input.name').val();
+                values.push({'value': value, 'name': name });
+            });
+            return {values: values};
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+    $class('ImageDialog', FieldPropertyDialog, {
+        template:'abmodule/dialog-img',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            var domNode = this.showDialog(context, e);
+        },
+
+        getProperties: function () {
+            var trList = this._domNode.find('div[widget-class] tbody tr');
+            var values = [];
+            trList.each(function() {
+                var tr = $(this);
+                var value = tr.find('input.value').val(), name = tr.find('input.name').val();
+                values.push({'value': value, 'name': name });
+            });
+            return {values: values};
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
 
 </script>
