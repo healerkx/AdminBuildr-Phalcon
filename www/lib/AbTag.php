@@ -52,6 +52,14 @@ class AbTag extends Tag
             return self::imageUpload($parameters);
         } else if ('file_upload' == $tagName) {
             return self::fileUpload($parameters);
+        } else if ('file_downpload' == $tagName) {
+            return self::fileDownload($parameters);
+        } else if ('province_name' == $tagName) {
+            return self::provinceName($parameters);
+        } else if ('city_name' == $tagName) {
+            return self::cityName($parameters);
+        } else if ('county_name' == $tagName) {
+            return self::countyName($parameters);
         }
         return Tag::tagHtml($tagName, $parameters, $selfClose, $onlyStart, $useEol);
     }
@@ -86,7 +94,7 @@ class AbTag extends Tag
     </div>
 </div>
 HTML;
-        self::emptyHolder($p, ['label', 'placeholder', 'field', 'value']);
+        self::emptyHolder($p, ['label', 'placeholder', 'field', 'value', 'validate']);
         $p['validate'] = self::dataRules($p['validate']);
 
         return Strings::format($html, $p);
@@ -194,11 +202,11 @@ HTML;
 
     private static function imageUpload($parameters) {
         $html = <<<HTML
-<label class="control-label">Image Upload</label>
+<label class="control-label">{{label}}</label>
 <div class="controls">
     <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-            <img src="media/image/AAAAAA&amp;text=no+image" alt="" />
+            <img src="" alt="图片上传" />
         </div>
         <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
         <div>
@@ -218,12 +226,13 @@ HTML;
     -->
 </div>
 HTML;
+        self::emptyHolder($parameters, ['label']);
         return Strings::format($html, $parameters);
     }
 
     private static function fileUpload($parameters) {
         $html = <<<HTML
-<label class="control-label">Advanced</label>
+<label class="control-label">{{label}}</label>
 <div class="controls">
     <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="input-append">
@@ -241,11 +250,51 @@ HTML;
     </div>
 </div>
 HTML;
+        self::emptyHolder($parameters, ['label']);
         return Strings::format($html, $parameters);
+    }
+
+    private static function fileDownload($parameters) {
+        $html = <<<HTML
+<div class="Text">
+    <label class="control-label">{{label}}</label>
+
+    <div class="controls">
+        <a href="{{link}}">{{filename}}</a>
+    </div>
+</div>
+HTML;
+
+        self::emptyHolder($parameters, ['label', 'link']);
+        if (!$parameters['filename']) {
+            $parameters['filename'] = $parameters['link'];
+        }
+        return Strings::format($html, $parameters);
+    }
+
+    private static function provinceName($parameters)
+    {
+        return self::regionName($parameters[0]);
+    }
+
+    private static function cityName($parameters)
+    {
+        return self::regionName($parameters[0]);
+    }
+    private static function countyName($parameters)
+    {
+        return self::regionName($parameters[0]);
+    }
+
+    private static function regionName($regionIndex) {
+        $html = "<span class='m-wrap'>{{name}}</span>";
+        $region = SysRegion::findFirst("sys_region_index={$regionIndex}");
+        return Strings::format($html, array('name' => $region->sys_region_name));
     }
 
     private static function dataRules($array)
     {
+        $array = $array ?: array();
         $rules = array();
         foreach ($array as $key => $value) {
             //$value = 1? "'true'";
