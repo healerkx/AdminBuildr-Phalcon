@@ -143,14 +143,18 @@
         },
 
         getProperties: function () {
-            var trList = this._domNode.find('div[widget-class] tbody tr');
-            var values = [];
-            trList.each(function() {
-                var tr = $(this);
-                var value = tr.find('input.value').val(), name = tr.find('input.name').val();
-                values.push({'value': value, 'name': name });
+            var regionTable = this._domNode.find('table.region');
+            var values = {};
+            regionTable.find("input, select").each(function() {
+                var i = $(this);
+                var value = i.val(), name = i.attr('name');
+                if (!String.isEmpty(value)) {
+                    values[name] = value;
+                }
+
             });
-            return {values: values};
+            console.log(values);
+            return values;
         },
 
         save: function () {
