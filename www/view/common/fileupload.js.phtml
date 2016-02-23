@@ -17,17 +17,18 @@
             this._uploader = uploader;
             uploader.on('fileQueued', function( file ) {
 
-                var html = '<div id="' + file.id + '" class="file-item"><img><div class="info">' + file.name + '</div></div>';
+                var html = '<div id="' + file.id + '" class="file-item"><img><div class="info">' + file.name + '</div><div class="progress"><div style="width: 1%;" class="bar"></div></div></div>';
                 var $li = $(html);
                 var $img = $li.find('img');
-
+                var $percent = $li.find('div.progress');
                 // $list为容器jQuery实例
                 var $thumb = domNode.find('.thumbnail');
+                $percent.css('margin-bottom', '0px').css('margin-top', '-20px');
                 $thumb.empty().css('height', '');
                 $thumb.append($li);
 
                 // 创建缩略图
-                // 如果为非图片文件，可以不用调用此方法。
+                // 如果为非图片文件，可以不用调用此方法。<div class="info">
                 // thumbnailWidth x thumbnailHeight 为 100 x 100
                 uploader.makeThumb( file, function( error, src ) {
                     if ( error ) {
@@ -40,6 +41,13 @@
 
                 domNode.find('.picker').css('display', 'none');
                 domNode.find('.upload').css('display', '');
+            });
+
+            uploader.on( 'uploadProgress', function( file, percentage ) {
+                var $li = $( '#'+file.id );
+                var progress = $li.find('div.progress div');
+                
+                progress.css( 'width', percentage * 100 + '%' );
             });
 
             uploader.on('uploadSuccess', function (file, data) {
