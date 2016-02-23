@@ -203,30 +203,17 @@ HTML;
     private static function imageUpload($parameters) {
         $html = <<<HTML
 <label class="control-label">{{label}}</label>
-<div class="controls">
-    <div class="fileupload fileupload-new" data-provides="fileupload">
-        <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-            <img src="" alt="图片上传" />
-        </div>
-        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
-        <div>
-            <span class="btn btn-file"><span class="fileupload-new">选择文件</span>
-            <span class="fileupload-exists">Change</span>
-            <input type="file" class="default" /></span>
-            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
-        </div>
+
+<div id="uploader3" class="controls" widget-class="FileUploader">
+    <div class="thumbnail" style="width: 120px; height: 120px;margin-bottom: 10px">
     </div>
-    <!--
-    <span class="label label-important">NOTE!</span>
-    <span>
-    Attached image thumbnail is
-    supported in Latest Firefox, Chrome, Opera,
-    Safari and Internet Explorer 10 only
-    </span>
-    -->
+    <div>
+        <div class="picker">选择文件</div><a class="btn btn-default upload" style="display: none">开始上传</a>
+    </div>
+    <input type="hidden" class="filepath" name="{{field}}">
 </div>
 HTML;
-        self::emptyHolder($parameters, ['label']);
+        self::emptyHolder($parameters, ['label', 'field']);
         return Strings::format($html, $parameters);
     }
 

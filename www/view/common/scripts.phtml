@@ -57,6 +57,10 @@
 <script src="media/widgets/EntryEditList.js" type="text/javascript"></script>
 <script src="media/widgets/RegionSelector.js" type="text/javascript"></script>
 
+<link href="media/webuploader/webuploader.css" rel="stylesheet" type="text/css">
+<script src="media/webuploader/webuploader.js" type="text/javascript"></script>
+{% include "common/fileupload.js.phtml" %}
+
 <script>
     function callEither(a, b, args, obj) {
         if (typeof(a) == 'string') {

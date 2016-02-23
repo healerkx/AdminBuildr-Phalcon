@@ -10,4 +10,6 @@ class AjaxController extends AbBaseController
     public function countiesAction($cityId) {
         parent::result(SysRegion::counties($cityId));
     }
+
+
 }
