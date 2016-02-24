@@ -62,6 +62,10 @@ table input
     width:150px;
 }
 
+.modal.fade.in {
+    top: 50%;
+}
+
 div .webuploader-pick {
     /* position: relative; */
     height: 18px;

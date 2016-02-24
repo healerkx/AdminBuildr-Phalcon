@@ -207,36 +207,37 @@ HTML;
     <div class="thumbnail" style="width: 120px; height: 120px;margin-bottom: 10px">
     </div>
     <div>
-        <div class="picker">选择文件</div><a class="btn btn-default upload" style="display: none">开始上传</a>
+        <div class="picker" upload-url="{{upload_url}}">选择文件</div><a class="btn btn-default upload" style="display: none">开始上传</a>
     </div>
     <input type="hidden" class="filepath" name="{{field}}">
 </div>
 HTML;
-        self::emptyHolder($parameters, ['label', 'field']);
+        self::emptyHolder($parameters, ['label', 'field', 'upload_url']);
         return Strings::format($html, $parameters);
     }
 
     private static function fileUpload($parameters) {
         $html = <<<HTML
 <label class="control-label">{{label}}</label>
-<div class="controls">
+<div class="controls" widget-class="FileUploader">
     <div class="fileupload fileupload-new" data-provides="fileupload">
-        <div class="input-append">
-            <div class="uneditable-input">
-                <i class="icon-file fileupload-exists"></i>
-                <span class="fileupload-preview"></span>
-            </div>
-            <span class="btn btn-file">
-            <span class="fileupload-new">选择文件</span>
-            <span class="fileupload-exists">更好</span>
-            <input type="file" class="default" />
-            </span>
-            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+        <div class="uneditable-input pull-left">
+            <i class="icon-file fileupload-exists"></i>
+            <span class="fileupload-preview" style="background-color: transparent!important;"></span>
+            <DIV class="progress" style="margin-top: -20px;display: none">
+                <div class="bar" style="width: 1%"></div>
+            </DIV>
+        </div>
+
+        <div class="pull-left">
+            <div class="picker" upload-url="{{upload_url}}">选择文件</div>
+            <a class="btn btn-default upload" style="display: none">开始上传</a>
         </div>
     </div>
+    <input type="hidden" class="filepath" name="file_field" name="{{field}}">
 </div>
 HTML;
-        self::emptyHolder($parameters, ['label']);
+        self::emptyHolder($parameters, ['label', 'field', 'upload_url']);
         return Strings::format($html, $parameters);
     }
 

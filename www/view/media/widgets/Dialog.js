@@ -5,9 +5,7 @@ $class('Dialog', null, {
     showDialog: function(e) {
         var _thisDialog = this;
         var callback = function() {
-
             if (_thisDialog.onOk && _thisDialog.onOk()) {
-
                 this.hide();
             }
         };
