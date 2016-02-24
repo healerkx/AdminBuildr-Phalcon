@@ -5,6 +5,18 @@ class KxFileController extends AbBaseController
 {
     private $cleanupTargetDir = true;
 
+    public function manageAction()
+    {
+        $views = [
+            ["name" =>'上传管理', "template" => "kxfile/manage"]];
+
+        $data = array(
+            'actions' => array(array('action' => 'kxFile/upload', 'path' => 'abc'))
+        );
+        parent::addDialog('Action属性', 'kxfile/settings');
+        parent::showTabViews($views, '文件上传管理', $data);
+    }
+
     public function uploadAction()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
@@ -80,7 +92,7 @@ class KxFileController extends AbBaseController
         @fclose($out);
         @fclose($in);
         rename("{$filePath}_{$chunk}.parttmp", "{$filePath}_{$chunk}.part");
-        $index = 0;
+
         $done = true;
         for ($index = 0; $index < $chunks; $index++) {
             if (!file_exists("{$filePath}_{$index}.part")) {

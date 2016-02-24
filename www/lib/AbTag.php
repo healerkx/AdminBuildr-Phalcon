@@ -203,8 +203,7 @@ HTML;
     private static function imageUpload($parameters) {
         $html = <<<HTML
 <label class="control-label">{{label}}</label>
-
-<div id="uploader3" class="controls" widget-class="FileUploader">
+<div id="uploader3" class="controls" widget-class="ImageUploader">
     <div class="thumbnail" style="width: 120px; height: 120px;margin-bottom: 10px">
     </div>
     <div>
@@ -229,7 +228,7 @@ HTML;
             </div>
             <span class="btn btn-file">
             <span class="fileupload-new">选择文件</span>
-            <span class="fileupload-exists">Change</span>
+            <span class="fileupload-exists">更好</span>
             <input type="file" class="default" />
             </span>
             <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>

@@ -4,15 +4,17 @@ $class('EntryEditList', [kx.Widget, kx.ActionMixin, kx.EventMixin], {
     },
 
     onAttach: function(domNode) {
-        console.log(domNode)
+        this.tBody = this._domNode.find('tbody');
+        this._domNode.find('a.add').off().click(kx.bind(this, 'onAddEntry'));
+        this._domNode.delegate('a.del', 'click', kx.bind(this, 'onDelEntry'));
     },
 
     init: function (closest) {
         this.closest = closest;
-        this.tBody = this._domNode.find('tbody');
+    },
+
+    resetBody: function() {
         this.tBody.empty();
-        this._domNode.find('a.add').off().click(kx.bind(this, 'onAddEntry'));
-        this._domNode.delegate('a.del', 'click', kx.bind(this, 'onDelEntry'));
     },
 
     addEntry: function(entry) {
@@ -23,6 +25,7 @@ $class('EntryEditList', [kx.Widget, kx.ActionMixin, kx.EventMixin], {
         var entry = this._domNode.find('thead tr.entry-template');
         var tr = entry.clone().removeClass('entry-template').css('display', '');
         tr.appendTo(this.tBody);
+
         return tr;
     },
 

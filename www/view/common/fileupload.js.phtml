@@ -7,6 +7,47 @@
         onAttach: function(domNode) {
             this.initUploader(domNode);
         },
+
+        initUploader: function (domNode) {
+            var uploader = WebUploader.create({
+                swf: "media/webuploader/Uploader.swf",
+                server: "kxFile/upload",
+                pick: domNode.find(".picker")});
+
+            this._uploader = uploader;
+            uploader.on('fileQueued', function() {
+                domNode.find('.picker').css('display', 'none');
+                domNode.find('.upload').css('display', '');
+
+                domNode.find('.progress').css('display', '');
+            });
+
+            uploader.on( 'uploadProgress', function( file, percentage ) {
+                var progress = domNode.find('.progress div');
+
+                progress.css( 'width', percentage * 100 + '%' );
+            });
+
+            uploader.on('uploadSuccess', function (file, data) {
+                console.log(file);
+                if (data.error == 0) {
+                    domNode.find('input.filepath').val(data.data.file);
+                }
+            });
+
+            domNode.find("a.upload").click(function(){
+                uploader.upload();
+            });
+        }
+    });
+
+    $class("ImageUploader", kx.Widget, {
+
+        _uploader: null,
+
+        onAttach: function(domNode) {
+            this.initUploader(domNode);
+        },
         
         initUploader: function (domNode) {
             var uploader = WebUploader.create({
@@ -46,12 +87,13 @@
             uploader.on( 'uploadProgress', function( file, percentage ) {
                 var $li = $( '#'+file.id );
                 var progress = $li.find('div.progress div');
-                
+
                 progress.css( 'width', percentage * 100 + '%' );
             });
 
             uploader.on('uploadSuccess', function (file, data) {
                 console.log(file);
+                console.log(data)
                 if (data.error == 0) {
                     domNode.find('input.filepath').val(data.data.file);
                 }

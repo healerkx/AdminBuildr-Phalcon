@@ -61,3 +61,16 @@ table input
 {
     width:150px;
 }
+
+div .webuploader-pick {
+    /* position: relative; */
+    height: 18px;
+    display: inline-block;
+    cursor: pointer;
+    background: #00b7ee;
+    padding: 8px 10px;
+    color: #fff;
+    text-align: center;
+    border-radius: 3px;
+    overflow: hidden;
+}
