@@ -1,3 +1,25 @@
+<style>
+    .modal.fade.in {
+        top: 50%;
+    }
+</style>
 <script>
-    
+
+    $class('SettingsDialog', Dialog, {
+        template: "kxfile/settings",
+        show: function(e) {
+            this.showDialog(e);
+        },
+
+        onOk: function () {
+            return true;
+        }
+    });
+
+    $(function() {
+        $('table.manage').delegate('a.property', 'click', function(){
+            var d = new SettingsDialog();
+            d.show();
+        });
+    })
 </script>

@@ -38,7 +38,7 @@ class AbModuleController extends AbBaseController
         parent::addDialog('图片上传设置', 'abmodule/dialog-img');
 
         $data = array('table_names' => $tableNames);
-        $this->session->set('a', '323');
+        // $this->session->set('a', '323');
         parent::showTabViews($views, '创建CURD模块', $data);
     }
 
