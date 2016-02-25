@@ -13,6 +13,7 @@
         {
             $(form).ajaxSubmit({
                 url: $options.action,
+                type: 'post',
                 success: function(data) {
                     if ($options.handler) {
                         $options.handler.apply(null, [data, form]);

@@ -314,7 +314,10 @@ HTML;
     private static function regionName($regionIndex) {
         $html = "<span class='m-wrap'>{{name}}</span>";
         $region = SysRegion::findFirst("sys_region_index={$regionIndex}");
-        return Strings::format($html, array('name' => $region->sys_region_name));
+        $regionName = '';
+        if ($region)
+            $regionName = $region->sys_region_name;
+        return Strings::format($html, array('name' => $regionName));
     }
 
     private static function dataRules($array)
