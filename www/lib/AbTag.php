@@ -43,11 +43,11 @@ class AbTag extends Tag
     static public function tagHtml($tagName, $parameters = NULL, $selfClose = NULL, $onlyStart = NULL, $useEol = NULL)
     {
         if ('province' == $tagName) {
-            return self::province($parameters[0], $parameters[1]);
+            return self::province($parameters[0], $parameters[1], $parameters[2]);
         } else if ('city' == $tagName) {
-            return self::city($parameters[0], $parameters[1], $parameters[2]);
+            return self::city($parameters[0], $parameters[1], $parameters[2], $parameters[3], $parameters[4]);
         } else if ('county' == $tagName) {
-            return self::county($parameters[0], $parameters[1], $parameters[2]);
+            return self::county($parameters[0], $parameters[1], $parameters[2], $parameters[3], $parameters[4]);
         } else if ('img_upload' == $tagName) {
             return self::imageUpload($parameters);
         } else if ('file_upload' == $tagName) {
@@ -158,7 +158,7 @@ HTML;
         return Strings::format($html, $params);
     }
 
-    private static function province($widgetId, $field)
+    private static function province($widgetId, $field, $initValue)
     {
         $html1 = <<<HTML
 <div widget-class="RegionSelector" widget-id="{{widget_id}}" mode="province" class="pull-left margin-right-20" style="float: left">
@@ -167,7 +167,11 @@ HTML;
 HTML;
         $options = array();
         foreach (SysRegion::provinces() as $p) {
-            $o = "<option value=\"{$p['sys_region_index']}\">{$p['sys_region_name']}</option>";
+            $selected = '';
+            if ($initValue == $p['sys_region_index']) {
+                $selected = 'selected';
+            }
+            $o = "<option value=\"{$p['sys_region_index']}\" $selected>{$p['sys_region_name']}</option>";
             array_push($options, $o);
         }
         $options = join('', $options);
@@ -180,23 +184,57 @@ HTML;
 
     }
 
-    private static function city($widgetId, $field, $listenTo) {
+    private static function city($widgetId, $field, $listenTo, $provinceVal, $cityVal) {
         $html = <<<HTML
 <div widget-class="RegionSelector" widget-id="{$widgetId}" mode="city" class="pull-left margin-right-20" listen-to="{$listenTo}">
     <select name='{$field}'>
+        <option value="-1">请选择市</option>
+        <__OPTIONS__/>
     </select>
 </div>
 HTML;
-    return $html;
+        $optionsHtml = '';
+        if ($provinceVal && $provinceVal > 0) {
+            $options = array();
+            foreach (SysRegion::cities($provinceVal) as $p) {
+                $selected = '';
+                if ($cityVal == $p['sys_region_index']) {
+                    $selected = 'selected';
+                }
+                $o = "<option value=\"{$p['sys_region_index']}\" $selected>{$p['sys_region_name']}</option>";
+                array_push($options, $o);
+            }
+            $optionsHtml = join('', $options);
+        }
+
+        $html = str_replace('<__OPTIONS__/>', $optionsHtml, $html);
+
+        return $html;
     }
 
-    private static function county($widgetId, $field, $listenTo) {
+    private static function county($widgetId, $field, $listenTo, $cityVal, $countyVal) {
         $html = <<<HTML
 <div widget-class="RegionSelector" widget-id="{$widgetId}" mode="county" class="pull-left margin-right-20" listen-to="{$listenTo}">
     <select name='{$field}'>
+        <option value="-1">请选择区</option>
+        <__OPTIONS__/>
     </select>
 </div>
 HTML;
+        $optionsHtml = '';
+        if ($cityVal && $cityVal > 0) {
+            $options = array();
+            foreach (SysRegion::counties($cityVal) as $p) {
+                $selected = '';
+                if ($countyVal == $p['sys_region_index']) {
+                    $selected = 'selected';
+                }
+                $o = "<option value=\"{$p['sys_region_index']}\" $selected>{$p['sys_region_name']}</option>";
+                array_push($options, $o);
+            }
+            $optionsHtml = join('', $options);
+        }
+        $html = str_replace('<__OPTIONS__/>', $optionsHtml, $html);
         return $html;
     }
 
