@@ -78,3 +78,17 @@ div .webuploader-pick {
     border-radius: 3px;
     overflow: hidden;
 }
+
+input[readonly], select[readonly] {
+    cursor: pointer;
+}
+
+.detail-view {
+    margin-top: 25px;
+}
+
+.detail-view .control-label {
+    margin-top: 0px;
+    padding-top: 0px;
+    color: dimgrey;
+}

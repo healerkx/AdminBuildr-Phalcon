@@ -52,7 +52,7 @@ class AbTag extends Tag
             return self::imageUpload($parameters);
         } else if ('file_upload' == $tagName) {
             return self::fileUpload($parameters);
-        } else if ('file_downpload' == $tagName) {
+        } else if ('file_download' == $tagName) {
             return self::fileDownload($parameters);
         } else if ('province_name' == $tagName) {
             return self::provinceName($parameters);
@@ -279,20 +279,25 @@ HTML;
         return Strings::format($html, $parameters);
     }
 
+    /**
+     * @param $parameters
+     * @return mixed
+     * Deprecated
+     */
     private static function fileDownload($parameters) {
         $html = <<<HTML
-<div class="Text">
+<div class="Link">
     <label class="control-label">{{label}}</label>
 
     <div class="controls">
-        <a href="{{link}}">{{filename}}</a>
+        <a href="{{link}}">{{name}}</a>
     </div>
 </div>
 HTML;
 
         self::emptyHolder($parameters, ['label', 'link']);
-        if (!$parameters['filename']) {
-            $parameters['filename'] = $parameters['link'];
+        if (!$parameters['name']) {
+            $parameters['name'] = $parameters['link'];
         }
         return Strings::format($html, $parameters);
     }
