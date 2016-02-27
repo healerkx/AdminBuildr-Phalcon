@@ -40,6 +40,11 @@ class AbBaseController extends Controller
         $this->view->pick('common/main');
     }
 
+    public function showPage($page, $data) {
+        $this->view->setVars($data);
+        $this->view->pick($page);
+    }
+
     /**
      * @param $views
      * @param $viewsTitle

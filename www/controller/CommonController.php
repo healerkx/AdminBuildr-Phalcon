@@ -17,5 +17,10 @@ class CommonController extends AbBaseController
         parent::showTabViews($views, '错误信息', $data);
     }
 
+    public function loginAction() {
+        $data = array();
+        parent::showPage('common/login', $data);
+    }
+
 
 }
