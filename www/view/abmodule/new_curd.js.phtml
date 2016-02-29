@@ -132,6 +132,14 @@
             });
         },
 
+        getProperties: function () {
+            var tableName = this._domNode.find('.table-name').val();
+            var fieldName = this._domNode.find('.field-names').val();
+
+            return {'table':tableName, 'field':fieldName};
+
+        },
+
         save: function () {
             return this.saveValue();
         }
@@ -245,6 +253,12 @@
                         });
             });
             */
+        },
+
+        getProperties: function () {
+            var tableName = this._domNode.find('.table-name').val();
+            var fieldName = this._domNode.find('.field-names').val();
+
         },
 
         save: function () {

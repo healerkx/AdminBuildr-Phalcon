@@ -8,7 +8,8 @@
                 <td><span>数据源表</span></td>
                 <td>
                     <div class="controls">
-                        <select id="table_name_for_fk" class="span8 table-name" data-placeholder="Select a database table" tabindex="1">
+                        <select class="span8 table-name" data-placeholder="Select a database table" tabindex="1">
+                            <option value="-">选择被关联的表</option>
                             {% for table_name in table_names %}
                             <option value="{{table_name}}">{{table_name}}</option>
                             {% endfor %}

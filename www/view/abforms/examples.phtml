@@ -2,63 +2,24 @@
     <span>Forms Creator</span>
 
     <br>
-    <!-- Region select -->
+    <!-- Advanced search input -->
     <div class="control-group">
-        <div widget-class="RegionSelector" widget-id="province" mode="province" class="pull-left margin-right-20">
-            <select field="">
-                <option value="-1">请选择省</option>
-                {% for p in china_region_provinces %}
-                <option value="{{p['sys_region_id']}}">{{p['sys_region_name']}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div widget-class="RegionSelector" widget-id="city" mode="city" class="pull-left margin-right-20"
-             listen-to="province">
-            <select field="">
-            </select>
-        </div>
-        <div widget-class="RegionSelector" widget-id="county" mode="county" class="pull-left" listen-to="city">
-            <select field="">
-            </select>
+        <div class="Search">
+            <label class="control-label">照片文件地址</label>
+            <div class="controls" widget-class="AdvancedSearch">
+                <select class="span6 chosen" data-placeholder="Select a Record" tabindex="1" table="kx_admin_user">
+                    <option value="0">请选择</option>
+                </select>
+            </div>
         </div>
     </div>
 
 
     <div class="control-group">
-        <label class="control-label">上传</label>
-
-        <div id="uploader1" class="controls" widget-class="ImageUploader">
-            <div class="thumbnail" style="width: 120px; height: 120px;margin-bottom: 10px">
-
-            </div>
-            <div>
-                <div class="picker">选择文件</div>
-                <a class="btn btn-default upload" style="display: none">开始上传</a>
-            </div>
-            <input type="hidden" class="filepath" name="file_field">
-        </div>
+        {{ text_field("tagType":"abTag", 'label':'用户名', 'field':'username', 'value':'1') }}
     </div>
-
-
     <div class="control-group">
-        <label class="control-label"></label>
-
-        <div class="controls" widget-class="FileUploader">
-            <div class="fileupload fileupload-new" data-provides="fileupload">
-                <div class="uneditable-input pull-left">
-                    <i class="icon-file fileupload-exists"></i>
-                    <span class="fileupload-preview" style="background-color: transparent!important;"></span>
-                    <DIV class="progress" style="margin-top: -20px;display: none">
-                        <div class="bar" style="width: 1%"></div>
-                    </DIV>
-                </div>
-
-                <div class="pull-left">
-                    <div class="picker">选择文件</div>
-                    <a class="btn btn-default upload" style="display: none">开始上传</a>
-                </div>
-            </div>
-        </div>
+        {{ text_field("tagType":"abTag", 'label':'提交', 'field':'commit', 'value':'2') }}
     </div>
 
 </div>

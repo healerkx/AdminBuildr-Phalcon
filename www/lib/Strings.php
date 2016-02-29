@@ -82,4 +82,12 @@ class Strings
         $str = preg_replace($keys, $values, $str);
         return $str;
     }
+
+    public static function tableNameToModelName($tableName) {
+        $modelName = preg_replace_callback("/_([a-z])/", function($a) {
+            return strtoupper($a[1]);
+        }, $tableName);
+        $modelName = ucfirst($modelName);
+        return $modelName;
+    }
 }
