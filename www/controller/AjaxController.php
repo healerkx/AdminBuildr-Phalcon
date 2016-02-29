@@ -12,9 +12,6 @@ class AjaxController extends AbBaseController
     }
 
 
-    public function loginAction() {
 
-        parent::result(array('auth' => $this->request->getPost()));
-    }
 
 }

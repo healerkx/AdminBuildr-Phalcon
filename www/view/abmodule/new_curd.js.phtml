@@ -116,8 +116,20 @@
 
         show: function (context, e) {
             // TODO: fill data into dom.
-
-            this.showDialog(context, e);
+            var this_= this;
+            var domNode = this.showDialog(context, e);
+            var $select = domNode.find('.field-names');
+            domNode.find('.table-name').change(function() {
+                var tableName = $(this).val();
+                $.post("/abmodule/info",
+                        { table:tableName },
+                        function(data){
+                            var data = data.toJson();
+                            if (data.error == 0) {
+                                fillTableFields($select, data.data.fields);
+                            }
+                        });
+            });
         },
 
         save: function () {
@@ -204,6 +216,35 @@
                 values.push({'value': value, 'name': name });
             });
             return {values: values};
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+
+    $class('RelatedExtendDialog', FieldPropertyDialog, {
+        template:'abmodule/dialog-extend',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            var this_= this;
+            var domNode = this.showDialog(context, e);
+            var $select = domNode.find('.field-names');
+            /*
+            domNode.find('.table-name').change(function() {
+                var tableName = $(this).val();
+                $.post("/abmodule/info",
+                        { table:tableName },
+                        function(data){
+                            var data = data.toJson();
+                            if (data.error == 0) {
+                                fillTableFields($select, data.data.fields);
+                            }
+                        });
+            });
+            */
         },
 
         save: function () {

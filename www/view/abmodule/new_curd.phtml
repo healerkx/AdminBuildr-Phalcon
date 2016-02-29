@@ -24,7 +24,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="margin-left-20 pull-left" style="margin-top: -1px">
+            <div class="margin-left-20" style="margin-top: -1px;float: left">
                 <button id="load-model-button" class="btn blue btn-block">加载 <i class="m-icon-swapright m-icon-white"></i></button>
             </div>
         </div>
@@ -48,9 +48,9 @@
 
                     <td field="field_mode">
                         <select name="field_mode">
-                            <option value="fk">关联ID</option>
-                            <option value="number">数字</option>
                             <option value="text">文本</option>
+                            <option value="number">数字</option>
+
                             <option value="richtext">富文本</option>
                             <option value="date">日期</option>
                             <option value="time">时间</option>
@@ -60,6 +60,8 @@
                             <option value="image">图片</option>
                             <option value="file">文件链接</option>
                             <option value="region">省、市、区</option>
+                            <option value="fk">关联ID</option>
+                            <option value="multi">关联展开</option>
                         </select>
                     </td>
                     <td field="field_text">

@@ -113,10 +113,17 @@ class AbModuleController extends AbBaseController
         $this->db->execute('select create table');
     }
 
+    /**
+     * @param $path
+     * @param $modelName
+     * @param $data
+     * @return bool
+     * @PHP 5.4+ for JSON_PRETTY_PRINT
+     */
     private function createModelConfigFile($path, $modelName, $data) {
         $workingModelFile = "$path\\model\\config\\{$modelName}.json";
 
-        $content = json_encode($data, JSON_UNESCAPED_UNICODE);
+        $content = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         file_put_contents($workingModelFile, $content);
         return true;
     }

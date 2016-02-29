@@ -218,6 +218,8 @@
                 var d = new FileDialog();
             } else if (o.fieldMode == 'image') {
                 var d = new ImageDialog();
+            } else if (o.fieldMode == 'multi') {
+                var d = new RelatedExtendDialog();
             }
             d.show(tr, e);
         });
