@@ -527,9 +527,12 @@ var App = function () {
         }
 
         $(".chosen").each(function () {
-            $(this).chosen({
-                allow_single_deselect: $(this).attr("data-with-diselect") === "1" ? true : false
+            var ch = $(this).chosen({
+                allow_single_deselect: $(this).attr("data-with-diselect") === "1" ? true : false,
+
+                no_results_text: "尝试匹配"
             });
+            console.log(ch);
         });
     }
 

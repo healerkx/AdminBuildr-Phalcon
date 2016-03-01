@@ -1,14 +1,22 @@
+<style>
+    .AdvancedSearch .chzn-container .chzn-results li {
+        display: list-item;
+    }
+
+</style>
+
 <div class="form-horizontal">
     <span>Forms Creator</span>
 
     <br>
     <!-- Advanced search input -->
     <div class="control-group">
-        <div class="Search">
-            <label class="control-label">照片文件地址</label>
-            <div class="controls" widget-class="AdvancedSearch">
-                <select class="span6 chosen" data-placeholder="Select a Record" tabindex="1" table="kx_admin_user">
-                    <option value="0">请选择</option>
+        <div class="AdvancedSearch">
+            <label class="control-label">##label</label>
+            <div class="controls" widget-class='AdvancedSearch'>
+                <select name='##field_name' search-table='kx_admin_user' search-field='username'
+                        class="span6 chosen" data-placeholder="选择一条记录" tabindex="1">
+                    <option class='default-option' value="0">请选择</option>
                 </select>
             </div>
         </div>

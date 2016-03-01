@@ -11,6 +11,14 @@ class AjaxController extends AbBaseController
         parent::result(SysRegion::counties($cityId));
     }
 
+    public function sAction() {
+        $a = KxAdminUser::find(array('conditions' => "username like 'a%'", "limit" => 20));
+        //var_dump($a);
+        echo count($a);
+        $a = $a->toArray();
+        parent::error(-2, $a);
+    }
+
     public function searchAction() {
 
         try {
@@ -19,14 +27,23 @@ class AjaxController extends AbBaseController
             $search = $this->request->getPost('search');
             $modelName = Strings::tableNameToModelName($tableName);
 
+            $results = array();
             if (class_exists($modelName)) {
-                if ($field) {
-                    $results = $modelName::find("$field like '$search%'");
-                } else {
+
+                if (is_numeric($search) && $search > 0) {
                     $results = $modelName::findFirst($search);
+                    $p1 = $results->toArray();
                 }
 
-                parent::result(array('results' => $results));
+                if ($field) {
+                    if ($search) {
+                        $results = $modelName::find(array('conditions' => "$field LIKE '%$search%'", "limit" => 20));
+                        $p2 = $results->toArray();
+                    }
+                }
+
+                // TODO: Merge two parts
+                parent::result(array('results' => $p2, 'SQL' => "$modelName.($field) like '%$search%'", 'p' => $this->request->getPost()));
             } else {
                 parent::error(-2, "$modelName does not exists");
             }
@@ -36,7 +53,6 @@ class AjaxController extends AbBaseController
         }
         parent::error(-1, "$modelName");
     }
-
 
 
 }
