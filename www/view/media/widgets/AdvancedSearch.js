@@ -14,14 +14,18 @@ $class('AdvancedSearch', [kx.Widget, kx.ActionMixin, kx.EventMixin], {
 
     },
 
-    addOptions: function(items, select) {
+    addOptions: function(items, primaryKey) {
         var real = this._domNode.find('select');
+        // var tableName = real.attr('search-table');
+        var field = real.attr('search-field');
         var a = real.children().not('[value=0]');
+
         a.remove();
-        // TODO:
-        var o = "<option value='{0}'>{1}</option>".format(2, 3);
+
         for (var i in items) {
-            var n = $(o);
+            var item = items[i];
+            var n = $("<option></option>");
+            n.val(item[primaryKey]).text(item[field]);
             real.append(n);
         }
 
@@ -35,12 +39,15 @@ $class('AdvancedSearch', [kx.Widget, kx.ActionMixin, kx.EventMixin], {
         var tableName = tabNode.attr('search-table');
         var field = tabNode.attr('search-field');
         var this_ = this;
+
         $.post('ajax/search', {
             'table': tableName, 'field': field, 'search': value
         }, function (data) {
+            console.log(data)
             var json = data.toJson();
             if (json.error == 0) {
-                this_.addOptions(json.data.results, select);
+                console.log(data);
+                this_.addOptions(json.data.results, json.data.key);
             }
         });
     }

@@ -532,7 +532,7 @@ var App = function () {
 
                 no_results_text: "尝试匹配"
             });
-            console.log(ch);
+            // console.log(ch);
         });
     }
 

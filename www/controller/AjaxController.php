@@ -12,7 +12,7 @@ class AjaxController extends AbBaseController
     }
 
     public function sAction() {
-        $a = KxAdminUser::find(array('conditions' => "username like 'a%'", "limit" => 20));
+        $a = KxAdminUser::find(array('conditions' => "username like '%a%'", "limit" => 20));
         //var_dump($a);
         echo count($a);
         $a = $a->toArray();
@@ -29,21 +29,24 @@ class AjaxController extends AbBaseController
 
             $results = array();
             if (class_exists($modelName)) {
-
-                if (is_numeric($search) && $search > 0) {
-                    $results = $modelName::findFirst($search);
-                    $p1 = $results->toArray();
-                }
-
+                $pri = $modelName::primaryKeyName();
+                $condition = '';
                 if ($field) {
                     if ($search) {
-                        $results = $modelName::find(array('conditions' => "$field LIKE '%$search%'", "limit" => 20));
-                        $p2 = $results->toArray();
+                        $condition = "$field LIKE '%{$search}%'";
+                        if (is_numeric($search)) {
+                            $condition .= " or $pri=$search";
+                        }
+
+                        $results = $modelName::find(array(
+                            'conditions' => $condition,
+                            "limit" => 20));
+                        $results = $results->toArray();
                     }
                 }
 
                 // TODO: Merge two parts
-                parent::result(array('results' => $p2, 'SQL' => "$modelName.($field) like '%$search%'", 'p' => $this->request->getPost()));
+                parent::result(array('results' => $results, 'SQL' => $condition, 'key' => $pri));
             } else {
                 parent::error(-2, "$modelName does not exists");
             }
@@ -51,7 +54,7 @@ class AjaxController extends AbBaseController
         } catch (Exception $e) {
             parent::error(-3, "$e");
         }
-        parent::error(-1, "$modelName");
+        parent::error(-1, "$modelName ?");
     }
 
 
