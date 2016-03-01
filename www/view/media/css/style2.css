@@ -92,3 +92,7 @@ input[readonly], select[readonly] {
     padding-top: 0px;
     color: dimgrey;
 }
+
+.AdvancedSearch .chzn-container .chzn-results li {
+    display: list-item;
+}

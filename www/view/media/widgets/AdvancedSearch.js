@@ -16,11 +16,8 @@ $class('AdvancedSearch', [kx.Widget, kx.ActionMixin, kx.EventMixin], {
 
     addOptions: function(items, primaryKey) {
         var real = this._domNode.find('select');
-        // var tableName = real.attr('search-table');
         var field = real.attr('search-field');
-        var a = real.children().not('[value=0]');
-
-        a.remove();
+        real.children().not('[value=0]').remove();
 
         for (var i in items) {
             var item = items[i];
@@ -31,7 +28,10 @@ $class('AdvancedSearch', [kx.Widget, kx.ActionMixin, kx.EventMixin], {
 
         var v = this._domNode.find('.chzn-search input').val();
         real.trigger('liszt:updated');      // Why liszt ???
-        this._domNode.find('.chzn-search input').val(v);
+        if (!String.isEmpty(v)) {
+            this._domNode.find('.chzn-search input').val(v.trim());
+        }
+
     },
 
     onChange: function(value, select) {
