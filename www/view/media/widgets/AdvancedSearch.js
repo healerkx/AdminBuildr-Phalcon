@@ -10,8 +10,7 @@ $class('AdvancedSearch', [kx.Widget, kx.ActionMixin, kx.EventMixin], {
         domNode.find('.chzn-search input').bind('input', function(){
             var value = $(this).val();
             this_.onChange(value, $results);
-        })
-
+        });
     },
 
     addOptions: function(items, primaryKey) {
@@ -31,7 +30,6 @@ $class('AdvancedSearch', [kx.Widget, kx.ActionMixin, kx.EventMixin], {
         if (!String.isEmpty(v)) {
             this._domNode.find('.chzn-search input').val(v.trim());
         }
-
     },
 
     onChange: function(value, select) {

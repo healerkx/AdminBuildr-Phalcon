@@ -38,13 +38,15 @@
         r.find('td[field=field_name] span').text(fi['Field']);
 
         // PrimaryKey handling
+        var modeSelect = r.find('td[field=field_mode] select');
         if (fi['Key'] == 'PRI') {
-            var modeSelect = r.find('td[field=field_mode] select');
             modeSelect.append('<option value="primaryKey">主键ID</option>')
 
             selectOneValueOnly(modeSelect, 'primaryKey');
             //selectOneValueOnly(r.find('td[field=hide_in_create] select'), 1);
             //selectOneValueOnly(r.find('td[field=hide_in_update] select'), 1);
+        } else if (fieldType.toLowerCase() == 'datetime') {
+            modeSelect.val('datetime').attr('disabled', 'disabled');
         }
 
         r.appendTo(tbody);
