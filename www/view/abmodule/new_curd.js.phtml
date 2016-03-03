@@ -75,6 +75,21 @@
             this.showDialog(context, e);
         },
 
+        // TODO: Same code refactor
+        getProperties: function () {
+            var regionTable = this._domNode.find('table.text');
+            var values = {};
+            regionTable.find("input, select").each(function() {
+                var i = $(this);
+                var value = i.val(), name = i.attr('name');
+                if (!String.isEmpty(value)) {
+                    values[name] = value;
+                }
+            });
+            console.log(values);
+            return values;
+        },
+
         save: function () {
             return this.saveValue();
         }

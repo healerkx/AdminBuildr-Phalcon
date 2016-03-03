@@ -54,7 +54,12 @@ body {
 
 table select
 {
-    width:110px;
+    width:auto;
+}
+
+table .visible select
+{
+    width: 120px;
 }
 
 table input
