@@ -1,10 +1,13 @@
 <script>
 
     function validateError(error, elem, errorStyle) {
-        var style = errorStyle || "error";
-        var group = elem.closest('div.control-group');
-        group.addClass(style);
-        group.find('span.help-inline').text(error.text());
+        var errorMsg = error.text();
+        if (!String.isEmpty(errorMsg)) {
+            var style = errorStyle || "error";
+            var group = elem.closest('div.control-group');
+            group.addClass(style);
+            group.find('span.help-inline').text(errorMsg);
+        }
     }
 
     var validateArgs = {
