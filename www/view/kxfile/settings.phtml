@@ -3,10 +3,20 @@
         <table class="table table-striped table-bordered table-hover table-full-width dataTable">
             <tbody>
             <tr>
-                <td><span>图片上传位置</span></td>
+                <td><span>文件上传URL</span></td>
                 <td>
                     <div class="controls">
-                        <input/>
+                        <input name="name" placeholder="请遵循Controller命名规则" class="span6"/>
+                        <span>文件上传URL为&nbsp;<a href="javascript:void(0)"></a></span>
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td><span>上传路径</span></td>
+                <td>
+                    <div class="controls">
+                        <input name="path" placeholder="文件最终保存路径" class="span6"/>
                     </div>
                 </td>
 
@@ -15,8 +25,18 @@
             <tr>
                 <td>文件名规则</td>
                 <td>
-                    <input type="text"/>
-                    <span>时间可选规则：{yyyy-mm-dd}, {unix_timestamp}, {random}, {md5}, {origin}, {wxh}</span>
+                    <input type="text" name="filename_pattern" class="span6"/>
+                    <br>
+                    <span>可选规则：{date[`PHP date format`]}, {unix_timestamp}, {random[`min`, `max`]}, {md5}, {origin}</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>上传子路径规则</td>
+                <td>
+                    <input type="text" name="sub_dir_pattern" class="span6"/>
+                    <br>
+                    <span>可选规则：{date[`PHP date format`]}, {unix_timestamp}, {random[`min`, `max`}</span>
                 </td>
             </tr>
 

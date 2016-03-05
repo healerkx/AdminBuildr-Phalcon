@@ -4,7 +4,12 @@
     $class('SettingsDialog', Dialog, {
         template: "kxfile/settings",
         show: function(e) {
-            this.showDialog(e);
+            var domNode = this.showDialog(e);
+            domNode.delegate('input[name]', 'input', function(){
+                var this_ = $(this);
+                var v = this_.val();
+                this_.parent().find('span a').text(v + '/upload');
+            });
         },
 
         onOk: function () {

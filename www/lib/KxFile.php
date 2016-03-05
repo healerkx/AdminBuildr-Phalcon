@@ -1,43 +1,20 @@
 <?php
 
-
-class KxFileController extends AbBaseController
+class KxFile
 {
-    private $cleanupTargetDir = true;
-
-    private $filePattern = "{md5}_{date[Y_m]}.{ext}";   // TODO:
-
-    private $pathPattern = "DD{date[y_m]}";              // TODO:
-
-    public function manageAction()
-    {
-        $views = [
-            ["name" =>'上传管理', "template" => "kxfile/manage"]];
-
-        $data = array(
-            'actions' => array(array('action' => 'kxFile/upload', 'path' => 'abc'))
-        );
-        parent::addDialog('Action属性', 'kxfile/settings');
-        parent::showTabViews($views, '文件上传管理', $data);
+    public static function getUploadFileName() {
+        $fileName = "";
+        if (isset($_REQUEST["name"])) {
+            $fileName = $_REQUEST["name"];
+        } elseif (!empty($_FILES)) {
+            $fileName = $_FILES["file"]["name"];
+        } else {
+            $fileName = uniqid("file_");
+        }
+        return $fileName;
     }
 
-    public function uploadAction()
-    {
-        $uploadFileName = KxFile::getUploadFileName();
-        $fileName = KxFile::convertFileName($uploadFileName, $this->filePattern);
-        $pathName = KxFile::convertFileName('', $this->pathPattern);
-        KxFile::upload($fileName, $pathName);
-    }
-
-    public function getAction()
-    {
-        $fileName = "123456.jpg";
-        $b = KxFile::convertFileName($fileName, $this->filePattern);
-        $pathName = KxFile::convertFileName('', $this->pathPattern);
-        var_dump(json_encode(array($b, $pathName)));
-    }
-
-    public function uploadDemoAction()
+    public static function upload($fileName, $pathName, $cleanupTargetDir = true)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
             exit; // finish preflight CORS requests here
@@ -49,25 +26,10 @@ class KxFileController extends AbBaseController
                 exit;
             }
         }
-        self::prepareUploadFileEnv();
-
-        // Get a file name
-        $debug = "";
-        if (isset($_REQUEST["name"])) {
-            $fileName = $_REQUEST["name"];
-            $debug = "1($fileName)";
-        } elseif (!empty($_FILES)) {
-            $fileName = $_FILES["file"]["name"];
-            $debug = "2($fileName)";
-        } else {
-            $fileName = uniqid("file_");
-            $debug = "3($fileName)";
-        }
-
-        file_put_contents("d:\\a.txt", $debug, FILE_APPEND);
+        self::prepareUploadFileEnv($pathName);
 
         $targetDir = 'upload_tmp';
-        $uploadDir = 'upload';
+        $uploadDir = 'upload';  // TODO:
         $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
         $uploadPath = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
 
@@ -76,7 +38,7 @@ class KxFileController extends AbBaseController
         $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 1;
 
         // Remove old temp files
-        if ($this->cleanupTargetDir) {
+        if ($cleanupTargetDir) {
             if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
                 die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
             }
@@ -153,5 +115,57 @@ class KxFileController extends AbBaseController
 
     }
 
+    private static function prepareUploadFileEnv() {
+        // header("HTTP/1.0 500 Internal Server Error");
+        // exit;
+        // 5 minutes execution time
+        @set_time_limit(5 * 60);
+
+        // Uncomment this one to fake upload time
+        // usleep(5000);
+        // Settings
+        // $targetDir = ini_get("upload_tmp_dir") . DIRECTORY_SEPARATOR . "plupload";
+        $targetDir = 'upload_tmp';
+        $uploadDir = 'upload';
+
+        $maxFileAge = 5 * 3600;     // Temp file age in seconds
+        // Create target dir
+        if (!file_exists($targetDir)) {
+            @mkdir($targetDir);
+        }
+        // Create target dir
+        if (!file_exists($uploadDir)) {
+            @mkdir($uploadDir);
+        }
+    }
+
+    public static function convertFileName($fileName, $pattern)
+    {
+        $new = preg_replace_callback("({[\\w\\s\\[\\],-_]+})", function($p) use($fileName) {
+
+            $a = $p[0];
+            if ($a == '{md5}') {
+                return md5($fileName);
+            } else if ($a == '{ext}') {
+                return substr(strrchr($fileName, '.'), 1);
+            } else if ($a == '{origin}') {
+                $ext = strrchr($fileName, '.');
+                return substr($fileName, 0, strlen($fileName) - strlen($ext));
+            } else if (Strings::startsWith($a, '{date')) {
+                preg_match('(\\[.*\\])', $a, $p);
+                $pattern = trim($p[0], "[]");
+                return date($pattern, time());
+            } else if ($a == '{unix_timestamp}') {
+                return time();
+            } else if (Strings::startsWith($a, '{random')) {
+                preg_match('(\\[.*\\])', $a, $p);
+                $pattern = trim($p[0], "[]");
+                $r = explode(',', $pattern);
+                return rand($r[0], $r[1]);
+            }
+            return $a;
+        }, $pattern);
+        return $new;
+    }
 
 }
