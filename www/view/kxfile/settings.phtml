@@ -34,12 +34,19 @@
             <tr>
                 <td>上传子路径规则</td>
                 <td>
-                    <input type="text" name="sub_dir_pattern" class="span6"/>
+                    <input type="text" name="subdir_pattern" class="span6"/>
                     <br>
-                    <span>可选规则：{date[`PHP date format`]}, {unix_timestamp}, {random[`min`, `max`}</span>
+                    <span>可选规则：{date[`PHP date format`]}, {unix_timestamp}, {random[`min`, `max`]}</span>
                 </td>
             </tr>
-
+            <tr>
+                <td></td>
+                <td>
+                    <a class="btn green btn-build" overwrite="false">创建</a>
+                    <a class="btn green btn-build-force" overwrite="true">创建(覆盖已有)</a>
+                    <span></span>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>

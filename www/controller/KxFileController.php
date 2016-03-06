@@ -21,6 +21,31 @@ class KxFileController extends AbBaseController
         parent::showTabViews($views, '文件上传管理', $data);
     }
 
+    public function buildAction()
+    {
+        $overwrite = $this->request->getPost('overwrite');
+        $controller = $this->request->getPost('controller');
+        $path = $this->request->getPost('path');
+        $filenamePattern = $this->request->getPost('filename_pattern');
+        $subdirPattern = $this->request->getPost('subdir_pattern');
+
+        //return parent::error(-1, $overwrite);
+        if (!$controller) {
+            return parent::error(-1, false);
+        }
+
+        $controllerFileName = '';
+        if (file_exists($controllerFileName) && $overwrite == 'false') {
+            return parent::error(-2, "$controllerFileName can NOT be overwrite");
+        }
+
+        $configPath = ApplicationConfig::getConfigPath('config.json');
+        $cmdLine = "--name=$controller --path=$path --filename-pattern=$filenamePattern --subdir-pattern=$subdirPattern --config=\"$configPath\"";
+
+        $c = Python3::run("build_upload_controller.py", $cmdLine);
+        return parent::result($c);
+    }
+
     public function uploadAction()
     {
         $uploadFileName = KxFile::getUploadFileName();

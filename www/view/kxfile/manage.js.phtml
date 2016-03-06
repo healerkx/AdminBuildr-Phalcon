@@ -4,11 +4,36 @@
     $class('SettingsDialog', Dialog, {
         template: "kxfile/settings",
         show: function(e) {
+            var this_ = this;
             var domNode = this.showDialog(e);
             domNode.delegate('input[name]', 'input', function(){
                 var this_ = $(this);
                 var v = this_.val();
                 this_.parent().find('span a').text(v + '/upload');
+            });
+
+            domNode.delegate('.btn-build, .btn-build-force', 'click', function () {
+                var overwrite = $(this).attr('overwrite');
+                this_.build(domNode, overwrite);
+            });
+        },
+
+        build: function(domNode, overwrite) {
+            var $post = {
+                overwrite: overwrite,
+                controller: domNode.find('[name=name]').val(),
+                path: domNode.find('[name=path]').val(),
+                filename_pattern: domNode.find('[name=filename_pattern]').val(),
+                subdir_pattern: domNode.find('[name=subdir_pattern]').val()
+            };
+            $.post('kxFile/build', $post, function(data){
+                var r = data.toJson();
+                console.log(r);
+                if (r.error == 0) {
+
+                } else if (r.error == -2) {
+                    // TODO: Post flag means can overwrite the Controller file
+                }
             });
         },
 
