@@ -2,7 +2,11 @@
 <script>
 
     $class('SettingsDialog', Dialog, {
+
         template: "kxfile/settings",
+
+        controller: null,
+
         show: function(e) {
             var this_ = this;
             var domNode = this.showDialog(e);
@@ -19,9 +23,11 @@
         },
 
         build: function(domNode, overwrite) {
+            var this_ = this;
+            var controller = domNode.find('[name=name]').val();
             var $post = {
                 overwrite: overwrite,
-                controller: domNode.find('[name=name]').val(),
+                controller: controller,
                 path: domNode.find('[name=path]').val(),
                 filename_pattern: domNode.find('[name=filename_pattern]').val(),
                 subdir_pattern: domNode.find('[name=subdir_pattern]').val()
@@ -30,7 +36,7 @@
                 var r = data.toJson();
                 console.log(r);
                 if (r.error == 0) {
-
+                    this_.controller = controller;
                 } else if (r.error == -2) {
                     // TODO: Post flag means can overwrite the Controller file
                 }
@@ -38,6 +44,14 @@
         },
 
         onOk: function () {
+            if (this.controller) {
+                $.post('kxFile/addController',
+                        { controller: this.controller },
+                        function(data) {
+                    var r = data.toJson();
+                    console.log(r);
+                });
+            }
             return true;
         }
     });

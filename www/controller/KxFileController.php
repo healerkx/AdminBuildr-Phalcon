@@ -46,6 +46,24 @@ class KxFileController extends AbBaseController
         return parent::result($c);
     }
 
+    public function addControllerAction()
+    {
+        $controller = $this->request->getPost('controller');
+        $path = ApplicationConfig::getConfigPath('upload-file.json');
+
+        $c = array();
+        if (file_exists($path)) {
+            $content = file_get_contents($path);
+            $c = json_decode($content, true);
+        }
+
+        $c[] = $controller;
+        $content = json_encode($c);
+        file_put_contents($path, $content);
+
+        return parent::result($controller);
+    }
+
     public function uploadAction()
     {
         $uploadFileName = KxFile::getUploadFileName();

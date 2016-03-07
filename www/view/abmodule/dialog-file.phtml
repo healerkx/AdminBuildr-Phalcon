@@ -8,17 +8,15 @@
                 <td><span>文件上传位置</span></td>
                 <td>
                     <div class="controls">
-                        <input type="text" name="upload_path"/>
+                        <select type="text" name="upload_path">
+                            {% for i in upload_urls %}
+                            <option value="{{i}}">{{i}}/upload</option>
+                            {% endfor %}
+                        </select>
+
                     </div>
                 </td>
 
-            </tr>
-
-            <tr>
-                <td>文件名规则</td>
-                <td>
-                    <input type="text" name="filename_pattern"/>
-                </td>
             </tr>
 
             </tbody>

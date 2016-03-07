@@ -38,7 +38,15 @@ class AbModuleController extends AbBaseController
         parent::addDialog('文件上传设置', 'abmodule/dialog-file');
         parent::addDialog('图片上传设置', 'abmodule/dialog-img');
 
-        $data = array('table_names' => $tableNames);
+        $path = ApplicationConfig::getConfigPath('upload-file.json');
+
+        $uploadUrls = array();
+        if (file_exists($path)) {
+            $content = file_get_contents($path);
+            $uploadUrls = json_decode($content, true);
+        }
+
+        $data = array('table_names' => $tableNames, 'upload_urls' => $uploadUrls);
         // $this->session->set('a', '323');
         parent::showTabViews($views, '创建CURD模块', $data);
     }
