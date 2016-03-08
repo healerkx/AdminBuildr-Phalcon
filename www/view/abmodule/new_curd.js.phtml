@@ -207,14 +207,9 @@
         },
 
         getProperties: function () {
-            var trList = this._domNode.find('div[widget-class] tbody tr');
-            var values = [];
-            trList.each(function() {
-                var tr = $(this);
-                var value = tr.find('input.value').val(), name = tr.find('input.name').val();
-                values.push({'value': value, 'name': name });
-            });
-            return {values: values};
+            var uploadUrl = this._domNode.find('select[name=upload_path]').val();
+            console.log(uploadUrl);
+            return {upload_url: uploadUrl};
         },
 
         save: function () {
@@ -231,14 +226,8 @@
         },
 
         getProperties: function () {
-            var trList = this._domNode.find('div[widget-class] tbody tr');
-            var values = [];
-            trList.each(function() {
-                var tr = $(this);
-                var value = tr.find('input.value').val(), name = tr.find('input.name').val();
-                values.push({'value': value, 'name': name });
-            });
-            return {values: values};
+            var uploadUrl = this._domNode.find('select[name=upload_path]').val();
+            return {upload_url: uploadUrl};
         },
 
         save: function () {

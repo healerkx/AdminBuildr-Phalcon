@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Class KxFile
+ *
+ * Nginx:
+ * server{
+ *     location /upload {
+ *          root   'D:/Projects/ProductName/www';
+ *      }
+ * }
+ */
 class KxFile
 {
     public static function getUploadFileName() {
