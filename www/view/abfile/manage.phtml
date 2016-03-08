@@ -4,7 +4,12 @@
         <div widget-class="EntryEditList" widget-id="action-edit-list">
             <table class="manage table table-striped table-bordered table-hover table-full-width dataTable">
                 <thead>
-                <tr><td>文件上传URL</td><td>文件上传路径</td><td>删除</td></tr>
+                <tr>
+                    <td>文件上传URL</td>
+                    <td>文件名格式</td>
+                    <td>子目录格式</td>
+                    <td>操作</td>
+                </tr>
                 <tr class="entry-template" style="display: none">
                     <td><input class="value" type="text"/></td>
                     <td><input class="name" type="text"/></td>
@@ -17,8 +22,9 @@
                 <tbody>
                 {% for i in actions %}
                 <tr>
-                    <td><input class="value" type="text" value="{{i['action']}}" readonly/></td>
-                    <td><input class="name" type="text" readonly/></td>
+                    <td><input class="value" type="text" value="{{i['url']}}" readonly/></td>
+                    <td><input class="name" type="text" value="{{i['filename_pattern']}}" readonly/></td>
+                    <td><input class="name" type="text" value="{{i['subdir_pattern']}}" readonly/></td>
                     <td><a class="btn blue property small" data-toggle="modal">属性</a></td>
                 </tr>
                 {% endfor %}

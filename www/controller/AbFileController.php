@@ -14,8 +14,11 @@ class AbFileController extends AbBaseController
         $views = [
             ["name" =>'上传管理', "template" => "abfile/manage"]];
 
+        $cfgs = KxUploadConfig::find();
+        $actions = $cfgs->toArray();
+
         $data = array(
-            'actions' => array(array('action' => 'abFile/upload', 'path' => 'abc'))
+            'actions' => $actions
         );
         parent::addDialog('Action属性', 'abfile/settings');
         parent::showTabViews($views, '文件上传管理', $data);
@@ -48,20 +51,23 @@ class AbFileController extends AbBaseController
 
     public function addControllerAction()
     {
-        $controller = $this->request->getPost('controller');
-        $path = ApplicationConfig::getConfigPath('upload-file.json');
+        $url = $this->request->getPost('url');
+        $filenamePattern = $this->request->getPost('filename_pattern');
+        $subdirPattern = $this->request->getPost('subdir_pattern');
+        $cfg = new KxUploadConfig();
+        $cfg->url = $url;
+        $cfg->filename_pattern = $filenamePattern;
+        $cfg->subdir_pattern = $subdirPattern;
+        $cfg->status = 1;
+        $time = date('Y-m-d h:i:s');
+        $cfg->create_time = $time;
+        $cfg->update_time = $time;
 
-        $c = array();
-        if (file_exists($path)) {
-            $content = file_get_contents($path);
-            $c = json_decode($content, true);
+        $r = $cfg->save();
+        if ($r) {
+            return parent::result(array('result' => $r, 'post' => $this->request->getPost()));
         }
-
-        $c[] = $controller;
-        $content = json_encode($c);
-        file_put_contents($path, $content);
-
-        return parent::result($controller);
+        // TODO:
     }
 
     /**

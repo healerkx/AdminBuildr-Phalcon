@@ -7,6 +7,10 @@
 
         controller: null,
 
+        filenamePattern: null,
+
+        subdirPattern: null,
+
         show: function(e) {
             var this_ = this;
             var domNode = this.showDialog(e);
@@ -24,19 +28,24 @@
 
         build: function(domNode, overwrite) {
             var this_ = this;
-            var controller = domNode.find('[name=name]').val();
+            var controller = domNode.find('[name=name]').val(),
+                    filenamePattern = domNode.find('[name=filename_pattern]').val(),
+                    subdirPattern = domNode.find('[name=subdir_pattern]').val();
+
             var $post = {
                 overwrite: overwrite,
                 controller: controller,
                 path: domNode.find('[name=path]').val(),
-                filename_pattern: domNode.find('[name=filename_pattern]').val(),
-                subdir_pattern: domNode.find('[name=subdir_pattern]').val()
+                filename_pattern: filenamePattern,
+                subdir_pattern: subdirPattern
             };
             $.post('abFile/build', $post, function(data){
                 var r = data.toJson();
                 console.log(r);
                 if (r.error == 0) {
                     this_.controller = controller;
+                    this_.filenamePattern = filenamePattern;
+                    this_.subdirPattern = subdirPattern;
                 } else if (r.error == -2) {
                     // TODO: Post flag means can overwrite the Controller file
                 }
@@ -46,7 +55,11 @@
         onOk: function () {
             if (this.controller) {
                 $.post('abFile/addController',
-                        { controller: this.controller },
+                        {
+                            url: this.controller + '/upload',
+                            filename_pattern: this.filenamePattern,
+                            subdir_pattern: this.subdirPattern,
+                        },
                         function(data) {
                     var r = data.toJson();
                     console.log(r);
