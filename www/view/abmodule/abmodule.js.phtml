@@ -29,7 +29,8 @@
 
         var fieldName = fi['Field'];
         var fieldType = fi['Type'];
-        var fieldComment = fi['Comment'];
+        var fieldComment = fi['Comment'] || fieldName.capitalize();
+
         r.attr('field', fieldName).css('display', '').removeAttr('id');
         r.find('td[field=field] span.field_name').text(fieldName);
         r.find('td[field=field] span.field_type').text(fieldType);
@@ -222,6 +223,8 @@
                 var d = new ImageDialog();
             } else if (o.fieldMode == 'multi') {
                 var d = new RelatedExtendDialog();
+            } else {
+                var d = new PrimaryKeyDialog();
             }
             d.show(tr, e);
         });

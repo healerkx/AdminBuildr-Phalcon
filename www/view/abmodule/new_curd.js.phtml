@@ -28,18 +28,18 @@
             var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
             e && e.preventDefault();
 
-            this.initVisible(context, target);
+            //this.initVisible(context, target);
             target.modal(option);
             return target;
         },
-
+        /*
         initVisible: function (context, domNode) {
             var r = domNode;
             if (context.fieldMode == 'primaryKey') {
                 selectOneValueOnly(r.find('td[field=hide_in_create] select'), 1);
                 selectOneValueOnly(r.find('td[field=hide_in_update] select'), 1);
             }
-        },
+        },*/
 
         getVisibility: function() {
             var tr = this._domNode.find('tr.visible');
@@ -274,6 +274,24 @@
             var tableName = this._domNode.find('.table-name').val();
             var fieldName = this._domNode.find('.field-names').val();
 
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+    $class('PrimaryKeyDialog', FieldPropertyDialog, {
+        template:'abmodule/dialog-pk',
+
+        show: function (context, e) {
+            var domNode = this.showDialog(context, e);
+            selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 1);
+            selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 1);
+        },
+
+        getProperties: function () {
+            return {};
         },
 
         save: function () {

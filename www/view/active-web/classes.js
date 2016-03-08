@@ -633,4 +633,12 @@ String.prototype.format = function(args) {
 		}
 	}
 	return result;
-}
+};
+
+// TODO: UT
+String.prototype.capitalize = function () {
+	return this.replace(/\w+/g, function(word) {
+		return word.substring(0, 1).toUpperCase() +
+			word.substring(1);
+	});
+};
