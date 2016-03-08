@@ -5,9 +5,9 @@ class KxFileController extends AbBaseController
 {
     private $cleanupTargetDir = true;
 
-    private $filePattern = "{md5}_{date[Y_m]}.{ext}";   // TODO:
+    private $filePattern = "";   // TODO:
 
-    private $pathPattern = "DD{date[y_m]}";              // TODO:
+    private $pathPattern = "";              // TODO:
 
     public function manageAction()
     {

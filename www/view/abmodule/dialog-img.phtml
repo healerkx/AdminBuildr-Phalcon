@@ -8,18 +8,14 @@
                 <td><span>图片上传位置</span></td>
                 <td>
                     <div class="controls">
-                        <input/>
+                        <select type="text" name="upload_path">
+                            {% for i in upload_urls %}
+                            <option value="{{i}}">{{i}}/upload</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </td>
 
-            </tr>
-
-            <tr>
-                <td>文件名规则</td>
-                <td>
-                    <input type="text"/>
-                    <span>时间可选规则：{yyyy-mm-dd}, {unix_timestamp}, {random}, {md5}, {origin}, {wxh}</span>
-                </td>
             </tr>
 
             </tbody>

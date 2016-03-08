@@ -141,6 +141,9 @@ class KxFile
 
     public static function convertFileName($fileName, $pattern)
     {
+        if (empty($pattern)) {
+            return $fileName;
+        }
         $new = preg_replace_callback("({[\\w\\s\\[\\],-_]+})", function($p) use($fileName) {
 
             $a = $p[0];
