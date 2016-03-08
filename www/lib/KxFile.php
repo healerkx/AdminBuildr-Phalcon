@@ -3,7 +3,6 @@
 class KxFile
 {
     public static function getUploadFileName() {
-        $fileName = "";
         if (isset($_REQUEST["name"])) {
             $fileName = $_REQUEST["name"];
         } elseif (!empty($_FILES)) {

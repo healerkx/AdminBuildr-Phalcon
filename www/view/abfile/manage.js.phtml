@@ -3,7 +3,7 @@
 
     $class('SettingsDialog', Dialog, {
 
-        template: "kxfile/settings",
+        template: "abfile/settings",
 
         controller: null,
 
@@ -32,7 +32,7 @@
                 filename_pattern: domNode.find('[name=filename_pattern]').val(),
                 subdir_pattern: domNode.find('[name=subdir_pattern]').val()
             };
-            $.post('kxFile/build', $post, function(data){
+            $.post('abFile/build', $post, function(data){
                 var r = data.toJson();
                 console.log(r);
                 if (r.error == 0) {
@@ -45,7 +45,7 @@
 
         onOk: function () {
             if (this.controller) {
-                $.post('kxFile/addController',
+                $.post('abFile/addController',
                         { controller: this.controller },
                         function(data) {
                     var r = data.toJson();
