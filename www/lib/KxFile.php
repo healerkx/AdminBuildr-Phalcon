@@ -25,12 +25,13 @@ class KxFile
                 exit;
             }
         }
-        self::prepareUploadFileEnv($pathName);
+
 
         $targetDir = 'upload_tmp';
-        $uploadDir = 'upload';  // TODO:
         $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
-        $uploadPath = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
+
+        $uploadPath = self::prepareUploadFileEnv($fileName, $pathName);
+        // $uploadPath = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
 
         // Chunking might be enabled
         $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
@@ -108,13 +109,12 @@ class KxFile
         }
 
         // Return Success JSON-RPC response
-        parent::result(array(
+        return array(
             'file' => $uploadPath
-        ));
-
+        );
     }
 
-    private static function prepareUploadFileEnv() {
+    private static function prepareUploadFileEnv($fileName, $pathName) {
         // header("HTTP/1.0 500 Internal Server Error");
         // exit;
         // 5 minutes execution time
@@ -129,13 +129,16 @@ class KxFile
 
         $maxFileAge = 5 * 3600;     // Temp file age in seconds
         // Create target dir
+        $subUploadDir = $uploadDir . DIRECTORY_SEPARATOR . $pathName;
+        if (!file_exists($subUploadDir)) {
+            @mkdir($subUploadDir, 0777, true);
+        }
+
         if (!file_exists($targetDir)) {
             @mkdir($targetDir);
         }
-        // Create target dir
-        if (!file_exists($uploadDir)) {
-            @mkdir($uploadDir);
-        }
+
+        return $subUploadDir . DIRECTORY_SEPARATOR . $fileName;
     }
 
     public static function convertFileName($fileName, $pattern)
@@ -143,8 +146,8 @@ class KxFile
         if (empty($pattern)) {
             return $fileName;
         }
-        $new = preg_replace_callback("({[\\w\\s\\[\\],-_]+})", function($p) use($fileName) {
 
+        $new = preg_replace_callback("({[\\w\\s\\[\\],-_]+})", function($p) use($fileName) {
             $a = $p[0];
             if ($a == '{md5}') {
                 return md5($fileName);

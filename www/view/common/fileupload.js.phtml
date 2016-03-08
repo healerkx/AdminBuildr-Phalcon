@@ -9,10 +9,10 @@
         },
 
         initUploader: function (domNode) {
-            var uploadUrl = domNode.find('');   // TODO:
+            var uploadUrl = domNode.find('div.picker').attr('upload-url');
             var uploader = WebUploader.create({
                 swf: "media/webuploader/Uploader.swf",
-                server: "kxFile/upload",
+                server: uploadUrl,
                 pick: domNode.find(".picker")});
 
             this._uploader = uploader;
@@ -51,9 +51,10 @@
         },
         
         initUploader: function (domNode) {
+            var uploadUrl = domNode.find('div.picker').attr('upload-url');
             var uploader = WebUploader.create({
                 swf: "media/webuploader/Uploader.swf",
-                server: "kxFile/upload",
+                server: uploadUrl,
                 pick: domNode.find(".picker")});
 
             this._uploader = uploader;

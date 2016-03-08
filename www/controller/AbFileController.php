@@ -7,7 +7,7 @@ class AbFileController extends AbBaseController
 
     private $filePattern = "";
 
-    private $pathPattern = "";
+    private $pathPattern = "a/b/c{date[Y-m]}";
 
     public function manageAction()
     {
@@ -81,9 +81,9 @@ class AbFileController extends AbBaseController
      */
     public function getAction()
     {
-        $fileName = "123456.jpg";
+        $fileName = "a/123456.jpg";
         $b = KxFile::convertFileName($fileName, $this->filePattern);
-        $pathName = KxFile::convertFileName('', $this->pathPattern);
+        $pathName = KxFile::convertFileName('.', $this->pathPattern);
         var_dump(json_encode(array($b, $pathName)));
     }
 }
