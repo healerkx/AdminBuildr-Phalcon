@@ -9,11 +9,17 @@
         },
 
         initUploader: function (domNode) {
-            var uploadUrl = domNode.find('div.picker').attr('upload-url');
+            var picker = domNode.find('div.picker');
+            var uploadUrl = picker.attr('upload-url');
             var uploader = WebUploader.create({
                 swf: "media/webuploader/Uploader.swf",
                 server: uploadUrl,
-                pick: domNode.find(".picker")});
+                pick: picker
+            });
+
+            setTimeout(function(){
+                domNode.find('input[name=file]').removeAttr('name');
+            }, 500);    // BUG: seems the input tag have NOT created here, so use setTimeout;
 
             this._uploader = uploader;
             uploader.on('fileQueued', function() {
@@ -32,7 +38,7 @@
             uploader.on('uploadSuccess', function (file, data) {
                 console.log(file);
                 if (data.error == 0) {
-                    domNode.find('input.filepath').val(data.data.file);
+                    domNode.find('input.file-path').val(data.data.file);
                 }
             });
 
@@ -49,13 +55,19 @@
         onAttach: function(domNode) {
             this.initUploader(domNode);
         },
-        
+
         initUploader: function (domNode) {
-            var uploadUrl = domNode.find('div.picker').attr('upload-url');
+            var picker = domNode.find('div.picker');
+            var uploadUrl = picker.attr('upload-url');
             var uploader = WebUploader.create({
                 swf: "media/webuploader/Uploader.swf",
                 server: uploadUrl,
-                pick: domNode.find(".picker")});
+                pick: picker
+            });
+
+            setTimeout(function(){
+                domNode.find('input[name=file]').removeAttr('name');
+            }, 500);    // BUG: seems the input tag have NOT created here, so use setTimeout;
 
             this._uploader = uploader;
             uploader.on('fileQueued', function( file ) {
@@ -97,13 +109,14 @@
                 console.log(file);
                 console.log(data)
                 if (data.error == 0) {
-                    domNode.find('input.filepath').val(data.data.file);
+                    domNode.find('input.file-path').val(data.data.file);
                 }
             });
 
             domNode.find("a.upload").click(function(){
                 uploader.upload();
             });
+
         }
     });
 </script>

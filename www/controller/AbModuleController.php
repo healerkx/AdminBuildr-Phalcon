@@ -39,12 +39,10 @@ class AbModuleController extends AbBaseController
         parent::addDialog('文件上传设置', 'abmodule/dialog-file');
         parent::addDialog('图片上传设置', 'abmodule/dialog-img');
 
-        $path = ApplicationConfig::getConfigPath('upload-file.json');
-
+        $uploadConfigs = KxUploadConfig::find();
         $uploadUrls = array();
-        if (file_exists($path)) {
-            $content = file_get_contents($path);
-            $uploadUrls = json_decode($content, true);
+        foreach ($uploadConfigs->toArray() as $cfg) {
+            $uploadUrls[] = $cfg['url'];
         }
 
         $data = array('table_names' => $tableNames, 'upload_urls' => $uploadUrls);

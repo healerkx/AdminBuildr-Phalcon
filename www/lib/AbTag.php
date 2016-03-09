@@ -247,7 +247,7 @@ HTML;
     <div>
         <div class="picker" upload-url="{{upload_url}}">选择文件</div><a class="btn btn-default upload" style="display: none">开始上传</a>
     </div>
-    <input type="hidden" class="filepath" name="{{field}}">
+    <input type="hidden" class="file-path" name="{{field}}"/>
 </div>
 HTML;
         self::emptyHolder($parameters, ['label', 'field', 'upload_url']);
@@ -272,7 +272,7 @@ HTML;
             <a class="btn btn-default upload" style="display: none">开始上传</a>
         </div>
     </div>
-    <input type="hidden" class="filepath" name="file_field" name="{{field}}">
+    <input type="hidden" class="file-path" name="{{field}}"/>
 </div>
 HTML;
         self::emptyHolder($parameters, ['label', 'field', 'upload_url']);
