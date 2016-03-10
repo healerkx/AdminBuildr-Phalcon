@@ -163,7 +163,7 @@ HTML;
         $html1 = <<<HTML
 <div widget-class="RegionSelector" widget-id="{{widget_id}}" mode="province" class="pull-left margin-right-20" style="float: left">
     <select name='{$field}'>
-        <option value="-1">请选择省</option>
+        <option value="0">请选择省</option>
 HTML;
         $options = array();
         foreach (SysRegion::provinces() as $p) {
@@ -188,7 +188,7 @@ HTML;
         $html = <<<HTML
 <div widget-class="RegionSelector" widget-id="{$widgetId}" mode="city" class="pull-left margin-right-20" listen-to="{$listenTo}">
     <select name='{$field}'>
-        <option value="-1">请选择市</option>
+        <option value="0">请选择市</option>
         <__OPTIONS__/>
     </select>
 </div>
@@ -216,7 +216,7 @@ HTML;
         $html = <<<HTML
 <div widget-class="RegionSelector" widget-id="{$widgetId}" mode="county" class="pull-left margin-right-20" listen-to="{$listenTo}">
     <select name='{$field}'>
-        <option value="-1">请选择区</option>
+        <option value="0">请选择区</option>
         <__OPTIONS__/>
     </select>
 </div>

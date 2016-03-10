@@ -22,6 +22,7 @@
     }
 
     function addFieldInfoRow(fi) {
+
         var t = $('#fields_action_row_template');
 
         var tbody = $('#fields_action_table tbody');
@@ -37,6 +38,7 @@
         r.find('td[field=field_text] input').val(fieldComment);
         r.find('td[field=field_type] span').text(fieldType);
         r.find('td[field=field_name] span').text(fi['Field']);
+        r.data('default-value', fi['Default']);
 
         // PrimaryKey handling
         var modeSelect = r.find('td[field=field_mode] select');
@@ -94,10 +96,12 @@
         var fieldMode = tr.find('td[field=field_mode] select').val();
         var fieldText = tr.find('td[field=field_text] input').val();
         var more = tr.data('more') || null;
+        var defaultValue = tr.data('default-value');
         var o = {
             fieldName: fieldName,
             fieldMode: fieldMode,
             fieldText: fieldText,
+            defaultValue: defaultValue,
             more: more
         };
         // console.log(o);
