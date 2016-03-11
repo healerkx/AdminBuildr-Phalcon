@@ -36,9 +36,8 @@ class KxFile
             }
         }
 
-
         $targetDir = 'upload_tmp';
-        $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+        $filePath = $targetDir . '/' . $fileName;
 
         $uploadPath = self::prepareUploadFileEnv($fileName, $pathName);
         // $uploadPath = $uploadDir . DIRECTORY_SEPARATOR . $fileName;
@@ -53,7 +52,7 @@ class KxFile
                 die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
             }
             while (($file = readdir($dir)) !== false) {
-                $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
+                $tmpfilePath = $targetDir . '/' . $file;
                 // If temp file is current file proceed to the next
                 if ($tmpfilePath == "{$filePath}_{$chunk}.part" || $tmpfilePath == "{$filePath}_{$chunk}.parttmp") {
                     continue;
@@ -139,7 +138,7 @@ class KxFile
 
         $maxFileAge = 5 * 3600;     // Temp file age in seconds
         // Create target dir
-        $subUploadDir = $uploadDir . DIRECTORY_SEPARATOR . $pathName;
+        $subUploadDir = $uploadDir . '/' . $pathName;
         if (!file_exists($subUploadDir)) {
             @mkdir($subUploadDir, 0777, true);
         }
@@ -148,7 +147,7 @@ class KxFile
             @mkdir($targetDir);
         }
 
-        return $subUploadDir . DIRECTORY_SEPARATOR . $fileName;
+        return $subUploadDir . '/' . $fileName;
     }
 
     public static function convertFileName($fileName, $pattern)

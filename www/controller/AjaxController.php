@@ -12,6 +12,7 @@ class AjaxController extends AbBaseController
     }
 
     public function sAction() {
+        exit(DIRECTORY_SEPARATOR);
         $a = KxAdminUser::find(array('conditions' => "username like '%a%'", "limit" => 20));
         //var_dump($a);
         echo count($a);

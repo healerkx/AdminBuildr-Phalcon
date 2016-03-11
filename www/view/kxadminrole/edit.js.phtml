@@ -13,10 +13,10 @@
         m.appendTo(groupEditPane)
     }
 
-    function initMenuGroup(nemus) {
-        for (var i in nemus) {
-            var nemu = nemus[i];
-            addNewMenuGroup(nemu.id, nemu.name)
+    function initMenuGroup(menus) {
+        for (var i in menus) {
+            var menu = menus[i];
+            addNewMenuGroup(menu.id, menu.name)
         }
     }
 
