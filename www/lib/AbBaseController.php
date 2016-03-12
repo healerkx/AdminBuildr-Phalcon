@@ -18,6 +18,8 @@ class AbBaseController extends Controller
 
     private $preloadChinaProvince = false;
 
+    private $showPager = false;
+
     /**
      * @deprecated now
      * @param $view
@@ -36,11 +38,15 @@ class AbBaseController extends Controller
             }
         }
 
-        $this->view->setVars($data);
-        $this->view->pick('common/main');
+        $this->showPage('common/main', $data);
     }
 
     public function showPage($page, $data) {
+        if (is_array($this->showPager)) {
+            $data['show_pager'] = true;
+            $data['page_current'] = $this->showPager['current'];
+            $data['page_total'] = $this->showPager['total'];
+        }
         $this->view->setVars($data);
         $this->view->pick($page);
     }
@@ -80,8 +86,7 @@ class AbBaseController extends Controller
         $tabViewsJsTpl = self::getTabViewJavaScriptTemplateName($tabViews);
         $data['js_tpl_files'] = $this->filterTemplateFiles($tabViewsJsTpl);
 
-        $this->view->setVars($data);
-        $this->view->pick('common/main');
+        $this->showPage('common/main', $data);
     }
 
     public function addDialog($title, $template, $dialogOk = '', $dialogCancel = '') {
@@ -97,6 +102,16 @@ class AbBaseController extends Controller
 
         array_push($this->dialogs, $dialog);
         return true;
+    }
+
+    /**
+     *
+     */
+    public function showPager($pageCur, $pageTotal) {
+        $this->showPager = array(
+            'current' => $pageCur,
+            'total' => $pageTotal
+        );
     }
 
     public function showBreadcrumb($breadcrumbs, $breadcrumbWithDatePicker = true) {

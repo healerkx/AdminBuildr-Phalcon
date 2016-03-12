@@ -33,4 +33,8 @@
     <div class="control-group">
         {{ tag_html('file_upload', ['label':'简历', 'upload_url':'bbb', 'field':'resume']) }}
     </div>
+
+    {% if show_pager is defined and show_pager == true%}
+    {% include 'common/pager.phtml' %}
+    {% endif %}
 </div>

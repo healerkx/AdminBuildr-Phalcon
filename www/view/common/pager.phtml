@@ -1,0 +1,21 @@
+<div id="dynamic_pager_demo1" class="pagination">
+    <ul class="bootpag">
+        {% set no_pager_input = true %}
+        <li data-lp="Prev" class="prev"><a href="javascript:void(0);">«</a></li>
+        {% for i in 1 .. page_total %}
+            {% if page_total > 20 and i > 8 and  i < page_total - 7 %}
+                {% if no_pager_input %}
+        <li>
+            <a style="padding: 0px"><input type="text" placeholder="输入页码" style="width: 60px; margin-bottom: 0px"></a>
+        </li>
+                {% set no_pager_input = false %}
+                {% endif %}
+            {% else %}
+        <li>
+            <a href="javascript:void(0);" {% if page_current == i %}style="background-color:lightyellow"{% endif %}>{{i}}</a>
+        </li>
+            {% endif %}
+        {% endfor %}
+        <li data-lp="Next" class="next disabled"><a href="javascript:void(0);">»</a></li>
+    </ul>
+</div>

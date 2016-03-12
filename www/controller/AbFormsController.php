@@ -25,6 +25,7 @@ class AbFormsController extends AbBaseController
 
         $data = array();
         $this->preloadChinaProvince();
+        parent::showPager(3, 23);
         parent::showTabViews($views, "Forms Creator - Example", $data);
     }
 }
