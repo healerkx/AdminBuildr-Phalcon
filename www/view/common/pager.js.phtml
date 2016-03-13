@@ -1,0 +1,19 @@
+<script>
+
+    function pageTo(page) {
+
+    }
+
+    $(function () {
+        var pager = $('div.pager');
+        pager.delegate('li a', 'click', function(){
+            pageTo($(this).attr('page'));
+        });
+
+        pager.delegate('input', 'keypress', function(e) {
+            if (e.keyCode == 13) {
+                pageTo($(this).val());
+            }
+        });
+    });
+</script>

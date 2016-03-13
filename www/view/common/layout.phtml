@@ -67,4 +67,9 @@
 {% if formSaveActionUrl is defined %}
 {% include 'common/form_commit.js.phtml' %}
 {% endif %}
+
+{% if show_pager is defined and show_pager == true%}
+{% include 'common/pager.js.phtml' %}
+{% endif %}
+
 </html>
