@@ -1,7 +1,11 @@
 <script>
 
     function pageTo(page) {
+        if (isNaN(page)) {
+            return false;
+        }
 
+        // TODO:
     }
 
     $(function () {
@@ -12,7 +16,8 @@
 
         pager.delegate('input', 'keypress', function(e) {
             if (e.keyCode == 13) {
-                pageTo($(this).val());
+                var page = $(this).val();
+                pageTo(page);
             }
         });
     });
