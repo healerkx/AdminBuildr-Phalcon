@@ -101,3 +101,7 @@ input[readonly], select[readonly] {
 .AdvancedSearch .chzn-container .chzn-results li {
     display: list-item;
 }
+
+.pager {
+    text-align: left;
+}

@@ -8,6 +8,9 @@
 <div class="form-horizontal">
     <span>Forms Creator</span>
 
+    <form>
+        <input type="hidden" name="__pager_current"/>
+    </form>
     <br>
     <!-- Advanced search input -->
     <div class="control-group">
@@ -35,6 +38,6 @@
     </div>
 
     {% if show_pager is defined and show_pager == true%}
-    {% include 'common/pager.phtml' %}
+    {% include "common/pager.phtml" %}
     {% endif %}
 </div>
