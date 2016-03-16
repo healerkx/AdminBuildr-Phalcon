@@ -40,4 +40,8 @@ class ApplicationConfig extends CConfig
 
         return $menuArr;
     }
+
+    public static function getDefaultPageSize() {
+        return 20;
+    }
 }

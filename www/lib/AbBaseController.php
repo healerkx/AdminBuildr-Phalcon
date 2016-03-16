@@ -105,12 +105,13 @@ class AbBaseController extends Controller
     }
 
     /**
-     *
+     * @param $current
+     * @param $pageTotal
      */
-    public function showPager($pageCur, $pageTotal) {
+    public function showPager($current, $pageTotal) {
         $this->showPager = array(
-            'current' => $pageCur,
-            'total' => $pageTotal
+            'current' => intval($current),
+            'total' => intval($pageTotal)
         );
     }
 

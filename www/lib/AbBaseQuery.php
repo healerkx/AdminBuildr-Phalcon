@@ -50,6 +50,12 @@ class AbBaseQuery
             $order = $params['order'];
             $this->query = $this->query->orderBy($order);
         }
+
+        if (array_key_exists('limit', $params)) {
+            $limit = $params['limit'];
+            $this->query->limit($limit[0], $limit[1]);
+        }
+
         try {
             return $this->query->execute();
         } catch (Exception $e) {

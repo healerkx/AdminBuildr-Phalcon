@@ -17,9 +17,21 @@ class AbBaseModel extends Model
         $query = new AbBaseQuery($clz);
         $count = $query->count();
         $binds = array();
+        $page = 1;
+        $pageSize = ApplicationConfig::getDefaultPageSize(); // TODO: 20 as default value.
         foreach ($search as $key => $value)
         {
             if ($key == '_url') {
+                continue;
+            } else if ($key == '__pager_current') {
+                $page = $value;
+                continue;
+            } else if ($key == '__pager_size') {
+                $pageSize = $value;
+                continue;
+            }
+
+            if (empty($value)) {
                 continue;
             }
 
@@ -41,6 +53,8 @@ class AbBaseModel extends Model
         if ($order) {
             $params['order'] = $order;
         }
+
+        $params['limit'] = array($pageSize, ($page - 1) * $pageSize);
 
         $items = $query->execute($params);
         return array(
