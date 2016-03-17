@@ -8,7 +8,7 @@
             this.initUploader(domNode);
         },
 
-        initUploader: function (domNode) {
+        createUploader: function(domNode) {
             var picker = domNode.find('div.picker');
             var uploadUrl = picker.attr('upload-url');
             var uploader = WebUploader.create({
@@ -21,22 +21,14 @@
                 domNode.find('input[name=file]').removeAttr('name');
             }, 500);    // BUG: seems the input tag have NOT created here, so use setTimeout;
 
-            this._uploader = uploader;
-            uploader.on('fileQueued', function() {
-                domNode.find('.picker').css('display', 'none');
-                domNode.find('.upload').css('display', '');
-
-                domNode.find('.progress').css('display', '');
-            });
-
             uploader.on( 'uploadProgress', function( file, percentage ) {
                 var progress = domNode.find('.progress div');
-
                 progress.css( 'width', percentage * 100 + '%' );
             });
 
             uploader.on('uploadSuccess', function (file, data) {
                 console.log(file);
+                console.log(data);
                 if (data.error == 0) {
                     domNode.find('input.file-path').val(data.data.file);
                 }
@@ -45,32 +37,30 @@
             domNode.find("a.upload").click(function(){
                 uploader.upload();
             });
-        }
-    });
 
-    $class("ImageUploader", kx.Widget, {
-
-        _uploader: null,
-
-        onAttach: function(domNode) {
-            this.initUploader(domNode);
+            return uploader;
         },
 
         initUploader: function (domNode) {
-            var picker = domNode.find('div.picker');
-            var uploadUrl = picker.attr('upload-url');
-            var uploader = WebUploader.create({
-                swf: "media/webuploader/Uploader.swf",
-                server: uploadUrl,
-                pick: picker
+
+            this._uploader = this.createUploader(domNode);
+
+            this._uploader.on('fileQueued', function() {
+                console.log(222);
+                domNode.find('.picker').css('display', 'none');
+                domNode.find('.upload').css('display', '');
+
+                domNode.find('.progress').css('display', '');
             });
+        }
+    });
 
-            setTimeout(function(){
-                domNode.find('input[name=file]').removeAttr('name');
-            }, 500);    // BUG: seems the input tag have NOT created here, so use setTimeout;
+    $class("ImageUploader", [FileUploader], {
 
-            this._uploader = uploader;
-            uploader.on('fileQueued', function( file ) {
+        initUploader: function (domNode) {
+            var _this = this;
+            this._uploader = this.createUploader(domNode);
+            this._uploader.on('fileQueued', function( file ) {
 
                 var html = '<div id="' + file.id + '" class="file-item"><img><div class="info">' + file.name + '</div><div class="progress"><div style="width: 1%;" class="bar"></div></div></div>';
                 var $li = $(html);
@@ -78,14 +68,14 @@
                 var $percent = $li.find('div.progress');
                 // $list为容器jQuery实例
                 var $thumb = domNode.find('.thumbnail');
-                $percent.css('margin-bottom', '0px').css('margin-top', '-20px');
+                $percent.css('margin-bottom', '0px');
                 $thumb.empty().css('height', '');
                 $thumb.append($li);
 
                 // 创建缩略图
                 // 如果为非图片文件，可以不用调用此方法。<div class="info">
                 // thumbnailWidth x thumbnailHeight 为 100 x 100
-                uploader.makeThumb( file, function( error, src ) {
+                _this._uploader.makeThumb( file, function( error, src ) {
                     if ( error ) {
                         $img.replaceWith('<span>不能预览</span>');
                         return;
@@ -96,25 +86,6 @@
 
                 domNode.find('.picker').css('display', 'none');
                 domNode.find('.upload').css('display', '');
-            });
-
-            uploader.on( 'uploadProgress', function( file, percentage ) {
-                var $li = $( '#'+file.id );
-                var progress = $li.find('div.progress div');
-
-                progress.css( 'width', percentage * 100 + '%' );
-            });
-
-            uploader.on('uploadSuccess', function (file, data) {
-                console.log(file);
-                console.log(data)
-                if (data.error == 0) {
-                    domNode.find('input.file-path').val(data.data.file);
-                }
-            });
-
-            domNode.find("a.upload").click(function(){
-                uploader.upload();
             });
 
         }

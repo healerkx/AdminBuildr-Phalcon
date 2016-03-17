@@ -14,17 +14,12 @@
     <br>
     <!-- Advanced search input -->
     <div class="control-group">
-        <div class="AdvancedSearch">
-            <label class="control-label">##label</label>
-            <div class="controls" widget-class='AdvancedSearch'>
-                <select name='##field_name' search-table='kx_admin_user' search-field='username'
-                        class="span6 chosen" data-placeholder="选择一条记录" tabindex="1">
-                    <option class='default-option' value="0">请选择</option>
-                </select>
-            </div>
-        </div>
+        {{ tag_html('file_upload', ['label':'简历文件地址', 'upload_url':'abFile/upload', 'field':'resume']) }}
     </div>
 
+    <div class="control-group">
+        {{ tag_html('img_upload', ['label':'照片文件地址', 'upload_url':'abFile/upload', 'field':'photo']) }}
+    </div>
 
     <div class="control-group">
         {{ text_field("tagType":"abTag", 'label':'用户名', 'field':'username', 'value':'1') }}
@@ -33,9 +28,7 @@
         {{ text_field("tagType":"abTag", 'label':'提交', 'field':'commit', 'value':'2') }}
     </div>
 
-    <div class="control-group">
-        {{ tag_html('file_upload', ['label':'简历', 'upload_url':'bbb', 'field':'resume']) }}
-    </div>
+
 
     {% if show_pager is defined and show_pager == true%}
     {% include "common/pager.phtml" %}

@@ -105,3 +105,9 @@ input[readonly], select[readonly] {
 .pager {
     text-align: left;
 }
+
+.fileupload .progress, .thumbnail .progress
+{
+    margin-top: 0px;
+    height: 4px;
+}

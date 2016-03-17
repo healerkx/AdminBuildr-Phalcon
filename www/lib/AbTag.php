@@ -262,7 +262,7 @@ HTML;
         <div class="uneditable-input pull-left">
             <i class="icon-file fileupload-exists"></i>
             <span class="fileupload-preview" style="background-color: transparent!important;"></span>
-            <DIV class="progress" style="margin-top: -20px;display: none">
+            <DIV class="progress" style="display: none">
                 <div class="bar" style="width: 1%"></div>
             </DIV>
         </div>

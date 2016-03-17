@@ -5,9 +5,9 @@ class AbFileController extends AbBaseController
 {
     private $cleanupTargetDir = true;
 
-    private $filePattern = "";
+    private $filePattern = "{md5}.{ext}";
 
-    private $pathPattern = "a/b/c{date[Y-m]}";
+    private $pathPattern = "example/D{date[Y-m]}";
 
     public function manageAction()
     {
