@@ -18,16 +18,16 @@ class AbBaseModel extends Model
         $count = $query->count();
         $binds = array();
         $page = 1;
-        $pageSize = ApplicationConfig::getDefaultPageSize(); // TODO: 20 as default value.
+        $pageSize = ApplicationConfig::getDefaultPageSize();
         foreach ($search as $key => $value)
         {
             if ($key == '_url') {
                 continue;
             } else if ($key == '__pager_current') {
-                $page = $value;
+                $page = $value ? intval($value): 1;
                 continue;
             } else if ($key == '__pager_size') {
-                $pageSize = $value;
+                $pageSize = $value ? intval($value) : $pageSize;
                 continue;
             }
 
@@ -35,13 +35,13 @@ class AbBaseModel extends Model
                 continue;
             }
 
-            $cb = self::getCondition($key, $value);
+            $useLike = false; // TODO:
+            $cb = self::getCondition($key, $value, $useLike);
             $condition = $cb[0];
             $bind = $cb[1];
             $query->addCondition($condition);
 
             $binds = array_merge($binds, $bind);
-
         }
 
         if (method_exists($clz, 'beforeSearch'))
@@ -55,7 +55,7 @@ class AbBaseModel extends Model
         }
 
         $params['limit'] = array($pageSize, ($page - 1) * $pageSize);
-
+        // Get results
         $items = $query->execute($params);
         return array(
             'count' => $count,
@@ -63,9 +63,16 @@ class AbBaseModel extends Model
         );
     }
 
-    public static function getCondition($key, $value)
+    public static function getCondition($key, $value, $like = false)
     {
-        return array("{$key}=:{$key}:", array($key => $value));
+        if (!$like)
+        {
+            return array("{$key}=:{$key}:", array($key => $value));
+        }
+        else
+        {
+            return array("{$key} LIKE :{$key}:", array($key => $value . '%'));
+        }
     }
 
     public static function getEmptyItem() {

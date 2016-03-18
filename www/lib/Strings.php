@@ -90,4 +90,9 @@ class Strings
         $modelName = ucfirst($modelName);
         return $modelName;
     }
+
+    // TODO: Avoid SQL inject and XSS
+    public static function filter($i) {
+        return $i;
+    }
 }

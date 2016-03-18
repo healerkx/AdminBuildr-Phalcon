@@ -48,11 +48,13 @@
             var hideInCreate = tr.find('td[field=hide_in_create] select').val();
             var hideInUpdate = tr.find('td[field=hide_in_update] select').val();
             var hideInDetail = tr.find('td[field=hide_in_detail] select').val();
+            var search = tr.find('td[field=search] select').val();
             return {
                 hideInList:hideInList,
                 hideInCreate:hideInCreate,
                 hideInUpdate:hideInUpdate,
-                hideInDetail:hideInDetail
+                hideInDetail:hideInDetail,
+                search:search
             };
         },
 

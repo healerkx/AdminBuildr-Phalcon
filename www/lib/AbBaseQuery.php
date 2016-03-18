@@ -43,12 +43,12 @@ class AbBaseQuery
     {
         if (array_key_exists('binds', $params)) {
             $binds = $params['binds'];
-            $this->query = $this->query->bind($binds);
+            $this->query->bind($binds);
         }
 
         if (array_key_exists('order', $params)) {
             $order = $params['order'];
-            $this->query = $this->query->orderBy($order);
+            $this->query->orderBy($order);
         }
 
         if (array_key_exists('limit', $params)) {
@@ -57,6 +57,7 @@ class AbBaseQuery
         }
 
         try {
+
             return $this->query->execute();
         } catch (Exception $e) {
             return false;
