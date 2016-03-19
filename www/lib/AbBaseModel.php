@@ -24,7 +24,7 @@ class AbBaseModel extends Model
             if ($key == '_url') {
                 continue;
             } else if ($key == '__pager_current') {
-                $page = $value ? intval($value): 1;
+                $page = $value ? intval($value) : 1;
                 continue;
             } else if ($key == '__pager_size') {
                 $pageSize = $value ? intval($value) : $pageSize;
@@ -35,7 +35,7 @@ class AbBaseModel extends Model
                 continue;
             }
 
-            $useLike = false; // TODO:
+            $useLike = $clz::isLikeField($key); // TODO:
             $cb = self::getCondition($key, $value, $useLike);
             $condition = $cb[0];
             $bind = $cb[1];
