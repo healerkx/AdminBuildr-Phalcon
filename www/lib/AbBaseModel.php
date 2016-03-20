@@ -35,12 +35,25 @@ class AbBaseModel extends Model
                 continue;
             }
 
-            $useLike = $clz::isLikeField($key);
-            $cb = self::getCondition($key, $value, $useLike);
+            $params = array();
+            if (strstr($key, '.') == null) {
+                if ($clz::isLikeField($key)) {
+                    $params['like'] = true;
+                }
+            } else {
+                if (strstr($key, '.from')) {
+                    $params['range'] = '>=';
+                } else if (strstr($key, '.to')) {
+                    $params['range'] = '<=';
+                }
+            }
+
+            $cb = self::getCondition($key, $value, $params);
+
             $condition = $cb[0];
             $bind = $cb[1];
-            $query->addCondition($condition);
 
+            $query->addCondition($condition);
             $binds = array_merge($binds, $bind);
         }
 
@@ -63,16 +76,23 @@ class AbBaseModel extends Model
         );
     }
 
-    public static function getCondition($key, $value, $like = false)
+    /**
+     * @param $key
+     * @param $value
+     * @param array $params
+     * @return array
+     */
+    public static function getCondition($key, $value, $params = array())
     {
-        if (!$like)
-        {
+        if (array_key_exists('like', $params)) {
+            return array("{$key} LIKE :{$key}:", array($key => $value . '%'));
+        } elseif (array_key_exists('range', $params)) {
+            $op = $params['range'];
+            return array("{$key} {$op} :{$key}:", array($key => $value));
+        } else {
             return array("{$key}=:{$key}:", array($key => $value));
         }
-        else
-        {
-            return array("{$key} LIKE :{$key}:", array($key => $value . '%'));
-        }
+
     }
 
     public static function getEmptyItem() {
