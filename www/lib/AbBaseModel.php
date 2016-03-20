@@ -35,7 +35,7 @@ class AbBaseModel extends Model
                 continue;
             }
 
-            $useLike = $clz::isLikeField($key); // TODO:
+            $useLike = $clz::isLikeField($key);
             $cb = self::getCondition($key, $value, $useLike);
             $condition = $cb[0];
             $bind = $cb[1];
