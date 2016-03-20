@@ -24,8 +24,17 @@
     <div class="control-group">
         {{ text_field("tagType":"abTag", 'label':'用户名', 'field':'username', 'value':'1') }}
     </div>
-    <div class="control-group">
-        {{ text_field("tagType":"abTag", 'label':'提交', 'field':'commit', 'value':'2') }}
+
+    <div class="DTP">
+        <label class="control-label">{{label}}</label>
+        <div class="controls">
+            <input class="m-wrap m-ctrl-medium date-picker" readonly
+                   placeholder="{{placeholder}}" size="16" type="text"
+                   name="{{field}}" value="{{value}}"/>
+            <input class="m-wrap m-ctrl-medium date-picker" readonly
+                   placeholder="{{placeholder}}" size="16" type="text"
+                   name="{{field}}" value="{{value}}"/>
+        </div>
     </div>
 
 

@@ -26,7 +26,7 @@ class SecurityPlugin extends Plugin
             $acl->addRole($role);
         }
 
-        var_dump($acl->getRoles());exit;
+        //var_dump($acl->getRoles());exit;
 
         $controllerName = $dispatcher->getControllerName();
         $actionName = $dispatcher->getActionName();

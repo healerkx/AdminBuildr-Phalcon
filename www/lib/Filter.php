@@ -13,6 +13,7 @@ class Filter
     public function init()
     {
         $this->compiler->addFunction('has', 'Filter::has');
+        $this->compiler->addFunction('value', 'Filter::value');
         $this->compiler->addFunction('extract', 'Filter::extract');
         $this->compiler->addFilter('reverse', 'Filter::reverse');
         $this->compiler->addFilter('invoke', 'Filter::invoke');
@@ -20,6 +21,21 @@ class Filter
 
     public static function has($obj, $field) {
         return array_key_exists($field, $obj);
+    }
+
+    public static function value($obj, $dim, $default = '') {
+        if (empty($dim)) {
+            return $default;
+        }
+        $v = $obj;
+        foreach ($dim as $i) {
+            if (array_key_exists($i, $v)) {
+                $v = $v[$i];
+            } else {
+                return $v;
+            }
+        }
+        return $v;
     }
 
     public static function extract($obj, $field, $defVal) {
