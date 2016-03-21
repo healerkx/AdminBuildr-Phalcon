@@ -32,6 +32,7 @@ class AbModuleController extends AbBaseController
 
         parent::addDialog('下拉框设置', 'abmodule/dialog-select');
         parent::addDialog('文本框设置', 'abmodule/dialog-text');
+        parent::addDialog('时间选择设置', 'abmodule/dialog-datetime');
         parent::addDialog('关联ID设置', 'abmodule/dialog-fk');
         parent::addDialog('主键ID设置', 'abmodule/dialog-pk');
         parent::addDialog('关联ID设置', 'abmodule/dialog-extend');

@@ -227,6 +227,8 @@
                 var d = new ImageDialog();
             } else if (o.fieldMode == 'multi') {
                 var d = new RelatedExtendDialog();
+            } else if (o.fieldMode == 'datetime') {
+                var d = new DateTimeDialog();
             } else {
                 var d = new PrimaryKeyDialog();
             }

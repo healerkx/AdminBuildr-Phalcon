@@ -291,4 +291,24 @@
     });
 
 
+    $class('DateTimeDialog', FieldPropertyDialog, {
+        template:'abmodule/dialog-datetime',
+
+        show: function (context, e) {
+            var domNode = this.showDialog(context, e);
+            selectOneValueOnly(domNode.find('td[field=search] select'), 3);
+        },
+
+        getProperties: function () {
+            return {};
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+
+
+
 </script>

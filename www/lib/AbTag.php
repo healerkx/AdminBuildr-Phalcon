@@ -118,17 +118,23 @@ HTML;
 
         $data = $p['data'];
         unset($p['data']);
+        $initValue = 0;
+        if (array_key_exists('value', $p) && $p['value']) {
+            $initValue = $p['value'];
+        }
         $options = '<option value="0">请选择</option>';
         foreach ($data as $i)
         {
             $v = $i;
-            if (!is_array($i)) {
+            if (!is_array($i)) {    // Handle non-relation array
                 $v = array(
                     'name' => $i, 'value' => $i
                 );
             }
 
-            $option = '<option value="{{value}}">{{name}}</option>';
+            $selected = ($i['value'] == $initValue) ? 'selected' : '';
+
+            $option = "<option value='{{value}}' $selected>{{name}}</option>";
             $options .= Strings::format($option, $v);
         }
 
