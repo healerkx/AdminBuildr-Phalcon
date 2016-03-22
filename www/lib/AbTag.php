@@ -122,6 +122,7 @@ HTML;
         if (array_key_exists('value', $p) && $p['value']) {
             $initValue = $p['value'];
         }
+        // TODO: Check need value 0?
         $options = '<option value="0">请选择</option>';
         foreach ($data as $i)
         {

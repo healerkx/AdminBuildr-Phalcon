@@ -32,10 +32,14 @@ class Filter
             if (array_key_exists($i, $v)) {
                 $v = $v[$i];
             } else {
-                return $v;
+                break;
             }
         }
-        return $v;
+        if (is_array($v)) {
+            return $default;
+        } else {
+            return $v;
+        }
     }
 
     public static function extract($obj, $field, $defVal) {
