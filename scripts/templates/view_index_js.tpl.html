@@ -1,0 +1,57 @@
+<script>
+    // ##{title}
+    function editItem(a) {
+        var action = a.attr('action');
+        var target = a.attr('target');
+        // TODO: Confirm to edit
+        window.location.href = action + "/" + target;
+    }
+
+    function deleteItem(a) {
+        var action = a.attr('action');
+        var target = a.attr('target');
+        // TODO: Confirm to edit
+        var deleteUrl = action + "/" + target;
+        $.getJSON(deleteUrl, {}, function (data) {
+            console.log(data);
+        })
+    }
+
+    function doSearch(form) {
+        form.submit();
+    }
+
+    function pageTo(page) {
+        if (isNaN(page)) {
+            return false;
+        }
+
+        var form = $('form.search');
+        form.find('input[name=__pager_current]').val(page);
+        doSearch(form);
+    }
+
+    $(function(){
+
+        // operators delegates
+        $('td.item-operators').delegate('a', 'click', function () {
+            var a = $(this);
+            var operator = a.attr('operator');
+            if (operator == 'edit') {
+                editItem(a);
+            } else if (operator == 'delete') {
+                deleteItem(a)
+            }
+        });
+
+        $('#check_all').click(function () {
+            var checked = $(this).parent().hasClass('checked');
+            if (checked) {
+                $('td.check_item span').addClass('checked');
+            } else {
+                $('td.check_item span').removeClass('checked');
+            }
+        });
+    });
+
+</script>

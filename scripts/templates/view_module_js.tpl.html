@@ -1,0 +1,23 @@
+<script>
+
+    var $options = {
+        action: '{{ formSaveActionUrl }}',
+
+        handler: function(data, form) {
+            console.log(data);
+        },
+        errorPlacement: function(error, element) {
+            validateError(error, element)
+        },
+
+        success: function(label) {
+        },
+
+        rules: {
+
+        },
+        
+        messages: {
+        },
+    };
+</script>

@@ -1,0 +1,9 @@
+{% extends "common/tabview.phtml" %}
+
+{% block tabview_title %}##{title}{% endblock %}
+
+{% block tabview_tabs_set %}
+{% set tabview_tabs = [
+{"name":'##{title}', "id": "add_new", "active":true, "template": "##{model_path_name}/list"}
+] %}
+{% endblock %}
