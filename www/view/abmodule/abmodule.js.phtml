@@ -91,11 +91,34 @@
         fillTableFields(deleteFieldSelect, fields);
     }
 
+    function getDefaultMore(fieldMode) {
+        if (fieldMode == 'text') {
+            var d = {'search':'2', 'type':''};
+        } else if (fieldMode == 'enum') {
+            var d = {'search':'1', 'values':[{'value':0, 'name':'请选择'}] };
+        } else if (fieldMode == 'fk') {
+            var d = {'search':'1'};
+        } else if (fieldMode == 'region') {
+            var d = {'search':'1'};
+        } else if (fieldMode == 'file') {
+            var d = {'search':'0'};
+        } else if (fieldMode == 'image') {
+            var d = {'search':'0'};
+        } else if (fieldMode == 'multi') {
+            var d = {'search':'1'};
+        } else if (fieldMode == 'datetime') {
+            var d = {'search':'3'};
+        } else {
+            var d = {'search':'0'};
+        }
+        return d;
+    }
+
     function collectFieldConfig(tr) {
         var fieldName = tr.find('td[field=field] span.field_name').text();
         var fieldMode = tr.find('td[field=field_mode] select').val();
         var fieldText = tr.find('td[field=field_text] input').val();
-        var more = tr.data('more') || null;
+        var more = tr.data('more') || getDefaultMore(fieldMode);
         var defaultValue = tr.data('default-value');
         var o = {
             fieldName: fieldName,
@@ -104,7 +127,7 @@
             defaultValue: defaultValue,
             more: more
         };
-        // console.log(o);
+        console.log(o);
         return o;
     }
 
@@ -213,7 +236,7 @@
             var tr = a.parent().parent();
             var o = collectFieldConfig(tr);
 
-            if (o.fieldMode == 'text' || o.fieldMode == 'number') {
+            if (o.fieldMode == 'text') {
                 var d = new TextDialog();
             } else if (o.fieldMode == 'enum') {
                 var d = new SelectDialog();

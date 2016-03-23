@@ -1,7 +1,7 @@
 {
   "builder": {
     "path":      "d:\\Projects\\AdminBuildr",
-    "scripts-path": "D:\\Projects\\PyScripts\\adminbuildr"
+    "scripts-path": "D:\\Projects\\AdminBuildr\\scripts"
   },
 
   "product": {

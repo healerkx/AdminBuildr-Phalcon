@@ -19,6 +19,7 @@ $class('EntryEditList', [kx.Widget, kx.ActionMixin, kx.EventMixin], {
 
     addEntry: function(entry) {
         var tr = this.onAddEntry();
+        return tr;
     },
 
     onAddEntry: function () {

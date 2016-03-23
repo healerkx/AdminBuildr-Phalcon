@@ -108,6 +108,9 @@
             if (list) {
                 list.init();
                 list.resetBody();
+                var tr = list.addEntry();
+                tr.find('.value').val(0);
+                tr.find('.name').val('请选择');
             }
             this.showDialog(context, e);
         },
