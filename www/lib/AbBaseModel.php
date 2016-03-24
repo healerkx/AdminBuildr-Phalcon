@@ -31,30 +31,34 @@ class AbBaseModel extends Model
                 continue;
             }
 
-            if (empty($value)) {
-                continue;
-            }
-
             $params = array();
-            if (strstr($key, '.') == null) {
+            if (is_array($value)) {
+                if (array_key_exists('from', $value)) {
+                    $params['range'] = '>=';
+                    $from = $value['from'];
+
+                    if (!empty($from)) {
+                        $binds = array_merge($binds, self::addCondition($query, $key, $from, $params));
+                    }
+                }
+
+                if (array_key_exists('to', $value) && !empty($value['to'])) {
+                    $params['range'] = '<=';
+                    $to = $value['to'];
+
+                    if (!empty($to)) {
+                        $binds = array_merge($binds, self::addCondition($query, $key, $from, $params));
+                    }
+                }
+            } else {
                 if ($clz::isLikeField($key)) {
                     $params['like'] = true;
                 }
-            } else {
-                if (strstr($key, '.from')) {
-                    $params['range'] = '>=';
-                } else if (strstr($key, '.to')) {
-                    $params['range'] = '<=';
+
+                if (!empty($value)) {
+                    $binds = array_merge($binds, self::addCondition($query, $key, $value, $params));
                 }
             }
-
-            $cb = self::getCondition($key, $value, $params);
-
-            $condition = $cb[0];
-            $bind = $cb[1];
-
-            $query->addCondition($condition);
-            $binds = array_merge($binds, $bind);
         }
 
         if (method_exists($clz, 'beforeSearch'))
@@ -93,6 +97,15 @@ class AbBaseModel extends Model
             return array("{$key}=:{$key}:", array($key => $value));
         }
 
+    }
+
+    private static function addCondition($query, $key, $value, $params) {
+        $cb = self::getCondition($key, $value, $params);
+        $condition = $cb[0];
+        $bind = $cb[1];
+
+        $query->addCondition($condition);
+        return $bind;
     }
 
     public static function getEmptyItem() {
