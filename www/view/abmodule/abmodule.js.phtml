@@ -119,18 +119,25 @@
         return new Error(fieldName + " has NO properties set.(" + msg + ")");
     }
 
-    function collectFieldConfig(tr) {
+    function collectFieldConfig(tr, check) {
+        var handle = tr.find('td select[field=handle]').val();
+        if (handle == 0) {
+            console.log(tr.find('td[field=field] span.field_name').text())
+            return false;
+        }
         var fieldName = tr.find('td[field=field] span.field_name').text();
         var fieldMode = tr.find('td[field=field_mode] select').val();
         var fieldText = tr.find('td[field=field_text] input').val();
         var more = tr.data('more') || getDefaultMore(fieldMode);
 
-        if (fieldMode == 'fk' && (String.isEmpty(more.tablename) || String.isEmpty(more.fieldname))) {
-            throw getError(fieldName);
-        } else if (fieldMode == 'region' && String.isEmpty(more.region_type)) {
-            throw getError(fieldName);
-        } else if ((fieldMode == 'file' || fieldMode == 'image' ) && String.isEmpty(more.upload_path)) {
-            throw getError(fieldName);
+        if (check) {
+            if (fieldMode == 'fk' && (String.isEmpty(more.tablename) || String.isEmpty(more.fieldname))) {
+                throw getError(fieldName);
+            } else if (fieldMode == 'region' && String.isEmpty(more.region_type)) {
+                throw getError(fieldName);
+            } else if ((fieldMode == 'file' || fieldMode == 'image' ) && String.isEmpty(more.upload_url)) {
+                throw getError(fieldName);
+            }
         }
 
         var defaultValue = tr.data('default-value');
@@ -156,11 +163,13 @@
 
         trs.each(function(index, tr){
             var tr = $(tr);
-            var o = collectFieldConfig(tr);
-            if (o['fieldMode'] == 'primaryKey') {
-                info['PrimaryKey'] = o['fieldName'];
+            var o = collectFieldConfig(tr, true);
+            if (o) {
+                if (o['fieldMode'] == 'primaryKey') {
+                    info['PrimaryKey'] = o['fieldName'];
+                }
+                info['FieldsConfig'].push(o)
             }
-            info['FieldsConfig'].push(o)
         });
 
         var commitSupportChecked = $('#commit_support').attr('checked');
@@ -279,15 +288,22 @@
             d.show(tr, e);
         });
 
-        $('#fields_action_table').delegate('a.moveUp, a.moveDown', 'click', function(e) {
+        $('div.toolbar').delegate('a.moveUp, a.moveDown', 'click', function(e) {
+
             var $t = $(this);
             var direct = $t.attr('direct');
-            var item = $(this).parent().parent();
+            var item = $('#fields_action_table tr.current');
             if (direct == 'd') {
                 exchangeItems(item.next(), item);
             } else if (direct == 'u') {
                 exchangeItems(item, item.prev());
             }
+        });
+
+        $('#fields_action_table').delegate('tr', 'click', function(){
+            var self = $(this);
+            self.siblings().removeClass('current');
+            self.addClass('current');
         });
 
     });

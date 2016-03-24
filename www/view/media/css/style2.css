@@ -125,3 +125,13 @@ input[readonly], select[readonly] {
     width: 14px;
     height: 16px;
 }
+
+#fields_action_table
+{
+    border-collapse:collapse;
+}
+
+#fields_action_table tr.current
+{
+    border: 2px solid #ccc;
+}

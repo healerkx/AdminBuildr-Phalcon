@@ -32,6 +32,18 @@
 
     </div>
 
+    <div class="clearfix margin-bottom-10">
+        <div class="control-group toolbar">
+            <a class="btn icn-only blue moveUp" direct="u">
+                上移 <i class="m-icon-swapup m-icon-white"></i>
+            </a>
+            <a class="btn icn-only blue moveDown" direct="d">
+                下移 <i class="m-icon-swapdown m-icon-white"></i>
+            </a>
+        </div>
+    </div>
+
+
     <div>
         <table id="fields_action_table" class="table table-striped table-bordered table-hover table-full-width dataTable">
             <thead>
@@ -42,6 +54,7 @@
                     <td title="编辑页字段行为">操作</td>
                 </tr>
                 <tr id="fields_action_row_template" style="display: none">
+
                     <td field="field">
                         <b><span class="field_name"></span></b>
                         <br>
@@ -66,12 +79,10 @@
                         <input name="field_text"/>
                     </td>
                     <td>
-                        <a class="btn icn-only blue moveUp" direct="u">
-                            <i class="m-icon-swapup m-icon-white"></i>
-                        </a>
-                        <a class="btn icn-only blue moveDown" direct="d">
-                            <i class="m-icon-swapdown m-icon-white"></i>
-                        </a>
+                        <select field="handle">
+                            <option value="1">处理</option>
+                            <option value="0">不处理</option>
+                        </select>
                         <a class="btn blue more" data-toggle="modal">更多</a>
                     </td>
                 </tr>
