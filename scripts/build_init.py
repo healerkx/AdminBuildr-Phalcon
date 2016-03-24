@@ -91,7 +91,7 @@ if __name__ == '__main__':
     copy_init_files(srcpath, destpath, "www\\lib")
     copy_init_files(srcpath, destpath, "www\\view\\active-web")
     copy_init_files(srcpath, destpath, "www\\view\\common")
-    #copy_init_files(srcpath, destpath, "www\\view\\media")
+    copy_init_files(srcpath, destpath, "www\\view\\media")
 
     #
     create_index_file(destpath)

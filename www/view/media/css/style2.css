@@ -111,3 +111,17 @@ input[readonly], select[readonly] {
     margin-top: 0px;
     height: 4px;
 }
+
+.search-bar > a {
+    display: block;
+    background-image:url(../image/portlet-expand-icon.png);
+    width: 14px;
+    height: 16px;
+}
+
+.search-bar > a.collapse {
+    display: block;
+    background-image:url(../image/portlet-collapse-icon.png);
+    width: 14px;
+    height: 16px;
+}

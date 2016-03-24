@@ -52,6 +52,18 @@
                 $('td.check_item span').removeClass('checked');
             }
         });
+
+        $('.search-bar').delegate('a', 'click', function () {
+            if ($(this).hasClass('collapse')) {
+                $(this).removeClass('collapse');
+                $('form').slideUp();
+            } else {
+                $(this).addClass('collapse');
+                $('form').slideDown();
+            }
+
+        });
+        $('.search-bar a').click();
     });
 
 </script>
