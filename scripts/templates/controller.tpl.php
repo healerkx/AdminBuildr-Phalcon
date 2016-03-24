@@ -130,7 +130,7 @@ class {{ controller_name }} extends {{ base_controller_name }}
 		// array for operators
 		return array(
 			array('name' => '编辑', 'operator' => 'edit', 'action' => '{{ firstlower(model_name) }}/update'),
-			array('name' => '删除', 'operator' => 'delete', 'action' => '{{ firstlower(model_name) }}/delete')
+			{% if support_delete == 'Yes' %}array('name' => '删除', 'operator' => 'delete', 'action' => '{{ firstlower(model_name) }}/delete'){% end %}
 		);
 	}
 }

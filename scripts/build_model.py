@@ -48,9 +48,11 @@ def build_model(config, base_model_name):
     if 'support' in del_support and del_support['support'] == "Yes":
         d['field_for_delete'] = del_support['field']   # TODO:
         d['value_for_delete'] = del_support['value']
+        d['support_delete'] = 'Yes'
     else:
         d['field_for_delete'] = ''
         d['value_for_delete'] = 0
+        d['support_delete'] = 'No'
 
     filename = module_name[0].upper() + module_name[1:] + ".php"
     path = os.path.join(config['product']['path'], "www\\model", filename)

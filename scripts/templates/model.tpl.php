@@ -25,10 +25,10 @@ class {{ model_name }} extends {{ base_model_name }}
 			'{{field['fieldName']}}' => '{{field['fieldText']}}',{% end %}
 		);
 	}
-
+	{% if support_delete == 'Yes' %}
 	public static function fieldForDelete() {
 		return array('field' => "{{ field_for_delete}}", 'value' => '{{ value_for_delete }}');
-	}
+	}{% end %}
 
 	public static function isLikeField($field) {
 		return in_array($field, array({% for field in like_fields %}'{{field}}', {% end %}));

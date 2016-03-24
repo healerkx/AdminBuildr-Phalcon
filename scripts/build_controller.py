@@ -8,6 +8,7 @@ from build_template import *
 
 def build_controller(config, base_controller_name):
     model = config['model']
+    info = model['info']
     module_name = config['module_name']
     controller_name = module_name + "Controller"
     d = init_dict()
@@ -18,7 +19,7 @@ def build_controller(config, base_controller_name):
 
     d['item_has_checkbox'] = 'true'
     d['item_has_operator'] = 'true'
-
+    d['support_delete'] = info['DeleteSupport']['support']
 
     path = os.path.join(config['product']['path'], "www\\controller", controller_name + ".php")
     controller_filename = path
