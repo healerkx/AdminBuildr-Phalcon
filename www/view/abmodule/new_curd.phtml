@@ -51,6 +51,8 @@
                     <td>字段</td>
                     <td title="列表页字段行为">模式</td>
                     <td title="字段显式名称">名称</td>
+                    <td title="是否处理">是否处理</td>
+                    <td title="是否必填">是否必填</td>
                     <td title="编辑页字段行为">操作</td>
                 </tr>
                 <tr id="fields_action_row_template" style="display: none">
@@ -83,6 +85,15 @@
                             <option value="1">处理</option>
                             <option value="0">不处理</option>
                         </select>
+                    </td>
+                    <td>
+                        <select field="required">
+                            <option value="1">必填</option>
+                            <option value="0">选填</option>
+                        </select>
+                    </td>
+                    <td>
+
                         <a class="btn blue more" data-toggle="modal">更多</a>
                     </td>
                 </tr>

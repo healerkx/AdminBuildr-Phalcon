@@ -12,7 +12,7 @@ def get_allow_empty_fields(fields_config):
     for field in fields_config:
         if field["fieldMode"] == "primaryKey":
             continue
-        if 'defaultValue' in field and field['defaultValue'] == "":
+        if 'required' in field and field['required'] == "0":
             allow_empty_fields.append(field['fieldName'])
     return allow_empty_fields
 
@@ -40,7 +40,7 @@ def build_model(config, base_model_name):
 
     d['table_name'] = config['table_name']
     d['primary_key'] = model['info']['PrimaryKey']
-    d['fields_info'] = list(filter(lambda x: x['fieldName'] != None, fields_config))
+    d['fields_info'] = list(filter(lambda x: x['fieldName'] != '', fields_config))
     d['allow_empty_fields'] = get_allow_empty_fields(fields_config)
     d['like_fields'] = get_like_fields(fields_config)
 

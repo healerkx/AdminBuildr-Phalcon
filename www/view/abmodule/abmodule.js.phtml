@@ -125,6 +125,7 @@
             console.log(tr.find('td[field=field] span.field_name').text())
             return false;
         }
+        var required = tr.find('td select[field=required]').val();
         var fieldName = tr.find('td[field=field] span.field_name').text();
         var fieldMode = tr.find('td[field=field_mode] select').val();
         var fieldText = tr.find('td[field=field_text] input').val();
@@ -145,6 +146,7 @@
             fieldName: fieldName,
             fieldMode: fieldMode,
             fieldText: fieldText,
+            required: required,
             defaultValue: defaultValue,
             more: more
         };
