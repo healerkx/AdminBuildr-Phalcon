@@ -40,10 +40,10 @@ def build_model(config, base_model_name):
 
     d['table_name'] = config['table_name']
     d['primary_key'] = model['info']['PrimaryKey']
-    d['fields_info'] = fields_config
+    d['fields_info'] = list(filter(lambda x: x['fieldName'] != None, fields_config))
     d['allow_empty_fields'] = get_allow_empty_fields(fields_config)
     d['like_fields'] = get_like_fields(fields_config)
-    # print(d['fields_info'])
+
     del_support = model['info']['DeleteSupport']
     if 'support' in del_support and del_support['support'] == "Yes":
         d['field_for_delete'] = del_support['field']   # TODO:
