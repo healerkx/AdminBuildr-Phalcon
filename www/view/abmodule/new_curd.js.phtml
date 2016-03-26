@@ -170,17 +170,24 @@
         template:'abmodule/dialog-region',
 
         show: function (context, e) {
-            // TODO: fill data into dom.
+
             var domNode = this.showDialog(context, e);
-            console.log(1, domNode.find('select.region-type'));
+
             domNode.find('select.region-type').change(function(){
-                console.log(1);
+
                 if ($(this).val() == 'province') {
                     domNode.find('input.group-name').css('display', '');
                 } else {
                     domNode.find('input.group-name').css('display', 'none');
                 }
             });
+
+            var more = this._tr.data('more');   // For init rendering
+            if (more) {
+                domNode.find('select.region-type').val(more.region_type).change();
+                domNode.find('select.group-name').val(more.group_name);
+                domNode.find('select.group-id').val(more.group_id);
+            }
         },
 
         getProperties: function () {
