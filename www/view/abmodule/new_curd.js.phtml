@@ -28,18 +28,22 @@
             var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
             e && e.preventDefault();
 
-            //this.initVisible(context, target);
+            this.initVisibilityAndSearch(tr);
             target.modal(option);
             return target;
         },
-        /*
-        initVisible: function (context, domNode) {
-            var r = domNode;
-            if (context.fieldMode == 'primaryKey') {
-                selectOneValueOnly(r.find('td[field=hide_in_create] select'), 1);
-                selectOneValueOnly(r.find('td[field=hide_in_update] select'), 1);
+
+        initVisibilityAndSearch: function (tr) {
+            var more = tr.data('more');
+            if (more) {
+                var tr = this._domNode.find('tr.visible');
+                tr.find('td[field=hide_in_list] select').val(parseInt(more['hideInList']));
+                tr.find('td[field=hide_in_create] select').val(parseInt(more['hideInCreate']));
+                tr.find('td[field=hide_in_update] select').val(parseInt(more['hideInUpdate']));
+                tr.find('td[field=hide_in_detail] select').val(parseInt(more['hideInDetail']));
+                tr.find('td[field=search] select').val(parseInt(more['search']));
             }
-        },*/
+        },
 
         getVisibility: function() {
             var tr = this._domNode.find('tr.visible');
@@ -75,6 +79,17 @@
         show: function (context, e) {
             // TODO: fill data into dom.
             this.showDialog(context, e);
+
+            var more = this._tr.data('more');   // For init rendering
+            console.log(more)
+            if (more) {
+                var regionTable = this._domNode.find('table.text');
+                regionTable.find("[name=type]").val(more['type']);
+                regionTable.find("[name=minlength]").val(more['minlength']);
+                regionTable.find("[name=maxlength]").val(more['maxlength']);
+                regionTable.find("[name=min]").val(more['min']);
+                regionTable.find("[name=max]").val(more['max']);
+            }
         },
 
         // TODO: Same code refactor
