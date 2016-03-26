@@ -300,6 +300,17 @@
         show: function (context, e) {
             var domNode = this.showDialog(context, e);
             selectOneValueOnly(domNode.find('td[field=search] select'), 3);
+
+            domNode.delegate('input[name=is_current]', 'change', function () {
+                console.log($(this).attr('checked'))
+                if ($(this).attr('checked') == 'checked') {
+                    selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 1);
+                    selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 1);
+                } else {
+                    selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 0);
+                    selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 0);
+                }
+            });
         },
 
         getProperties: function () {
