@@ -123,11 +123,26 @@
             if (list) {
                 list.init();
                 list.resetBody();
-                var tr = list.addEntry();
-                tr.find('.value').val(0);
-                tr.find('.name').val('请选择');
             }
+
             this.showDialog(context, e);
+            var more = this._tr.data('more');   // For init rendering
+            console.log(more)
+            if (more) {
+                var values = more['values'];
+                for (var i in values) {
+                    var v = values[i];
+                    this._addValue(list, v['value'], v['name']);
+                }
+            } else {
+                this._addValue(list, 0, '请选择');
+            }
+        },
+
+        _addValue: function (list, value, name) {
+            var tr = list.addEntry();
+            tr.find('.value').val(value);
+            tr.find('.name').val(name);
         },
 
         getProperties: function () {
