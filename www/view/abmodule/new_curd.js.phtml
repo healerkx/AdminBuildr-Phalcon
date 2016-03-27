@@ -186,8 +186,7 @@
             var tableName = this._domNode.find('.table-name').val();
             var fieldName = this._domNode.find('.field-names').val();
 
-            return {'table':tableName, 'field':fieldName};
-
+            return {table: tableName, filed: fieldName};
         },
 
         save: function () {
@@ -259,6 +258,7 @@
         }
     });
 
+    // TODO: set image size
     $class('ImageDialog', FieldPropertyDialog, {
         template:'abmodule/dialog-img',
 
@@ -305,6 +305,9 @@
             var tableName = this._domNode.find('.table-name').val();
             var fieldName = this._domNode.find('.field-names').val();
 
+            console.log({table: tableName, filed: fieldName});
+            return {table: tableName, filed: fieldName};
+
         },
 
         save: function () {
@@ -338,9 +341,9 @@
             var domNode = this.showDialog(context, e);
             selectOneValueOnly(domNode.find('td[field=search] select'), 3);
 
-            domNode.delegate('input[name=is_current]', 'change', function () {
-                console.log($(this).attr('checked'))
-                if ($(this).attr('checked') == 'checked') {
+            domNode.delegate('select[name=type]', 'change', function () {
+                var type = $(this).val();
+                if (type == 'create_time' || type == 'update_time') {
                     selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 1);
                     selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 1);
                 } else {
@@ -348,10 +351,16 @@
                     selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 0);
                 }
             });
+
+            var more = this._tr.data('more');
+            if (more) {
+                domNode.find('select[name=type]').val(more['type']);
+            }
         },
 
         getProperties: function () {
-            return {};
+            var type = this._domNode.find('select[name=type]').val();
+            return {type: type};
         },
 
         save: function () {

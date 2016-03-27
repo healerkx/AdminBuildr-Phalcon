@@ -5,6 +5,18 @@ from optparse import OptionParser
 from tornado.template import Template
 from build_template import *
 
+def extract_time_fields(d, fields_config):
+    d['create_time'] = False
+    d['update_time'] = False
+    for field in fields_config:
+        if field['fieldMode'] != 'datetime':
+            continue
+        if 'more' in field:
+            dt_type = field['more']['type']
+            if dt_type == 'create_time':
+                d['create_time'] = field['fieldName']
+            elif dt_type == 'update_time':
+                d['update_time'] = field['fieldName']
 
 def build_controller(config, base_controller_name):
     model = config['model']
@@ -20,6 +32,10 @@ def build_controller(config, base_controller_name):
     d['item_has_checkbox'] = 'true'
     d['item_has_operator'] = 'true'
     d['support_delete'] = info['DeleteSupport']['support']
+
+    fields_config = model['info']['FieldsConfig']
+    extract_time_fields(d, fields_config)
+
 
     path = os.path.join(config['product']['path'], "www\\controller", controller_name + ".php")
     controller_filename = path

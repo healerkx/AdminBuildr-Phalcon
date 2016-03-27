@@ -90,8 +90,14 @@ class {{ controller_name }} extends {{ base_controller_name }}
 
 		if (!$id) {
 			$obj = new {{model_name}}();
+			{% if create_time %}
+			$post['{{create_time}}'] = date('Y-m-d H:i:s');{% end %}
+			{% if update_time %}
+			$post['{{update_time}}'] = date('Y-m-d H:i:s');{% end %}
 		} else {
 			$obj = {{model_name}}::findFirst($id);
+            {% if update_time %}
+			$post['{{update_time}}'] = date('Y-m-d H:i:s');{% end %}
 		}
 
 		if ($obj->save($post)) {

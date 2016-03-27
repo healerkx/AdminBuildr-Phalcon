@@ -18,7 +18,8 @@
     }
 
     function selectOneValueOnly(sel, val) {
-        sel.val(val).attr('disabled', 'disabled');
+        sel.val(val);
+        if (val == 1) { sel.attr('disabled', 'disabled') } else { sel.removeAttr('disabled') }
     }
 
     function addFieldInfoRow(fi) {
@@ -107,7 +108,7 @@
         } else if (fieldMode == 'multi') {
             var d = {'search':'1'};
         } else if (fieldMode == 'datetime') {
-            var d = {'search':'3'};
+            var d = {'search':'3', 'type': 'datetime'};
         } else {
             var d = {'search':'0'};
         }

@@ -51,8 +51,9 @@ def get_region_dict(group, view):
         m['county_val'] = "i['%s']" % county_field        
     return m
 
-def validate_rules(m, more):
+def validate_rules(m, field_config):
     text_type = ''
+    more = field_config['more']
     if 'type' in more:
         text_type = more['type']
 
@@ -66,7 +67,7 @@ def validate_rules(m, more):
     if 'max' in more and text_type in ['digits', 'number']:
         validate.append("'max':%s" % more['max'])
     
-    if text_type in ['email', 'url', 'mobile', 'creditcard']:
+    if text_type in ['digits', 'number', 'email', 'url', 'mobile', 'creditcard']:
         validate.append("'%s':true" % text_type)
     
     m['validate'] = ', '.join(validate)
@@ -100,7 +101,7 @@ def get_html_for_form_view(field_config, view):
         m['search_table'] = more['search_table']
         m['search_field'] = more['search_field']
     elif field_mode == 'text':
-        validate_rules(m, more)
+        validate_rules(m, field_config)
         field_template = text_field
     elif field_mode == 'primaryKey':
         print('primaryKey in FormView')
