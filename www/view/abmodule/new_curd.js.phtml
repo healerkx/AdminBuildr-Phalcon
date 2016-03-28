@@ -245,6 +245,7 @@
         show: function (context, e) {
             // TODO: fill data into dom.
             var domNode = this.showDialog(context, e);
+            selectOneValueOnly(domNode.find('td[field=search] select'), 0, true);
         },
 
         getProperties: function () {
@@ -265,6 +266,7 @@
         show: function (context, e) {
             // TODO: fill data into dom.
             var domNode = this.showDialog(context, e);
+            selectOneValueOnly(domNode.find('td[field=search] select'), 0, true);
         },
 
         getProperties: function () {
@@ -320,8 +322,8 @@
 
         show: function (context, e) {
             var domNode = this.showDialog(context, e);
-            selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 1);
-            selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 1);
+            selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 1, true);
+            selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 1, true);
         },
 
         getProperties: function () {
@@ -339,13 +341,13 @@
 
         show: function (context, e) {
             var domNode = this.showDialog(context, e);
-            selectOneValueOnly(domNode.find('td[field=search] select'), 3);
+            selectValuesOnly(domNode.find('td[field=search] select'), ['0', '3']);
 
             domNode.delegate('select[name=type]', 'change', function () {
                 var type = $(this).val();
                 if (type == 'create_time' || type == 'update_time') {
-                    selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 1);
-                    selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 1);
+                    selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 1, true);
+                    selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 1, true);
                 } else {
                     selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 0);
                     selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 0);

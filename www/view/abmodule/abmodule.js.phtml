@@ -17,9 +17,20 @@
         $('a[href="#preview"]').click();
     }
 
-    function selectOneValueOnly(sel, val) {
+    function selectOneValueOnly(sel, val, disabled) {
         sel.val(val);
-        if (val == 1) { sel.attr('disabled', 'disabled') } else { sel.removeAttr('disabled') }
+        if (disabled) { sel.attr('disabled', 'disabled') } else { sel.removeAttr('disabled') }
+    }
+
+    function selectValuesOnly(sel, vals) {
+        console.log(vals);
+        var options = sel.find('option');
+        options.attr('disabled', 'disabled');
+        options.each(function () {
+            if (vals.indexOf( $(this).val() ) >= 0) {
+               $(this).removeAttr('disabled');
+            }
+        });
     }
 
     function addFieldInfoRow(fi) {
@@ -46,9 +57,7 @@
         if (fi['Key'] == 'PRI') {
             modeSelect.append('<option value="primaryKey">主键ID</option>')
 
-            selectOneValueOnly(modeSelect, 'primaryKey');
-            //selectOneValueOnly(r.find('td[field=hide_in_create] select'), 1);
-            //selectOneValueOnly(r.find('td[field=hide_in_update] select'), 1);
+            selectOneValueOnly(modeSelect, 'primaryKey', true);
         } else if (fieldType.toLowerCase() == 'datetime') {
             modeSelect.val('datetime').attr('disabled', 'disabled');
         }

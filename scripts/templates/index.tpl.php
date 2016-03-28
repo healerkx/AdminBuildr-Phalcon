@@ -51,15 +51,20 @@ $di->set('view', function() {
     return $view;
 });
 
+// Profiler
+$di->set('profiler', function(){
+    return new \Phalcon\Db\Profiler();
+}, true);
 
-
-$di->set('db', function() {
+$di->set('db', function() use ($di) {
     $config = ApplicationConfig::getMySQLConnection();
     $config['options'] = array(
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
     );
 
-    return new Phalcon\Db\Adapter\Pdo\Mysql($config);
+    $connection = new Phalcon\Db\Adapter\Pdo\Mysql($config);
+    KxApplication::enableDbProfiling($di, $connection);
+    return $connection;
 });
 
 
