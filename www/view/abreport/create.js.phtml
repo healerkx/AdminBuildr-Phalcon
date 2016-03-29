@@ -1,0 +1,397 @@
+<script>
+
+    $class('FieldPropertyDialog', null, {
+
+        _domNode: null,
+
+        _tr: null,
+
+        setTitle: function(title) {
+            this._domNode.find('div.modal-header span.field-name').text(title);
+        },
+
+        showDialog: function(tr, e) {
+            this._tr = tr;
+            var context = collectFieldConfig(tr);
+
+            var _thisDialog = this;
+            var callback = function() {
+                if (_thisDialog.save()) {
+                    this.hide();
+                }
+            };
+
+            var h = this.template;
+            var href = '#' + h.replace('/', '_');
+            var target = $(href && href.replace(/.*(?=#[^\s]+$)/, '')); //strip for ie7
+            this._domNode = target;
+            this.setTitle(context.fieldName);
+            var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
+            e && e.preventDefault();
+
+            this.initVisibilityAndSearch(tr);
+            target.modal(option);
+            return target;
+        },
+
+        saveValue: function() {
+            var v = this.getVisibility(), p = this.getProperties();
+            var more = $.extend(v, p);
+            this._tr.data('more', more);
+            return more;
+        }
+    });
+
+
+    $class('NewRowDialog', null, {
+
+        _domNode: null,
+
+        template:'abreport/dialog-new-row',
+
+        setTitle: function(title) {
+            this._domNode.find('div.modal-header span.field-name').text(title);
+        },
+
+        showDialog: function(e) {
+
+            var _thisDialog = this;
+            var callback = function() {
+                if (_thisDialog.save()) {
+                    this.hide();
+                }
+            };
+
+            var h = this.template;
+            var href = '#' + h.replace('/', '_');
+            var target = $(href && href.replace(/.*(?=#[^\s]+$)/, '')); //strip for ie7
+            this._domNode = target;
+
+            var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
+            e && e.preventDefault();
+
+            target.modal(option);
+            return target;
+        },
+
+        save: function() {
+            var fi = {'Field':'', 'Type':'', 'Comment':''};
+            addFieldInfoRow(fi);
+            return true;
+        }
+    });
+
+
+    function preview(data) {
+        console.log(data)
+    }
+
+    function selectOneValueOnly(sel, val, disabled) {
+        sel.val(val);
+        if (disabled) { sel.attr('disabled', 'disabled') } else { sel.removeAttr('disabled') }
+    }
+
+    function selectValuesOnly(sel, vals) {
+        console.log(vals);
+        var options = sel.find('option');
+        options.attr('disabled', 'disabled');
+        options.each(function () {
+            if (vals.indexOf( $(this).val() ) >= 0) {
+               $(this).removeAttr('disabled');
+            }
+        });
+    }
+
+    function addFieldInfoRow(fi, tableName) {
+
+        var t = $('#fields_action_row_template');
+
+        var tbody = $('#fields_action_table tbody');
+        var r = t.clone();
+
+        var fieldName = fi['Field'];
+        var fieldType = fi['Type'];
+        var fieldComment = fi['Comment'] || fieldName.capitalize();
+
+        r.attr('field', fieldName).css('display', '').removeAttr('id');
+        r.find('td[field=table] span').text(tableName);
+        r.find('td[field=field] span.field_name').text(fieldName);
+        r.find('td[field=field] span.field_type').text(fieldType);
+        r.find('td[field=field_text] input').val(fieldComment);
+        r.find('td[field=field_type] span').text(fieldType);
+        r.find('td[field=field_name] span').text(fi['Field']);
+        r.data('default-value', fi['Default']);
+
+        // PrimaryKey handling
+        var modeSelect = r.find('td[field=field_mode] select');
+        if (fi['Key'] == 'PRI') {
+            modeSelect.append('<option value="primaryKey">主键ID</option>')
+
+            selectOneValueOnly(modeSelect, 'primaryKey', true);
+        } else if (fieldType.toLowerCase() == 'datetime') {
+            modeSelect.val('datetime').attr('disabled', 'disabled');
+        }
+
+        r.appendTo(tbody);
+    }
+
+    function initFieldsConfigList(data, tableName) {
+        var tbody = $('#fields_action_table tbody');
+        tbody.empty();
+        var fields = data.fields;
+        for (var i in fields) {
+            var fi = fields[i];
+            // console.log(fields[i]);
+            addFieldInfoRow(fi, tableName);
+        }
+    }
+
+    function fillTableFields($select, fields) {
+        console.log(fields)
+        $select.empty();
+        var template = '<option value="{field_name}">{field_name}&nbsp;&nbsp;{field_type}</option>'
+        var fieldNameList = [];
+        for (var i in fields) {
+            var fi = fields[i];
+            var fieldName = fi['Field'];
+            var fieldType = fi['Type'];
+            fieldNameList.push(fieldName);
+
+            var o = template.format({field_name: fieldName, field_type: fieldType});
+            $(o).appendTo($select);
+        }
+    }
+
+    function initFieldNameLists(data) {
+        var fields = data.fields;
+        var commitFieldSelect = $('#commit_field_select');
+        var deleteFieldSelect = $('#delete_field_select');
+
+        fillTableFields(commitFieldSelect, fields);
+        fillTableFields(deleteFieldSelect, fields);
+    }
+
+    function getDefaultMore(fieldMode) {
+        if (fieldMode == 'text') {
+            var d = {'search':'2', 'type':''};
+        } else if (fieldMode == 'enum') {
+            var d = {'search':'1', 'values':[{'value':0, 'name':'请选择'}] };
+        } else if (fieldMode == 'fk') {
+            var d = {'search':'1', 'tablename':'', 'fieldname':''};
+        } else if (fieldMode == 'region') {
+            var d = {'search':'1', 'region_type':""};
+        } else if (fieldMode == 'file') {
+            var d = {'search':'0', 'upload_path':""};
+        } else if (fieldMode == 'image') {
+            var d = {'search':'0', 'upload_path':""};
+        } else if (fieldMode == 'multi') {
+            var d = {'search':'1'};
+        } else if (fieldMode == 'datetime') {
+            var d = {'search':'3', 'type': 'datetime'};
+        } else {
+            var d = {'search':'0'};
+        }
+        return d;
+    }
+
+    function getError(fieldName, msg) {
+        msg = msg || "";
+        return new Error(fieldName + " has NO properties set.(" + msg + ")");
+    }
+
+    function collectFieldConfig(tr, check) {
+        var handle = tr.find('td select[field=handle]').val();
+        if (handle == 0) {
+            console.log(tr.find('td[field=field] span.field_name').text())
+            return false;
+        }
+        var required = tr.find('td select[field=required]').val();
+        var fieldName = tr.find('td[field=field] span.field_name').text();
+        var fieldMode = tr.find('td[field=field_mode] select').val();
+        var fieldText = tr.find('td[field=field_text] input').val();
+        var more = tr.data('more') || getDefaultMore(fieldMode);
+
+        if (check) {
+            if (fieldMode == 'fk' && (String.isEmpty(more.tablename) || String.isEmpty(more.fieldname))) {
+                throw getError(fieldName);
+            } else if (fieldMode == 'region' && String.isEmpty(more.region_type)) {
+                throw getError(fieldName);
+            } else if ((fieldMode == 'file' || fieldMode == 'image' ) && String.isEmpty(more.upload_url)) {
+                throw getError(fieldName);
+            }
+        }
+
+        var defaultValue = tr.data('default-value');
+        var o = {
+            fieldName: fieldName,
+            fieldMode: fieldMode,
+            fieldText: fieldText,
+            required: required,
+            defaultValue: defaultValue,
+            more: more
+        };
+        // console.log(o);
+        return o;
+    }
+
+    function collectFieldsConfig() {
+        var title = $('#module_title').val();
+        var info = {
+            Title: title,
+            FieldsConfig:[],
+            CommitSupport:{},
+            DeleteSupport:{}};
+        var trs = $('#fields_action_table tbody tr');
+
+        trs.each(function(index, tr){
+            var tr = $(tr);
+            var o = collectFieldConfig(tr, true);
+            if (o) {
+                if (o['fieldMode'] == 'primaryKey') {
+                    info['PrimaryKey'] = o['fieldName'];
+                }
+                info['FieldsConfig'].push(o)
+            }
+        });
+
+        var commitSupportChecked = $('#commit_support').attr('checked');
+        info['CommitSupport'].support = 'No';
+        if (commitSupportChecked == 'checked') {
+            info['CommitSupport'].support = 'Yes';
+            info['CommitSupport'].field = $('#commit_field_select').val();
+            info['CommitSupport'].value = $('#commit_field_value').val();
+        }
+
+        var deleteSupportChecked = $('#delete_support').attr('checked');
+        info['DeleteSupport'].support = 'No';
+        if (deleteSupportChecked == 'checked') {
+            info['DeleteSupport'].support = 'Yes';
+            info['DeleteSupport'].field = $('#delete_field_select').val();
+            info['DeleteSupport'].value = $('#delete_field_value').val();
+        }
+
+        return info;
+    }
+
+    function exchangeItems(a, b) {
+        a.insertBefore(b);
+    }
+
+    $(function(){
+        //FormComponents.init();
+
+        $.getJSON('/abmodule/tableNames', function (data) {
+            if (data.error == 0) {
+                var tableNameSelect = $('#table_name');
+                var a = data.data;
+                for (var i in a) {
+                    var tabName = a[i]['Tables_in_badmin'];
+
+                    var template = "<option value=\"{table_name}\">{table_name}</option>".format({table_name:tabName});
+                    var t = $(template).clone();
+                    t.appendTo(tableNameSelect);
+                }
+            }
+        });
+
+
+        $('#load-model-button').click(function(){
+            var tableName = $('#table_name').val();
+            $.post("/abmodule/info",
+                {
+                    table:tableName, model:""
+                },
+                function(data){
+                    // console.log(typeof(data));
+                    var data = data.toJson();
+                    if (data.error == 0) {
+                        initFieldsConfigList(data.data, tableName);
+                        initFieldNameLists(data.data);
+                    }
+                });
+        });
+
+        $('#preview-button').click(function(){
+            try {
+                var info = collectFieldsConfig();
+                console.log(info);
+            } catch (e) {
+                console.log(e);
+                alert(e);
+                return false;
+            }
+
+            var prefix = $('#model_prefix').val();
+            var tableName = $('#table_name').val();
+
+            $.post("/abmodule/preview",
+                {
+                    prefix: prefix,
+                    table_name: tableName,
+                    info: info,
+                },
+                function(data) {
+                    console.log(data)
+                    var data = data.toJson();
+                    console.log(data)
+                    if (data.error == 0) {
+                        preview(data.data);
+                    }
+                });
+            return false;
+        });
+
+
+        $('#fields_action_table').delegate('.more', 'click', function(e){
+
+            var a = $(this);
+            var tr = a.parent().parent();
+            var o = collectFieldConfig(tr);
+
+            if (o.fieldMode == 'text') {
+                var d = new TextDialog();
+            } else if (o.fieldMode == 'enum') {
+                var d = new SelectDialog();
+            } else if (o.fieldMode == 'fk') {
+                var d = new RelatedIdDialog();
+            } else if (o.fieldMode == 'region') {
+                var d = new RegionDialog();
+            } else if (o.fieldMode == 'file') {
+                var d = new FileDialog();
+            } else if (o.fieldMode == 'image') {
+                var d = new ImageDialog();
+            } else if (o.fieldMode == 'multi') {
+                var d = new RelatedExtendDialog();
+            } else if (o.fieldMode == 'datetime') {
+                var d = new DateTimeDialog();
+            } else {
+                var d = new PrimaryKeyDialog();
+            }
+            d.show(tr, e);
+        });
+
+        $('div.toolbar').delegate('a.moveUp, a.moveDown', 'click', function(e) {
+
+            var $t = $(this);
+            var direct = $t.attr('direct');
+            var item = $('#fields_action_table tr.current');
+            if (direct == 'd') {
+                exchangeItems(item.next(), item);
+            } else if (direct == 'u') {
+                exchangeItems(item, item.prev());
+            }
+        });
+
+        $('div.toolbar').delegate('a.add-new', 'click', function(e) {
+            var d = new NewRowDialog();
+            d.showDialog();
+        });
+
+        $('#fields_action_table').delegate('tr', 'click', function(){
+            var self = $(this);
+            self.siblings().removeClass('current');
+            self.addClass('current');
+        });
+
+    });
+</script>

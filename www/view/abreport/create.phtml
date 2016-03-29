@@ -1,0 +1,117 @@
+<div class="span12">
+
+    <div class="clearfix">
+        <div class="margin-bottom-10 margin-right-20">
+            <label>请输入报表标题</label>
+
+            <div class="input-icon left">
+                <i class="icon-map-marker"></i>
+                <input id="module_title" class="m-wrap span6" type="text" placeholder="CURD Title">
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix margin-bottom-10">
+
+        <div class="control-group">
+            <label class="control-label">请选择数据库主表名称</label>
+
+            <div class="controls">
+                <select id="table_name" class="span6 chosen" data-placeholder="Select a database table" tabindex="1">
+                    <option value="kx_user">User</option>
+                    {% for table_name in table_names %}
+                    <option value="{{table_name}}">{{table_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="margin-left-20" style="margin-top: -1px;float: left">
+                <!-- BUG: the div with float:left is a dynamic element -->
+                <button id="load-model-button" class="btn blue btn-block">加载 <i class="m-icon-swapright m-icon-white"></i></button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="clearfix margin-bottom-10">
+        <div class="control-group toolbar">
+            <a class="btn icn-only blue moveUp" direct="u">
+                上移 <i class="m-icon-swapup m-icon-white"></i>
+            </a>
+
+            <a class="btn icn-only blue moveDown" direct="d">
+                下移 <i class="m-icon-swapdown m-icon-white"></i>
+            </a>
+
+            <a class="btn icn-only blue add-new">
+                添加 <i class="icon-plus m-icon-white"></i>
+            </a>
+
+        </div>
+    </div>
+
+
+    <div>
+        <table id="fields_action_table" class="table table-striped table-bordered table-hover table-full-width dataTable">
+            <thead>
+                <tr>
+                    <td title="字段显式名称">名称</td>
+                    <td>表</td>
+                    <td>字段</td>
+                    <td title="列表页字段行为">模式</td>
+
+
+                    <td title="编辑页字段行为">操作</td>
+                </tr>
+                <tr id="fields_action_row_template" style="display: none">
+                    <td field="field_text">
+                        <input name="field_text"/>
+                    </td>
+                    <td field="table">
+                        <b><span class="table_name"></span></b>
+                    </td>
+                    <td field="field">
+                        <b><span class="field_name"></span></b>
+                        <br>
+                        <span class="field_type"></span>
+                    </td>
+
+                    <td field="field_mode">
+                        <select name="field_mode">
+                            <option value="text">文本</option>
+                            <option value="enum">枚举</option>
+                            <option value="image">图片</option>
+                            <option value="file">文件链接</option>
+                            <option value="region">省、市、区</option>
+                            <option value="fk">关联ID</option>
+                            <option value="multi">关联展开</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <a class="btn blue more" data-toggle="modal">更多</a>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+
+    <div class="margin-bottom-10 margin-right-20">
+        <label>请输入模块前缀</label>
+
+        <div class="input-icon left">
+            <i class="icon-map-marker"></i>
+            <input id="model_prefix" class="m-wrap span6" type="text" placeholder="Module prefix name">
+        </div>
+    </div>
+
+    <div class="clearfix margin-bottom-10">
+        <button id="preview-button" class="btn blue btn-block">预览 <i class="m-icon-swapright m-icon-white"></i></button>
+    </div>
+
+</div>
+

@@ -6,7 +6,7 @@
         _tr: null,
 
         setTitle: function(title) {
-            this._domNode.find('div.modal-header span.field-name').text(title);
+            this._domNode.find('div.modal-header span.field-name').text("(" + title + ")");
         },
 
         showDialog: function(tr, e) {
