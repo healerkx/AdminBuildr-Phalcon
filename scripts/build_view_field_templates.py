@@ -13,11 +13,11 @@ date_field = """
 """
 
 file_field = """
-{{ tag_html('file_upload', ['label':'##label', 'upload_url':'##upload_url', 'field':'##field_name']) }}
+{{ tag_html('file_upload', ['label':'##label', 'upload_url':'##upload_url', 'field':'##field_name', 'value':value(i, ['##field_name'], '')]) }}
 """
 
 image_field = """
-{{ tag_html('img_upload', ['label':'##label', 'upload_url':'##upload_url', 'field':'##field_name']) }}
+{{ tag_html('img_upload', ['label':'##label', 'upload_url':'##upload_url', 'field':'##field_name', 'value':value(i, ['##field_name'], '')]) }}
 """
 
 ######################################################
@@ -47,7 +47,7 @@ image_view = """
 <div class="Image">
     <label class="control-label">##label</label>
     <div class="controls">
-        <img src="{{i['##field_name']}}"/>
+        <img src="{{i['##field_name']}}" style="width:100px"/>
     </div>
 </div>
 """

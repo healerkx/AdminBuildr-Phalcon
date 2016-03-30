@@ -17,8 +17,21 @@
                 pick: picker
             });
 
+            var initVal = domNode.find('input.file-path').val();
+            if (initVal) {
+                var d = domNode.find('div.fileupload');
+                d.find('div.uneditable-input').css('width', 'auto');
+                d.removeClass('fileupload-new').find('span').text(initVal);
+            }
+
             setTimeout(function(){
                 domNode.find('input[name=file]').removeAttr('name');
+
+                var initVal = domNode.find('input.file-path').val();
+                if (initVal) {
+                    var d = domNode.find('div.fileupload');
+                    d.removeClass('fileupload-new').find('span').text(initVal);
+                }
             }, 500);    // BUG: seems the input tag have NOT created here, so use setTimeout;
 
             uploader.on( 'uploadProgress', function( file, percentage ) {
