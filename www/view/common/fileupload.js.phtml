@@ -8,6 +8,15 @@
             this.initUploader(domNode);
         },
 
+        initValue: function(domNode) {
+            var initVal = domNode.find('input.file-path').val();
+            if (initVal) {
+                var d = domNode.find('div.fileupload');
+                d.find('div.uneditable-input').css('width', 'auto');
+                d.removeClass('fileupload-new').find('span').text(initVal);
+            }
+        },
+
         createUploader: function(domNode) {
             var picker = domNode.find('div.picker');
             var uploadUrl = picker.attr('upload-url');
@@ -17,13 +26,7 @@
                 pick: picker
             });
 
-            var initVal = domNode.find('input.file-path').val();
-            if (initVal) {
-                var d = domNode.find('div.fileupload');
-                d.find('div.uneditable-input').css('width', 'auto');
-                d.removeClass('fileupload-new').find('span').text(initVal);
-            }
-
+            this.initValue(domNode);
             setTimeout(function(){
                 domNode.find('input[name=file]').removeAttr('name');
 
@@ -69,6 +72,18 @@
     });
 
     $class("ImageUploader", [FileUploader], {
+
+        initValue: function(domNode) {
+            var initVal = domNode.find('input.file-path').val();
+            if (initVal) {
+                console.log("DDDD")
+                var d = domNode.find('div.thumbnail');
+                var i = $('<div class="file-item"><img/></div>')
+                        .css('height', '100%').css('overflow', 'hidden')
+                        .appendTo(d);
+                i.find('img').attr('src', initVal);
+            }
+        },
 
         initUploader: function (domNode) {
             var _this = this;
