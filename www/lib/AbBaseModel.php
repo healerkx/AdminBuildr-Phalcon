@@ -8,10 +8,11 @@ class AbBaseModel extends Model
 {
     /**
      * @param $search
+     * @param $joins
      * @param bool|false $order
      * @return mixed
      */
-    public static function search($search, $order=false)
+    public static function search($search, $joins=array(), $order=false)
     {
         $clz = get_called_class();
         $query = new AbBaseQuery($clz);
@@ -69,6 +70,12 @@ class AbBaseModel extends Model
         $params = array('binds' => $binds);
         if ($order) {
             $params['order'] = $order;
+        }
+
+        if (!empty($joins) && is_array($joins)) {
+            foreach ($joins as $modelName => $fieldPair) {
+                $query->addJoin($modelName, $fieldPair);
+            }
         }
 
         $params['limit'] = array($pageSize, ($page - 1) * $pageSize);

@@ -15,9 +15,10 @@ class {{ model_name }} extends {{ base_model_name }}
 		return "{{ primary_key }}";
 	}
 
-	public static function search($search, $order=false)
+	public static function search($search, $joins=array(), $order=false)
 	{
-		return parent::search($search);
+		// TODO: Merge joins
+		return parent::search($search, $joins, $order);
 	}
 
 	public static function headers() {

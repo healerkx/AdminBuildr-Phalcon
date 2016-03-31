@@ -39,8 +39,16 @@ class AbBaseQuery
         return  $clz::count();
     }
 
+    public function addJoin($modelName, $fieldPair) {
+        $aliasMd5 = md5($modelName);
+        $this->query->join($modelName, "{$aliasMd5}.{$fieldPair[0]} = {$this->clz}.{$fieldPair[1]}", $aliasMd5);
+    }
+
     public function execute($params=array())
     {
+        // I have to add this line to fetch all data including joined table.
+        $this->query->columns('*');
+
         if (array_key_exists('binds', $params)) {
             $binds = $params['binds'];
             $this->query->bind($binds);
