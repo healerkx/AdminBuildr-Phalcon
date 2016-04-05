@@ -10,12 +10,8 @@ class {{ controller_name }} extends {{ base_controller_name }}
 		$condition = Strings::filter($_GET);
 		$result = {{model_name}}::search($condition);
 
-		$items = array();
-		if ($result['items']) {
-			$items = $result['items']->toArray();
-		}
-
 		$count = $result['count'];
+		$items = $result['items'];
 		$data = array(
 			'count' => $count,
 			'items' => $items, 

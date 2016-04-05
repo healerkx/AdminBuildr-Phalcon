@@ -5,6 +5,9 @@ class {{ model_name }} extends {{ base_model_name }}
 	public function initialize()
 	{
 		$this->allowEmptyStringValues(array({% for field in allow_empty_fields %}'{{field}}', {% end %}));
+		{% for join in joins %}
+		$this->belongsTo('{{join["thisModelFieldName"]}}', '{{join["modelName"]}}', '{{join["fieldName"]}}');
+		{% end %}
 	}
 
 	public function getSource() {
@@ -15,15 +18,14 @@ class {{ model_name }} extends {{ base_model_name }}
 		return "{{ primary_key }}";
 	}
 
-	public static function search($search, $joins=array(), $order=false)
+	public static function search($search, $order=false)
 	{
-		// TODO: Merge joins
-		return parent::search($search, $joins, $order);
+		return parent::search($search, $order);
 	}
 
 	public static function headers() {
 		return array({% for field in fields_info %}
-			'{{field['fieldName']}}' => '{{field['fieldText']}}',{% end %}
+			'{{field["fieldName"]}}' => '{{field["fieldText"]}}',{% end %}
 		);
 	}
 	{% if support_delete == 'Yes' %}

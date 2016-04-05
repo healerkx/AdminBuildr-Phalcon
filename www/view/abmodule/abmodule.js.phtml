@@ -77,7 +77,6 @@
     }
 
     function fillTableFields($select, fields) {
-        console.log(fields)
         $select.empty();
         var template = '<option value="{field_name}">{field_name}&nbsp;&nbsp;{field_type}</option>'
         var fieldNameList = [];
@@ -107,7 +106,7 @@
         } else if (fieldMode == 'enum') {
             var d = {'search':'1', 'values':[{'value':0, 'name':'请选择'}] };
         } else if (fieldMode == 'fk') {
-            var d = {'search':'1', 'tablename':'', 'fieldname':''};
+            var d = {'search':'0', 'table':'', 'field':''};
         } else if (fieldMode == 'region') {
             var d = {'search':'1', 'region_type':""};
         } else if (fieldMode == 'file') {
@@ -141,8 +140,11 @@
         var fieldText = tr.find('td[field=field_text] input').val();
         var more = tr.data('more') || getDefaultMore(fieldMode);
 
+        console.log(tr.data('more'))
+
         if (check) {
-            if (fieldMode == 'fk' && (String.isEmpty(more.tablename) || String.isEmpty(more.fieldname))) {
+            console.log(more)
+            if (fieldMode == 'fk' && (String.isEmpty(more.table) || String.isEmpty(more.field))) {
                 throw getError(fieldName);
             } else if (fieldMode == 'region' && String.isEmpty(more.region_type)) {
                 throw getError(fieldName);
@@ -176,6 +178,7 @@
         trs.each(function(index, tr){
             var tr = $(tr);
             var o = collectFieldConfig(tr, true);
+            console.log(o);
             if (o) {
                 if (o['fieldMode'] == 'primaryKey') {
                     info['PrimaryKey'] = o['fieldName'];

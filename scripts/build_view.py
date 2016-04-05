@@ -40,7 +40,13 @@ def get_value(field_config):
         return get_html_for_show_view(field_config, 'List')
     elif field_config['fieldMode'] == 'file' or field_config['fieldMode'] == 'image':
         return get_html_for_show_view(field_config, 'List')
-    value = "{{i['%s']}}" % field_config['fieldName']
+    elif field_config['fieldMode'] == 'fk':
+        more = field_config['more']
+        model_name = get_module_name('', more['table'])
+        value = "{{ i.%s.%s }}" % (model_name, more['display'])
+        return value
+
+    value = "{{ i.%s }}" % field_config['fieldName']
     return value
 
 # List view

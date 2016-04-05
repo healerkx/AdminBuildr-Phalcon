@@ -28,6 +28,21 @@ def get_like_fields(fields_config):
             like_fields.append(field['fieldName'])
     return like_fields
 
+def get_join_info(fields_config):
+    joins = []
+    for field in fields_config:
+        if field["fieldMode"] != "fk":
+            continue
+        if 'more' not in field:
+            assert(False)
+
+        more = field['more']
+        model_name = get_module_name('', more['table'])
+        join = {'modelName':model_name, 'fieldName':more['field'], 'thisModelFieldName':field['fieldName']}
+        joins.append(join)
+
+    return joins
+
 def build_model(config, base_model_name):
     model = config['model']
     module_name = config['module_name']
@@ -43,6 +58,7 @@ def build_model(config, base_model_name):
     d['fields_info'] = list(filter(lambda x: x['fieldName'] != '', fields_config))
     d['allow_empty_fields'] = get_allow_empty_fields(fields_config)
     d['like_fields'] = get_like_fields(fields_config)
+    d['joins'] = get_join_info(fields_config)
 
     del_support = model['info']['DeleteSupport']
     if 'support' in del_support and del_support['support'] == "Yes":

@@ -98,8 +98,8 @@ def get_html_for_form_view(field_config, view):
     field_template = ''
     if field_mode == 'fk':
         field_template = search_field
-        m['search_table'] = more['search_table']
-        m['search_field'] = more['search_field']
+        m['search_table'] = more['table']
+        m['search_field'] = more['field']
     elif field_mode == 'text':
         validate_rules(m, field_config)
         field_template = text_field
@@ -156,8 +156,8 @@ def get_html_for_show_view(field_config, view):
 
     if field_mode == 'fk':
         field_template = text_line
-        m['search_table'] = more['search_table']
-        m['search_field'] = more['search_field']        
+        m['search_table'] = more['table']
+        m['search_field'] = more['field']
     elif field_mode == 'primaryKey':
         field_template = text_line
     elif field_mode == 'enum':

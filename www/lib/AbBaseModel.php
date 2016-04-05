@@ -12,7 +12,7 @@ class AbBaseModel extends Model
      * @param bool|false $order
      * @return mixed
      */
-    public static function search($search, $joins=array(), $order=false)
+    public static function search($search, $order=false)
     {
         $clz = get_called_class();
         $query = new AbBaseQuery($clz);

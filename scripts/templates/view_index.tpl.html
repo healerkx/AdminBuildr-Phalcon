@@ -40,7 +40,7 @@
                 {% for o in item_operators %}
                 <a href="javascript:void(0)"
                    operator="{{o['operator']}}"
-                   target="{{i[target_field]}}"
+                   target="{{ i.target_field }}"
                    action="{{o['action']}}"><span>{{o['name']}}</span></a>
                 {% endfor %}
             </td>

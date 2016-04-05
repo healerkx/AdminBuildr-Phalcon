@@ -184,12 +184,14 @@
 
         getProperties: function () {
             var tableName = this._domNode.find('.table-name').val();
-            var fieldName = this._domNode.find('.field-names').val();
+            var fieldName = this._domNode.find('.related-field').val();
+            var displayFieldName = this._domNode.find('.display-field').val();
 
-            return {table: tableName, filed: fieldName};
+            return { table: tableName, field: fieldName, display: displayFieldName };
         },
 
         save: function () {
+            console.log(this.saveValue());
             return this.saveValue();
         }
     });
