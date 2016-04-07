@@ -7,6 +7,7 @@ class {{ controller_name }} extends {{ base_controller_name }}
 	 */
 	public function indexAction()
 	{
+		error_reporting(0);	// 暂时不能处理关联不到的数据而显示的错误
 		$condition = Strings::filter($_GET);
 		$result = {{model_name}}::search($condition);
 

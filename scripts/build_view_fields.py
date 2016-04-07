@@ -98,8 +98,9 @@ def get_html_for_form_view(field_config, view):
     field_template = ''
     if field_mode == 'fk':
         field_template = search_field
+        print(field_template)
         m['search_table'] = more['table']
-        m['search_field'] = more['field']
+        m['search_field'] = more['display']
     elif field_mode == 'text':
         validate_rules(m, field_config)
         field_template = text_field
