@@ -56,11 +56,11 @@ image_view = """
 # Region about
 
 # Cell
-region_province_cell = "{{ tag_html('province_name', [i['##province_field']] ) }}"
+region_province_cell = "{{ tag_html('province_name', [i.##province_field] ) }}"
 
-region_city_cell = "{{ tag_html('city_name', [i['##city_field']] ) }}"
+region_city_cell = "{{ tag_html('city_name', [i.##city_field] ) }}"
 
-region_county_cell = "{{ tag_html('county_name', [i['##county_field']] ) }}"
+region_county_cell = "{{ tag_html('county_name', [i.##county_field] ) }}"
 
 region_cell = ' - '.join([region_province_cell, region_city_cell, region_county_cell])
 

@@ -19,8 +19,7 @@ class {{ controller_name }} extends {{ base_controller_name }}
 			'i' => $condition,
 			'item_has_checkbox' => {{ item_has_checkbox }},
 			'item_has_operator' => {{ item_has_operator }},
-			'headers' => {{model_name}}::headers(),
-			'target_field' => {{model_name}}::primaryKeyName()
+			'headers' => {{model_name}}::headers()
 			);
 		$views = array('name' => '查看列表', 'template' => '{{lower(model_name)}}/index');
 		parent::showPager($_GET['__pager_current'], $count);
