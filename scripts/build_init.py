@@ -88,9 +88,13 @@ if __name__ == '__main__':
     srcpath = 'D:\\Projects\\AdminBuildr'
     destpath = 'D:\\Projects\\Badmin'
     create_init_dirs(destpath)
+    copy_init_files(srcpath, destpath, "www\\controller")   # BUT Not all files
     copy_init_files(srcpath, destpath, "www\\lib")
+    copy_init_files(srcpath, destpath, "www\\model")
     copy_init_files(srcpath, destpath, "www\\view\\active-web")
     copy_init_files(srcpath, destpath, "www\\view\\common")
+    copy_init_files(srcpath, destpath, "www\\view\\kxadminnode")
+    copy_init_files(srcpath, destpath, "www\\view\\kxadminrole")
     copy_init_files(srcpath, destpath, "www\\view\\media")
 
     #

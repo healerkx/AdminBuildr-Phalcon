@@ -10,15 +10,7 @@ class AjaxController extends AbBaseController
     public function countiesAction($cityId) {
         parent::result(SysRegion::counties($cityId));
     }
-
-    public function sAction() {
-        $a = KxAdminUser::find(array('conditions' => "username like '%a%'", "limit" => 20));
-        //var_dump($a);
-        echo count($a);
-        $a = $a->toArray();
-        parent::error(-2, $a);
-    }
-
+    
     public function searchAction() {
 
         try {
