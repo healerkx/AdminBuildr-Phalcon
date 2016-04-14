@@ -31,7 +31,12 @@ def load_config(config_file=None):
     config['module_name'] = model_name
     
     model = None
-    p = os.path.join(product_path, 'www\\model\\config', model_name + ".json")
+
+    config_path = 'www\\model\\config'
+    if options.command == 'build_report':
+        config_path = 'www\\model\\report'
+
+    p = os.path.join(product_path, config_path, model_name + ".json")
     if os.path.exists(p):
         with open(p, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -58,6 +63,9 @@ def parse_args():
 
     parser.add_option("-t", "--table", action="store",
                   dest="table_name", help="Provide the database table name")
+
+    parser.add_option("-m", "--command", action="store",
+                  dest="command", help="Provide the command name")
 
     options, args = parser.parse_args()
     return options, args

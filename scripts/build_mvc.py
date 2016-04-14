@@ -7,7 +7,7 @@ from tornado.template import Template
 import json
 
 if __name__ == '__main__':
-    sys.argv = ['a.py', '--table=kx_user', '--prefix=', '--config=D:\\Projects\\AdminBuildr\\config\\config.json']
+    sys.argv = ['build_mvc.py', '--table=kx_user', '--prefix=', '--config=D:\\Projects\\AdminBuildr\\config\\config.json']
     config = load_config()
 
     model_file = build_model_by_config(config)

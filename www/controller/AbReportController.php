@@ -27,4 +27,43 @@ class AbReportController extends AbBaseController
         }
         return $tableNames;
     }
+
+
+    public function previewAction() {
+        $p = $this->request->getPost();
+        $prefix = $p['prefix'];
+        $tableName = $p['table_name'];
+        if ($prefix) {
+            $tableName = "{$prefix}_{$tableName}";
+        }
+
+        $modelName = self::tableNameToModelName($tableName);
+
+        $path = ApplicationConfig::getConfig('product')['path'] . '\\www';
+
+        $this->createReportConfigFile($path, $modelName, $p);
+
+        $configPath = ApplicationConfig::getConfigPath('config.json');
+        $cmdLine = "--prefix=$prefix --table=$tableName --config=\"$configPath\"";
+
+        $c = Python3::run("build_report.py", $cmdLine);
+        $targetHost = ApplicationConfig::getConfig('product')['host'];
+
+        $testListUrl = "$targetHost/$modelName";
+        parent::result(array(
+            'model' => $modelName,
+            'files' => json_decode($c),
+            'cmd_line' => $cmdLine,
+            'test_list_url' => $testListUrl,
+            'build' => $c));
+    }
+
+    private function createReportConfigFile($path, $modelName, $data) {
+        $workingModelFile = "$path\\model\\report\\{$modelName}.json";
+
+        $content = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        file_put_contents($workingModelFile, $content);
+        return true;
+    }
+
 }
