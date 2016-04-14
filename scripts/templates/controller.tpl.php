@@ -26,7 +26,7 @@ class {{ controller_name }} extends {{ base_controller_name }}
 			'headers' => {{model_name}}::headers()
 			);
 		$views = array('name' => '查看列表', 'template' => '{{lower(model_name)}}/index');
-		parent::showPager($_GET['__pager_current'], $count);
+		parent::showPager($_GET['__pager_current'], $result['page_count']);
 		parent::showTabViews($views, '查看', $data);
 	}
 

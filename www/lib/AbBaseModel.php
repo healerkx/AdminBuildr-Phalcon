@@ -8,7 +8,6 @@ class AbBaseModel extends Model
 {
     /**
      * @param $search
-     * @param $joins
      * @param bool|false $order
      * @return mixed
      */
@@ -20,6 +19,7 @@ class AbBaseModel extends Model
         $binds = array();
         $page = 1;
         $pageSize = ApplicationConfig::getDefaultPageSize();
+        $pageCount = $count / $pageSize + (($count % $pageSize) != 0);
         foreach ($search as $key => $value)
         {
             if ($key == '_url') {
@@ -83,6 +83,7 @@ class AbBaseModel extends Model
         $items = $query->execute($params);
         return array(
             'count' => $count,
+            'page_count' => $pageCount,
             'items' => $items
         );
     }
