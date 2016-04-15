@@ -132,6 +132,29 @@ class {{ controller_name }} extends {{ base_controller_name }}
 		return parent::error(-1, array('error' => 'No field set for deletion'));
 	}
 
+	public function exportAction($type)
+	{
+		// TODO: Header
+		$type = $type ?: 'csv';
+		if ($type == 'excel') {
+			$this->exportToExcelFile();
+		} else if ($type == 'csv') {
+			$this->exportToCsvFile();
+		}
+	}
+
+	private function exportToCsvFile()
+	{
+		$fileName = '{{model_name}}.csv';
+		AbExportFile::exportToCsvFile($fileName);
+	}
+
+	private function exportToExcelFile()
+	{
+		$fileName = '{{model_name}}.xls';
+		AbExportFile::exportToExcelFile($fileName);
+	}
+
 	public function itemOperator() {
 		// array for operators
 		return array(
