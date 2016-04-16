@@ -1,86 +1,5 @@
+{% include 'abreport/dialog.js.phtml' %}
 <script>
-
-    $class('FieldPropertyDialog', null, {
-
-        _domNode: null,
-
-        _tr: null,
-
-        setTitle: function(title) {
-            this._domNode.find('div.modal-header span.field-name').text(title);
-        },
-
-        showDialog: function(tr, e) {
-            this._tr = tr;
-            var context = collectFieldConfig(tr);
-
-            var _thisDialog = this;
-            var callback = function() {
-                if (_thisDialog.save()) {
-                    this.hide();
-                }
-            };
-
-            var h = this.template;
-            var href = '#' + h.replace('/', '_');
-            var target = $(href && href.replace(/.*(?=#[^\s]+$)/, '')); //strip for ie7
-            this._domNode = target;
-            this.setTitle(context.fieldName);
-            var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
-            e && e.preventDefault();
-
-            this.initVisibilityAndSearch(tr);
-            target.modal(option);
-            return target;
-        },
-
-        saveValue: function() {
-            var v = this.getVisibility(), p = this.getProperties();
-            var more = $.extend(v, p);
-            this._tr.data('more', more);
-            return more;
-        }
-    });
-
-
-    $class('NewRowDialog', null, {
-
-        _domNode: null,
-
-        template:'abreport/dialog-new-row',
-
-        setTitle: function(title) {
-            this._domNode.find('div.modal-header span.field-name').text(title);
-        },
-
-        showDialog: function(e) {
-
-            var _thisDialog = this;
-            var callback = function() {
-                if (_thisDialog.save()) {
-                    this.hide();
-                }
-            };
-
-            var h = this.template;
-            var href = '#' + h.replace('/', '_');
-            var target = $(href && href.replace(/.*(?=#[^\s]+$)/, '')); //strip for ie7
-            this._domNode = target;
-
-            var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
-            e && e.preventDefault();
-
-            target.modal(option);
-            return target;
-        },
-
-        save: function() {
-            var fi = {'Field':'', 'Type':'', 'Comment':''};
-            addFieldInfoRow(fi);
-            return true;
-        }
-    });
-
 
     function preview(data) {
         console.log(data)
@@ -348,6 +267,8 @@
             var tr = a.parent().parent();
             var o = collectFieldConfig(tr);
 
+            console.log(o.fieldMode);
+
             if (o.fieldMode == 'text') {
                 var d = new TextDialog();
             } else if (o.fieldMode == 'enum') {
@@ -366,6 +287,7 @@
                 var d = new DateTimeDialog();
             } else {
                 var d = new PrimaryKeyDialog();
+                console.log(d);
             }
             d.show(tr, e);
         });
@@ -384,7 +306,7 @@
 
         $('div.toolbar').delegate('a.add-new', 'click', function(e) {
             var d = new NewRowDialog();
-            d.showDialog();
+            d.show(null, e);
         });
 
         $('#fields_action_table').delegate('tr', 'click', function(){

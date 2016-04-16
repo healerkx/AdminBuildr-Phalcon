@@ -1,0 +1,390 @@
+<script>
+
+    $class('FieldPropertyDialog', null, {
+
+        _domNode: null,
+
+        _tr: null,
+
+        setTitle: function(title) {
+            this._domNode.find('div.modal-header span.field-name').text(title);
+        },
+
+        showDialog: function(tr, e) {
+            this._tr = tr;
+            var context = collectFieldConfig(tr);
+
+            var _thisDialog = this;
+            var callback = function() {
+                if (_thisDialog.save()) {
+                    this.hide();
+                }
+            };
+
+            var h = this.template;
+            var href = '#' + h.replace('/', '_');
+            var target = $(href && href.replace(/.*(?=#[^\s]+$)/, '')); //strip for ie7
+            this._domNode = target;
+            this.setTitle(context.fieldName);
+            var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
+            e && e.preventDefault();
+
+            console.log(target);
+            target.modal(option);
+            console.log(444);
+            return target;
+        },
+
+        saveValue: function() {
+            var v = this.getVisibility(), p = this.getProperties();
+            var more = $.extend(v, p);
+            this._tr.data('more', more);
+            return more;
+        }
+    });
+
+    $class('NewRowDialog', null, {
+
+        _domNode: null,
+
+        template:'abreport/dialog-new-row',
+
+        setTitle: function(title) {
+            this._domNode.find('div.modal-header span.field-name').text(title);
+        },
+
+        showDialog: function(e) {
+
+            var _thisDialog = this;
+            var callback = function() {
+                if (_thisDialog.save()) {
+                    this.hide();
+                }
+            };
+
+            var h = this.template;
+            var href = '#' + h.replace('/', '_');
+            var target = $(href && href.replace(/.*(?=#[^\s]+$)/, '')); //strip for ie7
+            this._domNode = target;
+
+            var option = $.extend({ remote: !/#/.test(href) && href }, {'onOk': callback});
+            e && e.preventDefault();
+            console.log(target);
+            target.modal(option);
+            return target;
+        },
+
+        show: function (context, e) {
+            this.showDialog(e);
+        },
+
+        save: function() {
+            var fi = {'Field':'', 'Type':'', 'Comment':''};
+            addFieldInfoRow(fi);
+            return true;
+        }
+    });
+
+    // Derived classes
+    // ---------------
+    $class('TextDialog', FieldPropertyDialog, {
+
+        template:'abreport/dialog-text',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            this.showDialog(context, e);
+
+            var more = this._tr.data('more');   // For init rendering
+            console.log(more)
+            if (more) {
+                var regionTable = this._domNode.find('table.text');
+                regionTable.find("[name=type]").val(more['type']);
+                regionTable.find("[name=minlength]").val(more['minlength']);
+                regionTable.find("[name=maxlength]").val(more['maxlength']);
+                regionTable.find("[name=min]").val(more['min']);
+                regionTable.find("[name=max]").val(more['max']);
+            }
+        },
+
+        // TODO: Same code refactor
+        getProperties: function () {
+            var regionTable = this._domNode.find('table.text');
+            var values = {};
+            regionTable.find("input, select").each(function() {
+                var i = $(this);
+                var value = i.val(), name = i.attr('name');
+                if (!String.isEmpty(value)) {
+                    values[name] = value;
+                }
+            });
+            console.log(values);
+            return values;
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+    $class('SelectDialog', FieldPropertyDialog, {
+
+        template:'abreport/dialog-select',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            var list = Widget.widgetById('entry-edit-list');
+            console.log(list);
+            if (list) {
+                list.init();
+                list.resetBody();
+            }
+
+            this.showDialog(context, e);
+            var more = this._tr.data('more');   // For init rendering
+            console.log(more)
+            if (more) {
+                var values = more['values'];
+                for (var i in values) {
+                    var v = values[i];
+                    this._addValue(list, v['value'], v['name']);
+                }
+            } else {
+                this._addValue(list, 0, '请选择');
+            }
+        },
+
+        _addValue: function (list, value, name) {
+            var tr = list.addEntry();
+            tr.find('.value').val(value);
+            tr.find('.name').val(name);
+        },
+
+        getProperties: function () {
+            var trList = this._domNode.find('div[widget-class] tbody tr');
+            var values = [];
+            trList.each(function() {
+                var tr = $(this);
+                var value = tr.find('input.value').val(), name = tr.find('input.name').val();
+                values.push({'value': value, 'name': name });
+            });
+            return {values: values};
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+    $class('RelatedIdDialog', FieldPropertyDialog, {
+        template:'abreport/dialog-fk',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            var this_= this;
+            var domNode = this.showDialog(context, e);
+            var $select = domNode.find('.field-names');
+            domNode.find('.table-name').change(function() {
+                var tableName = $(this).val();
+                $.post("/abreport/info",
+                        { table:tableName },
+                        function(data){
+                            var data = data.toJson();
+                            if (data.error == 0) {
+                                fillTableFields($select, data.data.fields);
+                            }
+                        });
+            });
+        },
+
+        getProperties: function () {
+            var tableName = this._domNode.find('.table-name').val();
+            var fieldName = this._domNode.find('.related-field').val();
+            var displayFieldName = this._domNode.find('.display-field').val();
+
+            return { table: tableName, field: fieldName, display: displayFieldName };
+        },
+
+        save: function () {
+            console.log(this.saveValue());
+            return this.saveValue();
+        }
+    });
+
+
+    $class('RegionDialog', FieldPropertyDialog, {
+        template:'abreport/dialog-region',
+
+        show: function (context, e) {
+
+            var domNode = this.showDialog(context, e);
+
+            domNode.find('select.region-type').change(function(){
+
+                if ($(this).val() == 'province') {
+                    domNode.find('input.group-name').css('display', '');
+                } else {
+                    domNode.find('input.group-name').css('display', 'none');
+                }
+            });
+
+            var more = this._tr.data('more');   // For init rendering
+            if (more) {
+                domNode.find('select.region-type').val(more.region_type).change();
+                domNode.find('select.group-name').val(more.group_name);
+                domNode.find('select.group-id').val(more.group_id);
+            }
+        },
+
+        getProperties: function () {
+            var regionTable = this._domNode.find('table.region');
+            var values = {};
+            regionTable.find("input, select").each(function() {
+                var i = $(this);
+                var value = i.val(), name = i.attr('name');
+                if (!String.isEmpty(value)) {
+                    values[name] = value;
+                }
+
+            });
+            console.log(values);
+            return values;
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+    $class('FileDialog', FieldPropertyDialog, {
+        template:'abreport/dialog-file',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            var domNode = this.showDialog(context, e);
+            selectOneValueOnly(domNode.find('td[field=search] select'), 0, true);
+        },
+
+        getProperties: function () {
+            var uploadUrl = this._domNode.find('select[name=upload_path]').val();
+            console.log(uploadUrl);
+            return {upload_url: uploadUrl};
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+    // TODO: set image size
+    $class('ImageDialog', FieldPropertyDialog, {
+        template:'abreport/dialog-img',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            var domNode = this.showDialog(context, e);
+            selectOneValueOnly(domNode.find('td[field=search] select'), 0, true);
+        },
+
+        getProperties: function () {
+            var uploadUrl = this._domNode.find('select[name=upload_path]').val();
+            return {upload_url: uploadUrl};
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+
+    $class('RelatedExtendDialog', FieldPropertyDialog, {
+        template:'abreport/dialog-extend',
+
+        show: function (context, e) {
+            // TODO: fill data into dom.
+            var this_= this;
+            var domNode = this.showDialog(context, e);
+            var $select = domNode.find('.field-names');
+            /*
+            domNode.find('.table-name').change(function() {
+                var tableName = $(this).val();
+                $.post("/abreport/info",
+                        { table:tableName },
+                        function(data){
+                            var data = data.toJson();
+                            if (data.error == 0) {
+                                fillTableFields($select, data.data.fields);
+                            }
+                        });
+            });
+            */
+        },
+
+        getProperties: function () {
+            var tableName = this._domNode.find('.table-name').val();
+            var fieldName = this._domNode.find('.field-names').val();
+
+            console.log({table: tableName, filed: fieldName});
+            return {table: tableName, filed: fieldName};
+
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+    $class('PrimaryKeyDialog', FieldPropertyDialog, {
+        template:'abreport/dialog-pk',
+
+        show: function (context, e) {
+            var domNode = this.showDialog(context, e);
+            selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 1, true);
+            selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 1, true);
+        },
+
+        getProperties: function () {
+            return {};
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+
+    $class('DateTimeDialog', FieldPropertyDialog, {
+        template:'abreport/dialog-datetime',
+
+        show: function (context, e) {
+            var domNode = this.showDialog(context, e);
+            selectValuesOnly(domNode.find('td[field=search] select'), ['0', '3']);
+
+            domNode.delegate('select[name=type]', 'change', function () {
+                var type = $(this).val();
+                if (type == 'create_time' || type == 'update_time') {
+                    selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 1, true);
+                    selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 1, true);
+                } else {
+                    selectOneValueOnly(domNode.find('td[field=hide_in_create] select'), 0);
+                    selectOneValueOnly(domNode.find('td[field=hide_in_update] select'), 0);
+                }
+            });
+
+            var more = this._tr.data('more');
+            if (more) {
+                domNode.find('select[name=type]').val(more['type']);
+            }
+        },
+
+        getProperties: function () {
+            var type = this._domNode.find('select[name=type]').val();
+            return {type: type};
+        },
+
+        save: function () {
+            return this.saveValue();
+        }
+    });
+
+</script>

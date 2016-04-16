@@ -15,6 +15,16 @@ class AbReportController extends AbBaseController
         $views = [
             ["name" =>'新建报表', "template"=> "abreport/create"] ];
 
+        parent::addDialog('下拉框设置', 'abreport/dialog-select');
+        parent::addDialog('文本框设置', 'abreport/dialog-text');
+        parent::addDialog('时间选择设置', 'abreport/dialog-datetime');
+        parent::addDialog('关联ID设置', 'abreport/dialog-fk');
+        parent::addDialog('主键ID设置', 'abreport/dialog-pk');
+        parent::addDialog('关联ID设置', 'abreport/dialog-extend');
+        parent::addDialog('行政区设置', 'abreport/dialog-region');
+        parent::addDialog('文件上传设置', 'abreport/dialog-file');
+        parent::addDialog('图片上传设置', 'abreport/dialog-img');
+
         parent::addDialog('添加列', 'abreport/dialog-new-row');
         parent::showTabViews($views, '创建报表', $data);
     }

@@ -1,3 +1,34 @@
 <div class="row-fluid">
+    <div class="span6">
+        <!-- 可见性 -->
+        <table id="fields_visible_table" class="table table-striped table-bordered table-hover table-full-width dataTable">
+            <thead>
+            <tr>
+                <td title="新增页字段行为">显示</td>
+                <td title="新增页字段行为">新增</td>
 
+                <td title="编辑页字段行为">查找</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="visible">
+                <td field="hide_in_list">
+                    <select name="hide_in_list">
+                        <option value="0">显示</option>
+                        <option value="1">隐藏</option>
+                    </select>
+                </td>
+
+                <td field="search">
+                    <select name="search">
+                        <option value="0">不支持查找</option>
+                        <option value="1">精确匹配</option>
+                        <option value="2">模糊匹配</option>
+                        <option value="3">区间</option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

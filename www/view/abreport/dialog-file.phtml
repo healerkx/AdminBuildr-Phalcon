@@ -1,0 +1,24 @@
+{% include "abreport/dialog-common.phtml" %}
+<div class="row-fluid">
+
+    <div>
+        <table class="table table-striped table-bordered table-hover table-full-width dataTable">
+            <tbody>
+            <tr>
+                <td><span>文件上传位置</span></td>
+                <td>
+                    <div class="controls">
+                        <select type="text" name="upload_path">
+                            {% for i in upload_urls %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
