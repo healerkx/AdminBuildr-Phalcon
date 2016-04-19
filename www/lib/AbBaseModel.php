@@ -20,6 +20,7 @@ class AbBaseModel extends Model
         $page = 1;
         $pageSize = ApplicationConfig::getDefaultPageSize();
         $pageCount = $count / $pageSize + (($count % $pageSize) != 0);
+        $pageCount = $pageCount ?: 1;
         foreach ($search as $key => $value)
         {
             if ($key == '_url') {

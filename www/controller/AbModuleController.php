@@ -111,9 +111,13 @@ class AbModuleController extends AbBaseController
 
     private function tableNames() {
         $a = $this->db->fetchAll("SHOW tables");
+        $mysql = ApplicationConfig::getMySQLConnection();
+        $dbName = $mysql['dbname'];
+        $key = "Tables_in_{$dbName}";
+
         $tableNames = array();
         foreach ($a as $table) {
-            array_push($tableNames, $table['Tables_in_badmin']);
+            array_push($tableNames, $table[$key]);
         }
         return $tableNames;
     }

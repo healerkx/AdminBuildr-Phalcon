@@ -17,11 +17,23 @@ CREATE TABLE `kx_user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 
-CREATE TABLE `kx_ompany` (
+CREATE TABLE `kx_company` (
   `company_id` int(11) NOT NULL AUTO_INCREMENT,
   `company_name` varchar(100) DEFAULT NULL,
-  `status` tinyint(4) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
   `create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '最后更新时间',
   PRIMARY KEY (`company_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='公司表';
+
+
+CREATE TABLE `kx_upload_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT 'URL',
+  `filename_pattern` varchar(255) NOT NULL DEFAULT '' COMMENT '文件名规则',
+  `subdir_pattern` varchar(255) NOT NULL DEFAULT '' COMMENT '子路径规则',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
+  `create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='上传配置表';
