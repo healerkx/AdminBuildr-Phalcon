@@ -26,6 +26,18 @@ CREATE TABLE `kx_company` (
   PRIMARY KEY (`company_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='公司表';
 
+CREATE TABLE `kx_user_statistic` (
+  `statistic_id` int(11) NOT NULL AUTO_INCREMENT,
+  `statistic_date` datetime(0) DEFAULT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '统计时间',
+  `user_count` int(11) DEFAULT NULL DEFAULT '0' COMMENT '用户人数',
+  `order_count` int(11) DEFAULT NULL DEFAULT '0' COMMENT '订单数',
+  `deal_order_count` int(11) DEFAULT NULL DEFAULT '0' COMMENT '成交订单数',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
+  `create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '最后更新时间',
+  PRIMARY KEY (`statistic_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='公司表';
+
 
 CREATE TABLE `kx_upload_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

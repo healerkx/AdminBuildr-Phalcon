@@ -124,7 +124,7 @@
     <!-- 删除相关 -->
     <div class="clearfix">
         <div class="margin-bottom-10 margin-right-20 pull-left">
-            <input id="delete_support" type="checkbox" name="remember" value="1"/>支持删除
+            <input id="delete_support" type="checkbox" value="1"/>支持软删除
         </div>
 
         <div class="margin-bottom-10 margin-right-20 pull-left">
@@ -134,10 +134,28 @@
             </select>
         </div>
         <div class="margin-bottom-10 margin-right-20 pull-left">
-            <input id="delete_field_value" type="text" name="delete_value" placeholder="该字段值表达已经删除"/>
+            <input id="delete_field_value" type="text" placeholder="该字段值表达已经删除"/>
         </div>
     </div>
+    <hr>
+    <!-- 导出相关 -->
+    <div class="clearfix">
+        <div class="margin-bottom-10 margin-right-20 pull-left">
+            <input id="export_support" type="checkbox" value="1"/>支持导出
+        </div>
 
+        <div class="margin-bottom-10 margin-right-20 pull-left">
+            <select id="export_support_type" >
+                <option value="0">全部</option>
+                <option value="1">CSV文件(.csv)</option>
+                <option value="2">Excel文件(.xls)</option>
+            </select>
+        </div>
+
+    </div>
+
+
+    <!-- 暂时去掉前缀功能支持
     <div class="margin-bottom-10 margin-right-20">
         <label>请输入模块前缀</label>
 
@@ -146,6 +164,7 @@
             <input id="model_prefix" class="m-wrap span6" type="text" placeholder="Module prefix name">
         </div>
     </div>
+    -->
 
     <div class="clearfix margin-bottom-10">
         <button id="preview-button" class="btn blue btn-block">预览 <i class="m-icon-swapright m-icon-white"></i></button>

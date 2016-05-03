@@ -306,7 +306,15 @@
 
         $('div.toolbar').delegate('a.add-new', 'click', function(e) {
             var d = new NewRowDialog();
-            d.show(null, e);
+            var item = $('#fields_action_table tr.current');
+
+            var currentTableName = item.find('td[field=table] span').text();
+            var currentFieldName = item.find('td[field=field] span.field_name').text();
+            // console.log(currentField);
+            if (currentFieldName) {
+                d.show(null, e, currentTableName, currentFieldName);
+            }
+
         });
 
         $('#fields_action_table').delegate('tr', 'click', function(){

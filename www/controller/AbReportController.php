@@ -29,16 +29,6 @@ class AbReportController extends AbBaseController
         parent::showTabViews($views, '创建报表', $data);
     }
 
-    private function tableNames() {
-        $a = $this->db->fetchAll("SHOW tables");
-        $tableNames = array();
-        foreach ($a as $table) {
-            array_push($tableNames, $table['Tables_in_badmin']);
-        }
-        return $tableNames;
-    }
-
-
     public function previewAction() {
         $p = $this->request->getPost();
         $prefix = $p['prefix'];

@@ -266,4 +266,17 @@ class AbBaseController extends Controller
         }
         return $result;
     }
+
+    public function tableNames() {
+        $a = $this->db->fetchAll("SHOW tables");
+        $mysql = ApplicationConfig::getMySQLConnection();
+        $dbName = $mysql['dbname'];
+        $key = "Tables_in_{$dbName}";
+
+        $tableNames = array();
+        foreach ($a as $table) {
+            array_push($tableNames, $table[$key]);
+        }
+        return $tableNames;
+    }
 }
