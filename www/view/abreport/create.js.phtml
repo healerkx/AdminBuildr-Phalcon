@@ -240,10 +240,10 @@
                 return false;
             }
 
-            var prefix = $('#model_prefix').val();
+            var prefix = '';    //$('#model_prefix').val();
             var tableName = $('#table_name').val();
 
-            $.post("/abmodule/preview",
+            $.post("/abReport/preview",
                 {
                     prefix: prefix,
                     table_name: tableName,
@@ -310,7 +310,7 @@
 
             var currentTableName = item.find('td[field=table] span').text();
             var currentFieldName = item.find('td[field=field] span.field_name').text();
-            
+
             if (currentFieldName) {
                 d.show(null, e, currentTableName, currentFieldName);
             }

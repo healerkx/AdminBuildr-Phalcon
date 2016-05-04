@@ -230,8 +230,7 @@
 
         $('#load-model-button').click(function(){
             var tableName = $('#table_name').val();
-            $.post("/abmodule/info",
-                {
+            $.post("/ajax/info", {
                     table:tableName, model:""
                 },
                 function(data){
@@ -254,10 +253,10 @@
                 return false;
             }
 
-            var prefix = $('#model_prefix').val();
+            var prefix = '';//$('#model_prefix').val();
             var tableName = $('#table_name').val();
 
-            $.post("/abmodule/preview",
+            $.post("/abModule/preview",
                 {
                     prefix: prefix,
                     table_name: tableName,

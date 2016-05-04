@@ -161,14 +161,17 @@
         }
     });
 
-    $class('RelatedIdDialog', FieldPropertyDialog, {
+    $class('RelatedIdDialog', [FieldPropertyDialog, TableFieldsRelation], {
         template:'abmodule/dialog-fk',
 
         show: function (context, e) {
             // TODO: fill data into dom.
             var this_= this;
             var domNode = this.showDialog(context, e);
+            var tableNode = domNode.find('.table-name');
             var $select = domNode.find('.field-names');
+            this.addRelation(tableNode, $select);
+            /*
             domNode.find('.table-name').change(function() {
                 var tableName = $(this).val();
                 $.post("/abmodule/info",
@@ -179,7 +182,7 @@
                                 fillTableFields($select, data.data.fields);
                             }
                         });
-            });
+            });*/
         },
 
         getProperties: function () {
@@ -290,19 +293,7 @@
             var this_= this;
             var domNode = this.showDialog(context, e);
             var $select = domNode.find('.field-names');
-            /*
-            domNode.find('.table-name').change(function() {
-                var tableName = $(this).val();
-                $.post("/abmodule/info",
-                        { table:tableName },
-                        function(data){
-                            var data = data.toJson();
-                            if (data.error == 0) {
-                                fillTableFields($select, data.data.fields);
-                            }
-                        });
-            });
-            */
+            // TODO: What to do?
         },
 
         getProperties: function () {

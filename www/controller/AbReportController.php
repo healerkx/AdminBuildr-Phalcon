@@ -37,7 +37,7 @@ class AbReportController extends AbBaseController
             $tableName = "{$prefix}_{$tableName}";
         }
 
-        $modelName = self::tableNameToModelName($tableName);
+        $modelName = Strings::tableNameToModelName($tableName);
 
         $path = ApplicationConfig::getConfig('product')['path'] . '\\www';
 

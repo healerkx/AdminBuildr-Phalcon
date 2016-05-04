@@ -67,7 +67,7 @@ class AbModuleController extends AbBaseController
             $tableName = "{$prefix}_{$tableName}";
         }
 
-        $modelName = self::tableNameToModelName($tableName);
+        $modelName = Strings::tableNameToModelName($tableName);
 
         $path = ApplicationConfig::getConfig('product')['path'] . '\\www';
 
@@ -104,11 +104,5 @@ class AbModuleController extends AbBaseController
         return true;
     }
 
-    private static function tableNameToModelName($tableName) {
-        $modelName = preg_replace_callback("/_([a-z])/", function($a) {
-            return strtoupper($a[1]);
-        }, $tableName);
-        $modelName = ucfirst($modelName);
-        return $modelName;
-    }
+
 }

@@ -23,7 +23,7 @@ def build_report_controller(config, base_controller_name):
     model = config['model']
     info = model['info']
     module_name = config['module_name']
-    controller_name = module_name + "Controller"
+    controller_name = module_name + "ReportController"
     d = init_dict()
     d['model_name'] = module_name
     d['controller_name'] = controller_name
@@ -56,7 +56,7 @@ def build_report_controller_by_config(config):
 
 
 if __name__ == '__main__':
-    sys.argv = ['build_report.py', '--command=build_report', '--table=kx_company', '--prefix=', '--config=D:\\Projects\\AdminBuildr\\config\\config.json']
+    sys.argv = ['build_report.py', '--command=build_report', '--table=kx_user', '--prefix=', '--config=D:\\Projects\\AdminBuildr\\config\\config.json']
     config = load_config()
 
     print(config)
