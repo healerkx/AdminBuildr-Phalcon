@@ -43,7 +43,7 @@
         }
     });
 
-    $class('NewRowDialog', null, {
+    $class('NewRowDialog', [TableFieldsRelation], {
 
         _domNode: null,
 
@@ -81,8 +81,13 @@
         show: function (context, e, tableName, fieldName) {
             this.showDialog(e);
             this.setTitle("（基于`{0}`.`{1}`）".format(tableName, fieldName));
-            this._tableName = tableName, this._fieldName = fieldName;
             var domNode = this._domNode;
+            var $select = domNode.find('.field-names');
+            var tableNode = domNode.find('.table-name');
+            this.addRelation(tableNode, $select);
+
+            this._tableName = tableName, this._fieldName = fieldName;
+
             selectOneValueOnly(domNode.find('td[field=hide_in_list] select'), 0, true);
             selectOneValueOnly(domNode.find('td[field=search] select'), 0, true);
         },
@@ -185,25 +190,17 @@
         }
     });
 
-    $class('RelatedIdDialog', FieldPropertyDialog, {
+    $class('RelatedIdDialog', [FieldPropertyDialog, TableFieldsRelation], {
         template:'abreport/dialog-fk',
 
         show: function (context, e) {
             // TODO: fill data into dom.
-            var this_= this;
+            // var this_= this;
             var domNode = this.showDialog(context, e);
             var $select = domNode.find('.field-names');
-            domNode.find('.table-name').change(function() {
-                var tableName = $(this).val();
-                $.post("/abreport/info",
-                        { table:tableName },
-                        function(data){
-                            var data = data.toJson();
-                            if (data.error == 0) {
-                                fillTableFields($select, data.data.fields);
-                            }
-                        });
-            });
+            var tableNode = domNode.find('.table-name');
+            this.addRelation(tableNode, $select);
+
         },
 
         getProperties: function () {

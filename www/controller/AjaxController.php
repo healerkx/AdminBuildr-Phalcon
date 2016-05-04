@@ -49,5 +49,24 @@ class AjaxController extends AbBaseController
         parent::error(-1, "$modelName ?");
     }
 
+    /**
+     * @access Guest
+     */
+    public function infoAction() {
+        $modelName = $this->request->get('model');
+        $tableName = $this->request->get('table');
 
+        $a = $this->db->fetchAll("SHOW FULL COLUMNS FROM $tableName");
+        $data = array();
+        $fields = array();
+        foreach ($a as $i) {
+
+            array_push($fields, $i);
+        }
+
+        $data['fields'] = $fields;
+
+        parent::result($data);
+
+    }
 }

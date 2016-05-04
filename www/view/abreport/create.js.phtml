@@ -216,7 +216,7 @@
 
         $('#load-model-button').click(function(){
             var tableName = $('#table_name').val();
-            $.post("/abmodule/info",
+            $.post("/ajax/info",
                 {
                     table:tableName, model:""
                 },
@@ -310,7 +310,7 @@
 
             var currentTableName = item.find('td[field=table] span').text();
             var currentFieldName = item.find('td[field=field] span.field_name').text();
-            // console.log(currentField);
+            
             if (currentFieldName) {
                 d.show(null, e, currentTableName, currentFieldName);
             }
