@@ -25,7 +25,7 @@ class {{ controller_name }} extends {{ base_controller_name }}
 			'item_has_operator' => {{ item_has_operator }},
 			'headers' => {{model_name}}::headers()
 			);
-		$views = array('name' => '查看列表', 'template' => '{{lower(model_name)}}/index');
+		$views = array('name' => '查看列表', 'template' => '{{lower(model_name)}}-report/index');
 		parent::showPager($_GET['__pager_current'], $result['page_count']);
 		parent::showTabViews($views, '查看', $data);
 	}
