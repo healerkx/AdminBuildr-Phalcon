@@ -13,14 +13,13 @@ class KxAdminNodeController extends AbBaseController
      */
     public function indexAction()
     {
-        $nodes = $this->sync($this->getActionAccessLists(), $this->getAdminNodes());
+        $nodes = $this->merge($this->getActionAccessLists(), $this->getAdminNodes());
 
         $views = array('name' => 'Action管理', 'template' => 'kxadminnode/actions');
         $data = array(
             'controllers' => $nodes
         );
 
-        parent::showBreadcrumb([1, 2], false);
         parent::showTabViews($views, '系统节点管理', $data);
     }
 
@@ -37,7 +36,7 @@ class KxAdminNodeController extends AbBaseController
         return false;
     }
 
-    private function sync($controllerActions, $nodes)
+    private function merge($controllerActions, $nodes)
     {
         $result = array();
         foreach ($controllerActions as $controllerName => $actions)
@@ -56,11 +55,13 @@ class KxAdminNodeController extends AbBaseController
                 {
                     $w['node_id'] = $node['node_id'];
                     $w['name'] = $node['name'];
+                    $w['brand_new'] = false;
                 }
                 else
                 {
                     $w['node_id'] = 0;
                     $w['name'] = '';
+                    $w['brand_new'] = true;
                 }
 
                 array_push($a, $w);
@@ -84,12 +85,20 @@ class KxAdminNodeController extends AbBaseController
         return $result;
     }
 
+    /**
+     * @return mixed
+     * Node record in DB
+     */
     private function getAdminNodes()
     {
         $nodes = KxAdminNode::find()->toArray();
         return $nodes;
     }
 
+    /**
+     * @return array
+     * Get all given controllers' actions
+     */
     private function getActionAccessLists() {
         $controllerNames = ['AbModuleController', 'AbReportController'];
         $result = array();
@@ -101,6 +110,11 @@ class KxAdminNodeController extends AbBaseController
         return $result;
     }
 
+    /**
+     * @param $className
+     * @return array
+     * Get a controller's actions
+     */
     private function getActionAccessList($className)
     {
         $clz = new ReflectionClass($className);
@@ -120,6 +134,10 @@ class KxAdminNodeController extends AbBaseController
         return $actions;
     }
 
+    /**
+     * @param $method
+     * @return array
+     */
     private function getActionAccess($method) {
         $methodName = $method->getName();
         $actionName = substr($methodName, 0, -6);
@@ -135,5 +153,36 @@ class KxAdminNodeController extends AbBaseController
         }
 
         return array('action' => $actionName, 'access' => '');
+    }
+
+    public function syncAction()
+    {
+        $entries = $_POST['entries'];
+        $now = date('Y-m-d H:i:s');
+        foreach ($entries as $entry)
+        {
+            $nodeId = $entry['node_id'];
+            $name = trim($entry['name']);
+            if ($nodeId == 0) {
+                if (!empty($name)) {
+                    $node = new KxAdminNode();
+                    $node->controller = trim($entry['controller']);
+                    $node->action = trim($entry['action']);
+                    $node->name = $name;
+                    $node->create_time = $now;
+                    $node->update_time = $now;
+                    $node->save();
+                }
+
+            } else {
+                $node = KxAdminNode::findFirst($nodeId);
+                if ($node->name != $name) {
+                    $node->name = $name;
+                    $node->update_time = $now;
+                    $node->save();
+                }
+            }
+        }
+        parent::result(array('post' => $entries));
     }
 }

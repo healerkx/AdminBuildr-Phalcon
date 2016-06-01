@@ -83,7 +83,7 @@ class KxAdminRoleController extends AbBaseController
      * @param $roleId
      * @access Follow(kxAdminRole/index)
      */
-    public function editAction($roleId) {
+    public function editRoleAccessAction($roleId) {
         if (!isset($roleId)) {
             // TODO: 没有参数
             // TODO: Redirect to ...
@@ -120,21 +120,42 @@ class KxAdminRoleController extends AbBaseController
         }
         unset($nodes);
 
+        $data = array(
+            'controllerNodes' => $controllerNodes,
 
+            'role_name' => $role->name
+        );
+        $views = [
+            ["name" => '访问控制', "template" => "kxadminrole/edit_role_access"],
+
+        ];
+
+        parent::showTabViews($views, '角色访问控制', $data);
+    }
+
+    public function editMenuGroupsAction($roleId) {
+        if (!isset($roleId)) {
+            // TODO: 没有参数
+            // TODO: Redirect to ...
+        }
+        $role = KxAdminRole::findFirst($roleId);
+        if (!$role) {
+            // TODO: 没有这个角色
+            // TODO: Redirect to ...
+        }
         $menuGroups = array(array('id'=>1, 'name'=>"ddd"), array('id'=>1, 'name'=>'Name'));
 
         $data = array(
-            'controllerNodes' => $controllerNodes,
             'edit_menu_groups' => $menuGroups,
             'role_name' => $role->name
         );
         $views = [
-            ["name" => '访问控制', "template" => "kxadminrole/edit"],
             ["name" => '导航菜单分组', "template" => "kxadminrole/edit_menu_group"]
         ];
-        parent::showBreadcrumb([1, 2]);
-        parent::showTabViews($views, '角色访问控制', $data);
+
+        parent::showTabViews($views, '导航菜单分组管理', $data);
     }
+
 
     public function updateMenuGroupsAction($roleId) {
         $controllerNodes = $this->getControllerNodes();
@@ -156,13 +177,14 @@ class KxAdminRoleController extends AbBaseController
     }
 
     /**
-     * @param $id
+     * @param $roleId
      * @access Follow(kxAdminRole/index)
+     * List all users of this Role id
      */
-    public function listAdminUserAction($id)
+    public function listAdminUserAction($roleId)
     {
-        $roles = KxAdminRole::find();
-        $rs = KxAdminUserRole::find("role_id=$id");
+        $role = KxAdminRole::findFirst($roleId);
+        $rs = KxAdminUserRole::find("role_id=$roleId");
         $users = array();
         foreach ($rs as $r) {
             $user = $r->KxAdminUser->toArray();
@@ -170,15 +192,29 @@ class KxAdminRoleController extends AbBaseController
         }
 
         $data = array(
-            'current' => $id,
-            'roles' => $roles->toArray(),
+            'role' => $role->toArray(),
+            'role_id' => $roleId,
             'users' => $users
         );
 
         $views = [
-            ['name' => '管理员角色列表', "template" => "kxadminrole/list_admin_user"],
+            ['name' => '管理员列表', "template" => "kxadminrole/list_admin_user"],
         ];
 
+        parent::showTabViews($views, '管理员角色管理', $data);
+    }
+
+    public function createAdminUserAction($id)
+    {
+        $data = array(
+
+
+
+        );
+
+        $views = [
+            ['name' => '新增管理员', "template" => "kxadminrole/create_admin_user"],
+        ];
         parent::showTabViews($views, '管理员角色管理', $data);
     }
 

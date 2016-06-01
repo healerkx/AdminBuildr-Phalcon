@@ -11,7 +11,9 @@ class KxAdminRole extends AbBaseModel
         return array(
             'role_id' => 'ID',
             'name' => '名称',
+            'remark' => '说明',
             'create_time' => '创建时间',
+            'update_time' => '修改时间',
         );
     }
 

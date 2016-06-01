@@ -1,0 +1,66 @@
+<script>
+    var menuGroup = '{{ edit_menu_groups|json_encode }}'.toJson();
+</script>
+
+<script>
+
+    function addNewMenuGroup(id, name) {
+        var t = $('#group-template');
+        var groupEditPane = $('#group-edit-pane');
+        var m = t.clone();
+        m.css('display', '').attr('menu_group_id', id);
+        m.removeAttr('group-template').find('input.name').val(name);
+        m.appendTo(groupEditPane)
+    }
+
+    function initMenuGroup(menus) {
+        for (var i in menus) {
+            var menu = menus[i];
+            addNewMenuGroup(menu.id, menu.name)
+        }
+    }
+
+    function exchangeItems(a, b) {
+        a.insertBefore(b);
+    }
+
+    function collectMenuGroupsInfo() {
+        $('#group-edit-pane').find('.group').each(function(){
+            var t = $(this);
+            console.log(t.find('input').val());
+        });
+    }
+
+    function updateMenuGroups() {
+        var p = collectMenuGroupsInfo();
+        var id = 1;
+        $.post('kxAdminRole/updateMenuGroups/' + id, p, function (data) {
+            var d = data.toJson();
+            if (d.error == 0) {
+                window.location.href = 'kxAdminRole/editMenu';
+            }
+        });
+    }
+
+    $(function(){
+
+        $('#group-edit-pane').delegate('a.edit', 'click', function(){
+            var item = $(this).parent();
+
+        });
+
+        $('#group-edit-pane').delegate('a.moveUp, a.moveDown', 'click', function(){
+            var $t = $(this);
+            var direct = $t.attr('direct');
+            var item = $(this).parent().parent();
+            if (direct == 'd') {
+                exchangeItems(item.next(), item);
+            } else if (direct == 'u') {
+                exchangeItems(item, item.prev());
+            }
+
+        });
+
+        initMenuGroup(menuGroup);
+    });
+</script>

@@ -1,6 +1,27 @@
 <script>
     function syncNodes() {
+        var entries = [];
+        $('table.actions').find('tr[node_id]').each(function () {
+            var tr = $(this);
+            var nodeId = tr.attr('node_id');
+            var td1 = tr.find('td[title]');
+            var controller = td1.attr('controller');
+            var action = td1.attr('action');
+            var name = tr.find('td input').val();
 
+            entries.push({
+                'node_id': nodeId,
+                'controller': controller,
+                'action': action,
+                'name': name
+            });
+        })
+
+        console.log(entries);
+
+        $.post('kxAdminNode/sync', {entries: entries}, function(data) {
+            console.log(data);
+        });
     }
 
     $(function(){

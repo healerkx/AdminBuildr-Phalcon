@@ -26,13 +26,14 @@ class ApplicationConfig extends CConfig
     }
 
     public static function getMenu($session) {
-        $user = $session->get('user');
 
         $menuArr = null;
         $menuFile = self::getConfigPath('menu.php');
         if (file_exists($menuFile)) {
             $menuArr = include($menuFile);
             return $menuArr;
+        } else {
+            $user = $session->get('user');
         }
 
 
