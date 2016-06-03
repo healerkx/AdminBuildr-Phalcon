@@ -22,7 +22,7 @@
         $('td.item-operators').delegate('a', 'click', function () {
             var a = $(this);
             var operator = a.attr('operator');
-            if (operator == 'edit' || operator == 'listAdminUser') {
+            if (operator == 'edit' || operator == 'listAdminUser' || operator == 'acl' || operator == 'menu') {
                 operate(a);
             } else if (operator == 'delete') {
                 deleteItem(a);

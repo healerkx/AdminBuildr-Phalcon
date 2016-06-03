@@ -313,7 +313,7 @@
             }
         });
 
-        $('#fields_action_table').delegate('tr', 'click', function(){
+        $('#fields_action_table').delegate('tr.field', 'click', function(){
             var self = $(this);
             self.siblings().removeClass('current');
             self.addClass('current');

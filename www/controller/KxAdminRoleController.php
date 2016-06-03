@@ -3,7 +3,7 @@
 class KxAdminRoleController extends AbBaseController
 {
     /**
-     *
+     * List all roles
      */
     public function indexAction() {
         $result = KxAdminRole::search($_GET);
@@ -13,7 +13,6 @@ class KxAdminRoleController extends AbBaseController
             $items = $result['items']->toArray();
         }
 
-        //parent::dump($allRoles->toArray());
         $data = array(
             'item_has_checkbox' => true,
             'item_has_operator' => true,
@@ -30,9 +29,12 @@ class KxAdminRoleController extends AbBaseController
         parent::showTabViews($views, '管理员角色管理', $data);
     }
 
+    /**
+     * Create a new Role
+     */
     public function createAction() {
         $views = [
-            ['name' => '新建角色', "template" => "kxadminrole/create"],
+            ['name' => '新建角色', "template" => "kxadminrole/edit_admin_role"],
         ];
         $init = KxAdminRole::getEmptyItem();
         //parent::dump($init);
@@ -45,11 +47,34 @@ class KxAdminRoleController extends AbBaseController
             parent::redirect('common/error', "This action need parameter \$id");
         }
         $views = [
-            ['name' => '更新角色信息', "template" => "kxadminrole/update"],
+            ['name' => '更新角色信息', "template" => "kxadminrole/edit_admin_role"],
         ];
         $item = KxAdminRole::getItemById($id);
         $data = array('itemViewMode' => 'update', 'i' => $item);
         parent::showTabViews($views, '更新角色信息', $data);
+    }
+
+    /**
+     * Create or Update an AdminRole entry!
+     */
+    public function editAdminRoleAction()
+    {
+        $now = date('Y-m-d H:i:s');
+        $roleId = $this->request->getPost('role_id');
+        if ($roleId) {
+            $role = KxAdminRole::findFirst($roleId);
+            $role->update_time = $now;
+        } else {
+            $role = new KxAdminRole();
+            $role->status = 1;
+            $role->access_status = 1;
+            $role->create_time = $now;
+        }
+
+        $role->name = $this->request->getPost('name');
+        $role->remark = $this->request->getPost('remark');
+        $role->save();
+        parent::redirect('kxAdminRole');
     }
 
     public function viewAction($id) {
@@ -127,7 +152,6 @@ class KxAdminRoleController extends AbBaseController
         );
         $views = [
             ["name" => '访问控制', "template" => "kxadminrole/edit_role_access"],
-
         ];
 
         parent::showTabViews($views, '角色访问控制', $data);
@@ -168,10 +192,7 @@ class KxAdminRoleController extends AbBaseController
 
     public function deleteAction($id) {
         $item = KxAdminRole::findFirst($id);
-        $deleteField = 'deleted';
-        $deleteValue = 1;
-        $item->$deleteField = $deleteValue;
-
+        $item->access_status = 0;
         $deleted = $item->save();
         parent::result(array('id' => $id, 'deleted' => $deleted));
     }
@@ -204,16 +225,17 @@ class KxAdminRoleController extends AbBaseController
         parent::showTabViews($views, '管理员角色管理', $data);
     }
 
+    /**
+     * @param $id
+     * Create a new Admin user
+     */
     public function createAdminUserAction($id)
     {
         $data = array(
-
-
-
         );
 
         $views = [
-            ['name' => '新增管理员', "template" => "kxadminrole/create_admin_user"],
+            ['name' => '新增管理员', "template" => "kxadminrole/edit_admin_user"],
         ];
         parent::showTabViews($views, '管理员角色管理', $data);
     }
@@ -224,7 +246,9 @@ class KxAdminRoleController extends AbBaseController
     public function itemOperator() {
         // array for operators
         return array(
-            array('name' => '编辑', 'operator' => 'edit', 'action' => 'kxAdminRole/edit'),
+            array('name' => '编辑', 'operator' => 'edit', 'action' => 'kxAdminRole/update'),
+            array('name' => '角色访问控制', 'operator' => 'acl', 'action' => 'kxAdminRole/editRoleAccess'),
+            array('name' => '菜单组管理', 'operator' => 'menu', 'action' => 'kxAdminRole/editMenuGroups'),
             array('name' => '用户列表', 'operator' => 'listAdminUser', 'action' => 'kxAdminRole/listAdminUser'),
             array('name' => '删除', 'operator' => 'delete', 'action' => 'kxAdminRole/delete')
         );
