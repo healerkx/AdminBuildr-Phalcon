@@ -1,0 +1,51 @@
+<script>
+
+    function operate(a) {
+        var action = a.attr('action');
+        var target = a.attr('target');
+        window.location.href = action + "/" + target;
+    }
+
+    function deleteItem(a) {
+        var action = a.attr('action');
+        var target = a.attr('target');
+        // TODO: Confirm to edit
+        var deleteUrl = action + "/" + target;
+        $.getJSON(deleteUrl, {}, function (data) {
+            console.log(data);
+        })
+    }
+
+    $(function(){
+        console.log(2);
+        // operators delegates
+        $('td.item-operators').delegate('a', 'click', function () {
+            var a = $(this);
+            console.log(a);
+            var operator = a.attr('operator');
+            if (operator == 'edit' || operator == 'listAdminUser' || operator == 'acl' || operator == 'menu') {
+                operate(a);
+            } else if (operator == 'delete') {
+                deleteItem(a);
+            }
+        });
+
+        $('#check_all').click(function () {
+            var checked = $(this).parent().hasClass('checked');
+            if (checked) {
+                $('td.check_item span').addClass('checked');
+            } else {
+                $('td.check_item span').removeClass('checked');
+            }
+        });
+
+        $('#select-change-button').click(function () {
+            var roleId = $('#select-role').val();
+            if (roleId && !isNaN(roleId))
+            {
+                window.location.href = "kxAdminRole/listAdminUser/" + roleId;
+            }
+        });
+    });
+
+</script>

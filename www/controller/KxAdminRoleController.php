@@ -23,7 +23,7 @@ class KxAdminRoleController extends AbBaseController
         );
 
         $views = [
-            ['name' => '管理员角色列表', "template" => "kxadminrole/list_admin_role"],
+            ['name' => '管理员角色列表', "template" => "kxadminrole/list"],
             ];
 
         parent::showTabViews($views, '管理员角色管理', $data);
@@ -69,6 +69,7 @@ class KxAdminRoleController extends AbBaseController
             $role->status = 1;
             $role->access_status = 1;
             $role->create_time = $now;
+            $role->update_time = $now;
         }
 
         $role->name = $this->request->getPost('name');
@@ -197,33 +198,6 @@ class KxAdminRoleController extends AbBaseController
         parent::result(array('id' => $id, 'deleted' => $deleted));
     }
 
-    /**
-     * @param $roleId
-     * @access Follow(kxAdminRole/index)
-     * List all users of this Role id
-     */
-    public function listAdminUserAction($roleId)
-    {
-        $role = KxAdminRole::findFirst($roleId);
-        $rs = KxAdminUserRole::find("role_id=$roleId");
-        $users = array();
-        foreach ($rs as $r) {
-            $user = $r->KxAdminUser->toArray();
-            array_push($users, $user[0]);
-        }
-
-        $data = array(
-            'role' => $role->toArray(),
-            'role_id' => $roleId,
-            'users' => $users
-        );
-
-        $views = [
-            ['name' => '管理员列表', "template" => "kxadminrole/list_admin_user"],
-        ];
-
-        parent::showTabViews($views, '管理员角色管理', $data);
-    }
 
     /**
      * @param $id
@@ -249,7 +223,7 @@ class KxAdminRoleController extends AbBaseController
             array('name' => '编辑', 'operator' => 'edit', 'action' => 'kxAdminRole/update'),
             array('name' => '角色访问控制', 'operator' => 'acl', 'action' => 'kxAdminRole/editRoleAccess'),
             array('name' => '菜单组管理', 'operator' => 'menu', 'action' => 'kxAdminRole/editMenuGroups'),
-            array('name' => '用户列表', 'operator' => 'listAdminUser', 'action' => 'kxAdminRole/listAdminUser'),
+            array('name' => '用户列表', 'operator' => 'listAdminUser', 'action' => 'kxAdminUser/list'),
             array('name' => '删除', 'operator' => 'delete', 'action' => 'kxAdminRole/delete')
         );
     }

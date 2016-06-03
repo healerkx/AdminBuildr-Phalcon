@@ -1,5 +1,5 @@
 <div>
-    <a href="javascript:void(0)" class="btn purple-stripe">当前角色: {{role['name']}}</a>
+
     <table class="table table-striped table-bordered table-hover table-full-width dataTable">
         <thead>
         <tr>
@@ -9,6 +9,7 @@
             <td>Email</td>
             <td>电话</td>
             <td>修改时间</td>
+            <td>操作</td>
         </tr>
         </thead>
 
@@ -21,9 +22,17 @@
             <td>{{user['email']}}</td>
             <td>{{user['phone']}}</td>
             <td>{{user['update_time']}}</td>
+            <td class="item-operators">
+                {% for o in item_operators %}
+                <a href="javascript:void(0)"
+                   operator="{{o['operator']}}"
+                   target="{{user[target_field]}}"
+                   action="{{o['action']}}"><span>{{o['name']}}</span></a>
+                {% endfor %}
+            </td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-info" href="kxAdminRole/createAdminUser/{{role_id}}">新增管理员</a>
+    <a class="btn btn-info" href="kxAdminUser/create/{{role_id}}">新增管理员</a>
 </div>
