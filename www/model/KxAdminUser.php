@@ -2,6 +2,12 @@
 
 class KxAdminUser extends AbBaseModel
 {
+    public function initialize()
+    {
+        $this->allowEmptyStringValues(array('password'));
+
+    }
+
     public static function primaryKeyName() {
         return "admin_uid";
     }

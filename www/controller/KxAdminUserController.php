@@ -7,29 +7,23 @@ class KxAdminUserController extends AbBaseController
      * @access Follow(kxAdminUser/index)
      * List all users of this Role id
      */
-    public function listAction($roleId)
+    public function listAction($roleId=0)
     {
         if ($roleId != 0)
         {
-            $rs = KxAdminUserRole::find("role_id=$roleId");
+            $adminUsers = KxAdminUser::find("role_id=$roleId");
         }
         else
         {
-            $rs = KxAdminUserRole::find();
-        }
-
-        $users = array();
-        foreach ($rs as $r) {
-            $user = $r->KxAdminUser->toArray();
-            array_push($users, $user[0]);
+            $adminUsers = KxAdminUser::find();
         }
 
         $data = array(
             'item_has_checkbox' => true,
             'item_has_operator' => true,
             'role_id' => $roleId,
-            'count' => count($users),
-            'users' => $users,
+            'count' => count($adminUsers),
+            'users' => $adminUsers->toArray(),
             'target_field' => 'admin_uid'
         );
 
@@ -57,9 +51,11 @@ class KxAdminUserController extends AbBaseController
      */
     public function createAction($roleId=0)
     {
+        $roles = KxAdminRole::find()->toArray();
         $init = KxAdminUser::getEmptyItem();
         $data = array(
-            'i' => $init
+            'i' => $init,
+            'roles' => $roles
         );
 
         $views = [
@@ -74,9 +70,11 @@ class KxAdminUserController extends AbBaseController
      */
     public function updateAction($adminUid)
     {
+        $roles = KxAdminRole::find()->toArray();
         $item = KxAdminUser::getItemById($adminUid);
         $data = array(
-            'i' => $item
+            'i' => $item,
+            'roles' => $roles
         );
 
         $views = [
@@ -86,6 +84,7 @@ class KxAdminUserController extends AbBaseController
     }
 
     public function editAction() {
+
         $now = date('Y-m-d H:i:s');
         $adminUid = $this->request->getPost('admin_uid');
         if ($adminUid) {
@@ -102,8 +101,15 @@ class KxAdminUserController extends AbBaseController
         $adminUser->nickname = $this->request->getPost('nickname');
         $adminUser->email = $this->request->getPost('email');
         $adminUser->phone = $this->request->getPost('phone');
-        $adminUser->save();
-        parent::redirect('kxAdminUser/list');
+        $adminUser->role_id = intval($this->request->getPost('role_id'));
+        if ($adminUser->save())
+        {
+            parent::redirect('kxAdminUser/list');
+        }
+        else
+        {
+            var_dump($adminUser->getMessages());exit;
+        }
     }
 
     public function removeAction() {
