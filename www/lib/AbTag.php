@@ -89,13 +89,31 @@ class AbTag extends Tag
     <label class="control-label">{{label}}</label>
 
     <div class="controls">
-        <input type="text" placeholder="{{placeholder}}" class="m-wrap small" {{validate}} name="{{field}}" value="{{value}}" />
+        <div class="{{decorationclass1}} {{decorationclass2}}">
+            {{ decorationspan1 }}
+            <input type="text" placeholder="{{placeholder}}" class="m-wrap small" {{validate}} name="{{field}}" value="{{value}}" />
+            {{ decorationspan2 }}
+        </div>            
         <span class="help-inline"></span>
     </div>
 </div>
 HTML;
-        self::emptyHolder($p, ['label', 'placeholder', 'field', 'value', 'validate']);
+
+        self::emptyHolder($p, [
+                                'label', 'placeholder', 'field', 'value', 'validate', 
+                                'decorationclass1', 'decorationclass2', 'decorationspan1', 'decorationspan2']);
         $p['validate'] = self::dataRules($p['validate']);
+
+        if (!empty($p['decoration-left'])) {
+            $p['decorationspan1'] = "<span class='add-on'>{$p['decoration-left']}</span>";
+            $p['decorationclass1'] = 'input-prepend';
+        }
+
+
+        if (!empty($p['decoration-right'])) {
+            $p['decorationspan2'] = "<span class='add-on'>{$p['decoration-right']}</span>";
+            $p['decorationclass2'] = 'input-append';
+        }
 
         return Strings::format($html, $p);
     }

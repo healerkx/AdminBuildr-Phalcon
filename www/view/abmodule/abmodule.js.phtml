@@ -1,19 +1,25 @@
 <script>
 
     function navigateToPreviewTab(data) {
-        console.log(data)
+        console.log(data);
 
         $('#test_list_url').attr('href', data['test_list_url']);
 
         var filesTab = $('table.file-preview tbody');
         var template = $('#files_template');
         var files = data.files;
+        // time line as a split line
+        var timeLine = $(template).clone().css('display', '')
+        timeLine.find('td span').text(new Date());
+        timeLine.appendTo(filesTab);
+
         for (var i in data.files) {
             var file = files[i];
             var line = $(template).clone().css('display', '');
             line.find('td span').text(file);
             line.appendTo(filesTab)
         }
+
         $('a[href="#preview"]').click();
     }
 

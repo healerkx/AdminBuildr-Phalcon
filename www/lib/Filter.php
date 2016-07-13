@@ -35,6 +35,7 @@ class Filter
                 break;
             }
         }
+        // TODO: Default value should be shown
         if (is_array($v)) {
             return $default;
         } else {

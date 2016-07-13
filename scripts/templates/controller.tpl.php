@@ -87,17 +87,15 @@ class {{ controller_name }} extends {{ base_controller_name }}
 	public function saveAction($id = 0)
 	{
 		$post = $this->request->getPost();
-
+		$now = date('Y-m-d H:i:s');
 		if (!$id) {
 			$obj = new {{model_name}}();
-			{% if create_time %}
-			$post['{{create_time}}'] = date('Y-m-d H:i:s');{% end %}
-			{% if update_time %}
-			$post['{{update_time}}'] = date('Y-m-d H:i:s');{% end %}
+			// Need select '创建时间', '更新时间' in AbModule UI
+			{% if create_time %}$post['{{create_time}}'] = $now;{% end %}
+			{% if update_time %}$post['{{update_time}}'] = $now;{% end %}
 		} else {
 			$obj = {{model_name}}::findFirst($id);
-            {% if update_time %}
-			$post['{{update_time}}'] = date('Y-m-d H:i:s');{% end %}
+            {% if update_time %}$post['{{update_time}}'] = $now;{% end %}
 		}
 
 		if ($obj->save($post)) {
