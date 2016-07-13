@@ -7,8 +7,8 @@ from tornado.template import Template
 from build_template import *
 from build_config import *
 
-def get_allow_empty_fields(fields_config):
-    allow_empty_fields = []
+def get_allow_empty_fields(fields_config, unhandled_fields):
+    allow_empty_fields = unhandled_fields
     for field in fields_config:
         if field["fieldMode"] == "primaryKey":
             continue
@@ -48,6 +48,7 @@ def build_model(config, base_model_name):
     module_name = config['module_name']
 
     fields_config = model['info']['FieldsConfig']
+    unhandled_fields = model['info']['UnhandledFields']
     d = init_dict()
     d['model_name'] = config['module_name']
     d['module_name'] = config['module_name']
@@ -56,7 +57,7 @@ def build_model(config, base_model_name):
     d['table_name'] = config['table_name']
     d['primary_key'] = model['info']['PrimaryKey']
     d['fields_info'] = list(filter(lambda x: x['fieldName'] != '', fields_config))
-    d['allow_empty_fields'] = get_allow_empty_fields(fields_config)
+    d['allow_empty_fields'] = get_allow_empty_fields(fields_config, unhandled_fields)
     d['like_fields'] = get_like_fields(fields_config)
     d['joins'] = get_join_info(fields_config)
 

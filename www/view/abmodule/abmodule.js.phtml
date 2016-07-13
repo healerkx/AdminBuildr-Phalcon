@@ -171,19 +171,24 @@
         var info = {
             Title: title,
             FieldsConfig:[],
+            UnhandledFields:[],
             CommitSupport:{},
             DeleteSupport:{}};
         var trs = $('#fields_action_table tbody tr');
 
         trs.each(function(index, tr){
             var tr = $(tr);
-            var o = collectFieldConfig(tr, true);
-            console.log(o);
-            if (o) {
+
+            var handle = tr.find('td select[field=handle]').val();
+            if (handle != 0) {
+                var o = collectFieldConfig(tr, true);
                 if (o['fieldMode'] == 'primaryKey') {
                     info['PrimaryKey'] = o['fieldName'];
                 }
                 info['FieldsConfig'].push(o)
+            } else {
+                var fieldName = tr.find('td[field=field] span.field_name').text();
+                info.UnhandledFields.push(fieldName);
             }
         });
 
