@@ -36,7 +36,7 @@ file_download = """
 <div class="Link">
     <label class="control-label">##label</label>
     <div class="controls">
-        <a href="{{ i.##field_name }}">点击下载</a>
+        <a href="{{ i['##field_name'] }}">点击下载</a>
     </div>
 </div>
 """

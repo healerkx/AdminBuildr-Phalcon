@@ -21,6 +21,7 @@ class {{ controller_name }} extends {{ base_controller_name }}
 			'count' => $count,
 			'items' => $items, 
 			'i' => $condition,
+			'createUrl' => '{{ firstlower(model_name) }}/create',
 			'item_has_checkbox' => {{ item_has_checkbox }},
 			'item_has_operator' => {{ item_has_operator }},
 			'headers' => {{model_name}}::headers()
