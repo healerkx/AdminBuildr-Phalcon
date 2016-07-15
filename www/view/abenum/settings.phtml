@@ -1,0 +1,21 @@
+<div class="row-fluid">
+    {# 简单方式 #}
+    <div widget-class="EntryEditList" widget-id="entry-edit-list">
+        <table class="table table-striped table-bordered table-hover table-full-width dataTable">
+            <thead>
+            <tr><td>值</td><td>显示名称</td><td>删除</td></tr>
+            <tr class="entry-template" style="display: none">
+                <td><input class="value" type="text"/></td>
+                <td><input class="name" type="text"/></td>
+                <td>
+                    <a class="btn blue del small" data-toggle="modal">删除</a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <a class="btn blue add" data-toggle="modal">增加</a>
+    </div>
+</div>

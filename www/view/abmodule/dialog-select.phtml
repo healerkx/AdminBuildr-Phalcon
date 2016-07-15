@@ -1,6 +1,7 @@
 {% include "abmodule/dialog-common.phtml" %}
 <div class="row-fluid">
 
+    {# 简单方式 #}
     <div widget-class="EntryEditList" widget-id="entry-edit-list">
         <table class="table table-striped table-bordered table-hover table-full-width dataTable">
             <thead>
@@ -19,5 +20,10 @@
 
         <a class="btn blue add" data-toggle="modal">增加</a>
     </div>
+
+    {# Enum方式 #}
+    <select>
+        <option value="0">使用简单的设置</option>
+    </select>
 
 </div>

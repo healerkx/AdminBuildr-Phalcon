@@ -1,6 +1,5 @@
-
 <script>
-
+    // 上传Action设置对话框
     $class('SettingsDialog', Dialog, {
 
         template: "abfile/settings",
@@ -59,11 +58,13 @@
                             url: this.controller + '/upload',
                             filename_pattern: this.filenamePattern,
                             subdir_pattern: this.subdirPattern,
-                        },
-                        function(data) {
-                    var r = data.toJson();
-                    console.log(r);
-                });
+                        }, function(data)
+                        {
+                            // TODO: 不能重复, 否则覆盖
+                            var r = data.toJson();
+                            console.log(r);
+                        }
+                );
             }
             return true;
         }

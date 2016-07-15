@@ -1,0 +1,72 @@
+
+<script>
+
+    $class('SettingsDialog', Dialog, {
+
+        template: "abenum/settings",
+
+        controller: null,
+
+        filenamePattern: null,
+
+        subdirPattern: null,
+
+        show: function(e) {
+            var this_ = this;
+            var domNode = this.showDialog(e);
+            domNode.delegate('input[name]', 'input', function(){
+                var this_ = $(this);
+                var v = this_.val();
+                this_.parent().find('span a').text(v + '/upload');
+            });
+
+            domNode.delegate('.btn-build, .btn-build-force', 'click', function () {
+                var overwrite = $(this).attr('overwrite');
+                this_.build(domNode, overwrite);
+            });
+        },
+
+        setName: function(name) {
+            this.name = name;
+        },
+
+        getEnums: function() {
+            var enums = [];
+            console.log(this._domNode);
+            this._domNode.find('tbody tr').each(function () {
+                var _this = $(this);
+                enums.push({
+                    value: _this.find('input.value').val(),
+                    name: _this.find('input.name').val()
+                });
+            });
+            return enums;
+        },
+
+        onOk: function () {
+            var enums = this.getEnums();
+
+            if (this.name) {
+                $.post('abEnum/update',
+                        {
+                            name: this.name,
+                            enums: enums,
+                        },
+                        function(data) {
+                            var r = data.toJson();
+                            console.log(r);
+                        }
+                );
+            }
+            return true;
+        }
+    });
+
+    $(function() {
+        $('table.manage').delegate('a.property', 'click', function(){
+            var d = new SettingsDialog();
+            d.setName('d');
+            d.show();
+        });
+    })
+</script>

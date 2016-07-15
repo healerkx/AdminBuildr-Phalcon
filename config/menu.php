@@ -8,6 +8,7 @@ return array(
             array('name' => '创建模块', 'url' => 'abModule/create'),
             array('name' => '创建报表', 'url' => 'abReport/create'),
             array('name' => '创建表单', 'url' => 'abForms/create'),
+            array('name' => '常量定义管理', 'url' => 'abEnum/index'),
             array('name' => '文件上传管理', 'url' => 'abFile/manage')
         )
     ),
