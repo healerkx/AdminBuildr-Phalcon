@@ -9,7 +9,7 @@
                     <td>操作</td>
                 </tr>
                 <tr class="entry-template" style="display: none">
-                    <td><input class="value" type="text"/></td>
+                    <td><input class="name" type="text"/></td>
                     <td>
                         <a class="btn blue property small" data-toggle="modal">属性</a>
                         <a class="btn blue del small" data-toggle="modal">放弃</a>
@@ -19,7 +19,7 @@
                 <tbody>
                 {% for i in classNames %}
                 <tr>
-                    <td><input class="value" type="text" value="{{i['className']}}" readonly/></td>
+                    <td><input class="name" type="text" value="{{i['className']}}"/></td>
 
                     <td><a class="btn blue property small" data-toggle="modal">编辑</a></td>
                 </tr>

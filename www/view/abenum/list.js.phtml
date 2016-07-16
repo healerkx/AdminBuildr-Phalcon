@@ -1,4 +1,3 @@
-
 <script>
 
     $class('SettingsDialog', Dialog, {
@@ -37,7 +36,8 @@
                 var _this = $(this);
                 enums.push({
                     value: _this.find('input.value').val(),
-                    name: _this.find('input.name').val()
+                    name: _this.find('input.name').val(),
+                    display: _this.find('input.display').val()
                 });
             });
             return enums;
@@ -63,9 +63,16 @@
     });
 
     $(function() {
+        $('table.manage input.name').blur(function(){
+            // TODO: Check the Name
+        });
+
+
         $('table.manage').delegate('a.property', 'click', function(){
             var d = new SettingsDialog();
-            d.setName('d');
+            var nameEntry = $(this).closest('tr').find('input.name');
+            // console.log(name);
+            d.setName(nameEntry.val());
             d.show();
         });
     })

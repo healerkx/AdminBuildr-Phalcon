@@ -15,14 +15,13 @@ class AbEnumController extends AbBaseController
         $views = [
             ["name" =>'常量定义', "template" => "abenum/list"]];
 
-        $productPath = ApplicationConfig::getConfig('product')['path'];
-        $classNamePath = $productPath . '/www/defines';
+        $classNamePath = self::getEnumPath();
 
         $filePaths = scandir($classNamePath);
 
         $fileNames = [];
         foreach ($filePaths as $filePath) {
-            if ($filePath == '.' || $filePath == '..') {
+            if ($filePath == '.' || $filePath == '..' || $filePath == 'const') {
                 continue;
             }
             $fileNames[] = ['className' => $filePath];
@@ -42,9 +41,29 @@ class AbEnumController extends AbBaseController
         $name = $this->request->getPost('name');
         $enums = $this->request->getPost('enums');
 
-        echo json_encode($enums);
-        //var_dump($enums);
+        if (!$name) {
+            parent::error(1, array('msg' => 'None name error'));
+            return;
+        }
 
+        $classNamePath = self::getEnumPath();
+
+        $jsonName = "{$classNamePath}/const/{$name}.json";
+
+        file_put_contents($jsonName, json_encode($enums));
+
+        $cmdLine = "--json=$jsonName";
+        $results = Python3::run('build_enum.py', $cmdLine);
+
+        parent::result(array(
+            'file' => $jsonName, 'results' => $results));
+    }
+
+    public static function getEnumPath()
+    {
+        $productPath = ApplicationConfig::getConfig('product')['path'];
+        $classNamePath = $productPath . '/www/defines';
+        return $classNamePath;
     }
 
 
