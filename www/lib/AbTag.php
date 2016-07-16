@@ -60,6 +60,8 @@ class AbTag extends Tag
             return self::cityName($parameters);
         } else if ('county_name' == $tagName) {
             return self::countyName($parameters);
+        } else if ('enum_cell' == $tagName) {
+            return self::enumCell($parameters);
         }
         return Tag::tagHtml($tagName, $parameters, $selfClose, $onlyStart, $useEol);
     }
@@ -100,8 +102,8 @@ class AbTag extends Tag
 HTML;
 
         self::emptyHolder($p, [
-                                'label', 'placeholder', 'field', 'value', 'validate', 
-                                'decorationclass1', 'decorationclass2', 'decorationspan1', 'decorationspan2']);
+            'label', 'placeholder', 'field', 'value', 'validate',
+            'decorationclass1', 'decorationclass2', 'decorationspan1', 'decorationspan2']);
         $p['validate'] = self::dataRules($p['validate']);
 
         if (!empty($p['decoration-left'])) {
@@ -153,7 +155,7 @@ HTML;
 
             $selected = ($i['value'] == $initValue) ? 'selected' : '';
 
-            $option = "<option value='{{value}}' $selected>{{name}}</option>";
+            $option = "<option value='{{value}}' $selected>{{display}}</option>";
             $options .= Strings::format($option, $v);
         }
 
@@ -339,6 +341,22 @@ HTML;
     private static function countyName($parameters)
     {
         return self::regionName($parameters[0]);
+    }
+
+    private static function enumCell($parameters)
+    {
+        $values = $parameters[2];
+        if (!empty($parameters[1])) {
+            $className = $parameters[1];
+
+            $values = call_user_func(array($className, 'items'), array());
+        }
+
+        $item = $values[$parameters[0]];
+        if ($item) {
+            return $item['desc'];
+        }
+        return '----';
     }
 
     private static function regionName($regionIndex) {

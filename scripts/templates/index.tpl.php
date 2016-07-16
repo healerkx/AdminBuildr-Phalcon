@@ -12,7 +12,8 @@ $loader->registerDirs(
     array(
         './controller',
         './model',
-        './lib'
+        './lib',
+        './defines'
     )
 )->register();
 

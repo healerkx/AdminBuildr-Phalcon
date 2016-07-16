@@ -162,7 +162,8 @@ def get_html_for_show_view(field_config, view):
     elif field_mode == 'primaryKey':
         field_template = text_line
     elif field_mode == 'enum':
-        field_template = text_line
+        field_template = enum_cell
+        m['enum'] = more['enum']
         m['data'] = more['values']
     elif field_mode == 'datetime':
         field_template = text_line

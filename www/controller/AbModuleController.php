@@ -46,7 +46,12 @@ class AbModuleController extends AbBaseController
             $uploadUrls[] = $cfg['url'];
         }
 
-        $data = array('table_names' => $tableNames, 'upload_urls' => $uploadUrls);
+        $enumDefines =
+
+        $data = array(
+            'table_names' => $tableNames,
+            'enum_defines' => AbEnumController::getEnumClasses(),
+            'upload_urls' => $uploadUrls);
         // $this->session->set('a', '323');
         parent::showTabViews($views, '创建CURD模块', $data);
     }
@@ -99,10 +104,38 @@ class AbModuleController extends AbBaseController
     private function createModelConfigFile($path, $modelName, $data) {
         $workingModelFile = "$path\\model\\config\\{$modelName}.json";
 
-        $content = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        $json = self::convert($data);
+        $content = json_encode($json, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         file_put_contents($workingModelFile, $content);
         return true;
     }
+
+    private static function convert($data)
+    {
+        $json = $data;
+        $info = &$json['info'];
+        if (!array_key_exists('FieldsConfig', $info)) {
+        }
+
+        $fieldsConfig = &$info['FieldsConfig'];
+
+        foreach ($fieldsConfig as &$fieldConfig)
+        {
+            // 针对enum select的处理
+            if ($fieldConfig['fieldMode'] == 'enum')
+            {
+                if (array_key_exists('enum', $fieldConfig['more']))
+                {
+                    $enumDefine = $fieldConfig['more']['enum'];
+                    $enums = AbEnumController::getEnum($enumDefine);
+                    $fieldConfig['more']['values'] = $enums;
+                }
+            }
+        }
+
+        return $json;
+    }
+
 
 
 }

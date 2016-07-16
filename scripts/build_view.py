@@ -40,6 +40,8 @@ def get_value(field_config):
         return get_html_for_show_view(field_config, 'List')
     elif field_config['fieldMode'] == 'file' or field_config['fieldMode'] == 'image':
         return get_html_for_show_view(field_config, 'List')
+    elif field_config['fieldMode'] == 'enum':
+        return get_html_for_show_view(field_config, 'List')
     elif field_config['fieldMode'] == 'fk':
         more = field_config['more']
         model_name = get_module_name('', more['table'])

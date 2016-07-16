@@ -15,21 +15,10 @@ class AbEnumController extends AbBaseController
         $views = [
             ["name" =>'常量定义', "template" => "abenum/list"]];
 
-        $classNamePath = self::getEnumPath();
-
-        $filePaths = scandir($classNamePath);
-
-        $fileNames = [];
-        foreach ($filePaths as $filePath) {
-            if ($filePath == '.' || $filePath == '..' || $filePath == 'const') {
-                continue;
-            }
-            $fileNames[] = ['className' => $filePath];
-        }
-
+        $classNames = self::getEnumClasses();
 
         $data = array(
-            'classNames' => $fileNames
+            'classNames' => $classNames
         );
         parent::addDialog('Action属性', 'abenum/settings');
         parent::showTabViews($views, '常量定义管理', $data);
@@ -64,6 +53,36 @@ class AbEnumController extends AbBaseController
         $productPath = ApplicationConfig::getConfig('product')['path'];
         $classNamePath = $productPath . '/www/defines';
         return $classNamePath;
+    }
+
+    public static function getEnumClasses()
+    {
+        $classNamePath = self::getEnumPath();
+
+        $filePaths = scandir($classNamePath);
+
+        $fileNames = [];
+        foreach ($filePaths as $filePath) {
+            if ($filePath == '.' || $filePath == '..' || $filePath == 'const') {
+                continue;
+            }
+
+            $className = substr($filePath, 0, -4);
+            $fileNames[] = ['className' => $className];
+        }
+
+        return $fileNames;
+    }
+
+    public static function getEnum($name)
+    {
+        $classNamePath = self::getEnumPath();
+
+        $jsonName = "{$classNamePath}/const/{$name}.json";
+
+        $contents = file_get_contents($jsonName);
+
+        return json_decode($contents);
     }
 
 

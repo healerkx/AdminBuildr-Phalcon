@@ -32,6 +32,8 @@ text_line = """
 </div>
 """
 
+enum_cell = "{{ tag_html('enum_cell', [i.##field_name, '##enum', ##data] ) }}"
+
 file_download = """
 <div class="Link">
     <label class="control-label">##label</label>

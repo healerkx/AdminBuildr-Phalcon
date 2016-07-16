@@ -127,7 +127,7 @@
 
             this.showDialog(context, e);
             var more = this._tr.data('more');   // For init rendering
-            console.log(more)
+            console.log(more);
             if (more) {
                 var values = more['values'];
                 for (var i in values) {
@@ -135,7 +135,7 @@
                     this._addValue(list, v['value'], v['name']);
                 }
             } else {
-                this._addValue(list, 0, '请选择');
+                this._addValue(list, 0, '');
             }
         },
 
@@ -148,10 +148,20 @@
         getProperties: function () {
             var trList = this._domNode.find('div[widget-class] tbody tr');
             var values = [];
+            // 使用了const目录的Enum defines
+            var enumDef = this._domNode.find('select.enum-define').val()
+            if (enumDef != 0) {
+                return {
+                    enum: enumDef
+                }
+            }
+
             trList.each(function() {
                 var tr = $(this);
-                var value = tr.find('input.value').val(), name = tr.find('input.name').val();
-                values.push({'value': value, 'name': name });
+                var value = tr.find('input.value').val(),
+                        name = tr.find('input.name').val(),
+                        display = tr.find('input.display').val();
+                values.push({'value': value, 'name': name, 'display': display });
             });
             return {values: values};
         },
