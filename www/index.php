@@ -39,6 +39,7 @@ $di->set('dispatcher', function () {
     // Assign the events manager to the dispatcher
     $dispatcher->setEventsManager($eventsManager);
 
+    file_put_contents('e3.txt', 'f', FILE_APPEND);
     return $dispatcher;
 });
 

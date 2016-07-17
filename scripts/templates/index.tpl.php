@@ -6,6 +6,8 @@ use Phalcon\Loader,
     Phalcon\Mvc\View,
     Phalcon\Mvc\View\Engine\Volt;
 
+use Phalcon\Session\Adapter\Files as Session;
+
 $loader = new Loader();
 
 $loader->registerDirs(
@@ -79,6 +81,12 @@ $di->set('redis', function() {
 $di['tag'] = function() {
     return new AbTag();
 };
+
+$di->setShared('session', function () {
+    $session = new Session();
+    $session->start();
+    return $session;
+});
 
 $di->set('modelsManager', function() {
     return new Phalcon\Mvc\Model\Manager();

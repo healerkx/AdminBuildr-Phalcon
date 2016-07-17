@@ -1,4 +1,4 @@
-/*
+<script>
 var Login = function () {
 
     return {
@@ -6,7 +6,7 @@ var Login = function () {
         init: function () {
 
             var v = $('.login-form').validate({
-                onsubmit:true,// 是否在提交是验证
+                onsubmit: true,// 是否在提交是验证
                 //errorElement: 'label', //default input error message container
                 //errorClass: 'help-inline', // default input error message class
                 //focusInvalid: false, // do not focus the last invalid input
@@ -24,10 +24,10 @@ var Login = function () {
 
                 messages: {
                     username: {
-                        required: "Username is required."
+                        required: "请输入用户名"
                     },
                     password: {
-                        required: "Password is required."
+                        required: "请输入密码"
                     }
                 },
 
@@ -44,33 +44,20 @@ var Login = function () {
                 },
 
                 handler: function () {
-                    // console.log(3, this);
                 },
 
                 success: function (label) {
-                    // console.log(2, label);
                     label.closest('.control-group').removeClass('error');
                     label.remove();
                 },
 
                 errorPlacement: function (error, element) {
-                    // console.log(4, error);
                     error.addClass('help-small no-left-padding').insertAfter(element.closest('.input-icon'));
                 },
 
                 submitHandler: function (form) {
-
-                    // return false;
-                    $(form).ajaxSubmit({
-                        url: this.settings.action,
-                        type: 'post',
-                        success: function(data) {
-                            console.log(5, data);
-
-                            //window.location.href = form.attr('action');
-                        }
-                    });
-
+                    form.submit();
+                    // https://forum.jquery.com/topic/jquery-validate-maximum-call-stack-size-exceeded
                 }
             });
 
@@ -216,4 +203,5 @@ var Login = function () {
 
     };
 
-}();*/
+}();
+</script>

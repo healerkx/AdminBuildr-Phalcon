@@ -36,7 +36,7 @@
 <!-- BEGIN LOGIN -->
 <div class="content">
     <!-- BEGIN LOGIN FORM -->
-    <form class="form-vertical login-form">
+    <form class="form-vertical login-form" action="{{loginAction}}" method="post">
         <h3 class="form-title">管理员登录</h3>
         <div class="alert alert-error hide">
             <button class="close" data-dismiss="alert"></button>
@@ -196,7 +196,12 @@
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="media/js/app.js" type="text/javascript"></script>
+
+
+<!--
 <script src="media/js/login.js" type="text/javascript"></script>
+-->
+{% include 'common/login.js.phtml' %}
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
     jQuery(document).ready(function() {

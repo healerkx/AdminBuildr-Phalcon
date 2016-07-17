@@ -343,13 +343,24 @@ HTML;
         return self::regionName($parameters[0]);
     }
 
+    /**
+     * @param $parameters
+     * @return string
+     * To render a select value in List
+     */
     private static function enumCell($parameters)
     {
-        $values = $parameters[2];
         if (!empty($parameters[1])) {
             $className = $parameters[1];
-
             $values = call_user_func(array($className, 'items'), array());
+        } else {
+            $values = [];
+            $items = $parameters[2];
+            foreach ($items as $item)
+            {
+                // TODO: Test
+                $values[$item['value']] = $item;
+            }
         }
 
         $item = $values[$parameters[0]];

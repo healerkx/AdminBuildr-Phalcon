@@ -30,22 +30,32 @@ class SecurityPlugin extends Plugin
 
         $controllerName = $dispatcher->getControllerName();
         $actionName = $dispatcher->getActionName();
+        $url = "$controllerName/$actionName";
 
         $session = $this->session;
 
         if ($this->canAccess($session, $controllerName, $actionName)) {
+            file_put_contents('a2.txt', $url, FILE_APPEND);
+
             return true;
         } else {
 
             $url = "$controllerName/$actionName";
-            // TODO: Log access forbidden log
-            // TODO: $dispatcher->forward('Access Forbidden');
+
+            file_put_contents('a1.txt', $url, FILE_APPEND);
+
+            $dispatcher->forward(
+                array('controller' => 'mainBoard', 'action' => 'lock'));
+
+            return false;
         }
     }
 
     public function canAccess($session, $controllerName, $actionName)
     {
-
+        if ($controllerName == 'mainBoard' && $actionName == 'lock') {
+            return true;
+        }
 
         return true;
     }
