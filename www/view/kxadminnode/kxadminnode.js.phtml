@@ -15,12 +15,18 @@
                 'action': action,
                 'name': name
             });
-        })
+        });
 
         console.log(entries);
 
         $.post('kxAdminNode/sync', {entries: entries}, function(data) {
             console.log(data);
+            var json = data.toJson();
+            if (json.error == 0) {
+                alert('更新成功')
+                window.location.reload();
+            }
+
         });
     }
 

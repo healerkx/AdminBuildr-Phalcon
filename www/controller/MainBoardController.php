@@ -15,6 +15,7 @@ class MainBoardController extends AbBaseController
         {
             echo "Index";
         }
+        $this->response->redirect('abModule/create');
     }
 
     public function lockAction()
@@ -31,10 +32,14 @@ class MainBoardController extends AbBaseController
      */
     public function loginAction()
     {
+        $target = 'mainBoard/lock';
+        if (!$this->request->isPost()) {
+            $this->response->redirect($target);
+        }
+
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
-        $target = 'mainBoard/lock';
         if ($this->login($username, $password))
         {
             $target = 'mainBoard/index';

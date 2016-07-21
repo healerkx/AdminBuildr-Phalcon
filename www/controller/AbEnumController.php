@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: healer_kx@163.com
- * Date: 2016/7/15
- * Time: 17:05
+ * Date: 2016/07/15
+ * 枚举类型支持，用于Form中select的options支持。
  */
 class AbEnumController extends AbBaseController
 {

@@ -55,12 +55,14 @@ class KxAdminNodeController extends AbBaseController
                 {
                     $w['node_id'] = $node['node_id'];
                     $w['name'] = $node['name'];
+                    $w['comment'] = $action['comment'];
                     $w['brand_new'] = false;
                 }
                 else
                 {
                     $w['node_id'] = 0;
                     $w['name'] = '';
+                    $w['comment'] = $action['comment'];
                     $w['brand_new'] = true;
                 }
 
@@ -79,7 +81,11 @@ class KxAdminNodeController extends AbBaseController
             $controller = $node['controller'];
             $action = $node['action'];
 
-            $a = array('action' => $action, 'node_id' => $node['node_id'], 'name' => $node['name']);
+            $a = array(
+                'action' => $action,
+                'node_id' => $node['node_id'],
+                'name' => $node['name'],
+                'comment' => $node['comment']);
             array_push($result[$controller], $a);
         }
         return $result;
@@ -87,7 +93,7 @@ class KxAdminNodeController extends AbBaseController
 
     /**
      * @return mixed
-     * Node record in DB
+     * Node records in DB
      */
     private function getAdminNodes()
     {
@@ -98,6 +104,7 @@ class KxAdminNodeController extends AbBaseController
     /**
      * @return array
      * Get all given controllers' actions
+     * 通过反射得到我们需要的Controller(s)里面的每一个Action(s)
      */
     private function getActionAccessLists() {
         $controllerNames = ['AbModuleController', 'AbReportController'];
@@ -113,7 +120,8 @@ class KxAdminNodeController extends AbBaseController
     /**
      * @param $className
      * @return array
-     * Get a controller's actions
+     * Get a controller's actions by reflection
+     * 通过反射得到我们需要的Controller Class里面的每一个Action(s)
      */
     private function getActionAccessList($className)
     {
@@ -144,15 +152,34 @@ class KxAdminNodeController extends AbBaseController
         $comments = $method->getDocComment();
         $comments = trim($comments);
         $commentLines = explode("\n", $comments);
+        $page = false;
+        $access = '';
+        $comment = '';
         foreach ($commentLines as $commentLine) {
-            $d = strstr($commentLine, '@access');
-            $access = trim(substr($d, 7));
-            if ($access) {
-                return array('action' => $actionName, 'access' => $access);
+
+            $p = strstr($commentLine, '@page');
+            if ($p) {
+                $page = true;
+                continue;
             }
+
+            $a = strstr($commentLine, '@access');
+            if ($a) {
+                $access = trim(substr($a, 7));
+            }
+
+            $c = strstr($commentLine, '@comment');
+            if ($c) {
+                $comment = trim(substr($c, 8));
+            }
+
         }
 
-        return array('action' => $actionName, 'access' => '');
+        return array(
+            'action' => $actionName,
+            'access' => $access,
+            'page' => $page,
+            'comment' => $comment);
     }
 
     public function syncAction()
@@ -169,6 +196,7 @@ class KxAdminNodeController extends AbBaseController
                     $node->controller = trim($entry['controller']);
                     $node->action = trim($entry['action']);
                     $node->name = $name;
+                    $node->status = 1;
                     $node->create_time = $now;
                     $node->update_time = $now;
                     $node->save();

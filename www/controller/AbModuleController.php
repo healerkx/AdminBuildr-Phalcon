@@ -7,15 +7,12 @@
 
 class AbModuleController extends AbBaseController
 {
-    public function indexAction()
-    {
-        parent::show('abmodule/index', false);
-    }
-
     /**
      * @param string $method
+     * @page
+     * @comment CURD入口
      */
-    public function createAction($method='curdFromModel') {
+    public function indexAction($method='curdFromModel') {
         if ($method == 'curdFromModel') {
             $this->createCurdFromModel();
         } else {
@@ -56,6 +53,9 @@ class AbModuleController extends AbBaseController
         parent::showTabViews($views, '创建CURD模块', $data);
     }
 
+    /**
+     * @comment 更新入口(Test)
+     */
     public function updateAction() {
         parent::result(array('a' => 3));
     }
