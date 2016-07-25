@@ -173,7 +173,9 @@ class AbBaseController extends Controller
             $subMenu = $i['sub_menus'];
             foreach ($subMenu as $s) {
                 $url = $s['url'];
-                if ($url == $currentUrl) {
+                // file_put_contents("d:\\m.txt", "$url, $currentUrl\n", FILE_APPEND);
+                // 隐含BUG: 当两个路径分别在不同的Menu中, 但是Path是$currentUrl的字串的时候, Menu红色高亮可能有问题
+                if (strstr($currentUrl, $url)) {
                     $i['active'] = true;
                     $activeSet = true;
                     break;

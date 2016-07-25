@@ -10,7 +10,7 @@ class AbModuleController extends AbBaseController
     /**
      * @param string $method
      * @page
-     * @comment CURD入口
+     * @comment CURD自动生成模块入口
      */
     public function indexAction($method='curdFromModel') {
         if ($method == 'curdFromModel') {

@@ -207,12 +207,17 @@ def build_view(config):
     view_detail_filename = os.path.join(full_path, "detail.phtml")
     create_file_from_string_template("view_detail.tpl.html", d, view_detail_filename)
 
+    # confirm
+    view_confirm_filename = os.path.join(full_path, "confirm.phtml")
+    create_file_from_string_template("confirm.tpl.html", d, view_confirm_filename)
+
     return [
         view_index_filename,
         view_index_js_filename,
         view_create_filename,
         view_update_filename,
-        view_detail_filename]
+        view_detail_filename,
+        view_confirm_filename]
 
 def build_view_by_config(config):
     return build_view(config)

@@ -45,6 +45,8 @@ class {{ controller_name }} extends {{ base_controller_name }}
 			'formSaveActionUrl' => '{{firstlower(model_name)}}/save',
 			// TODO: Commit support
 			'i' => $init);
+
+		parent::addDialog('确定', '{{lower(model_name)}}/confirm');
 		parent::showTabViews($views, '新建', $data);
 	}
 
@@ -65,6 +67,8 @@ class {{ controller_name }} extends {{ base_controller_name }}
 			'itemViewMode' => 'update', 
 			'formSaveActionUrl' => "{{firstlower(model_name)}}/save/$id",
 			'i' => $item);
+
+		parent::addDialog('确定', '{{lower(model_name)}}/confirm');
 		parent::showTabViews($views, '编辑', $data);
 
 	}
@@ -109,7 +113,7 @@ class {{ controller_name }} extends {{ base_controller_name }}
             }
             return parent::error(1, array('post' => $post, 'reason' => $reason));
         }
-	}	
+	}
 
 	/**
 	 * @param $id

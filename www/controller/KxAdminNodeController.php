@@ -136,7 +136,9 @@ class KxAdminNodeController extends AbBaseController
 
             $methodName = $method->getName();
             if (Strings::endsWith($methodName, 'Action')) {
-                array_push($actions, $this->getActionAccess($method));
+                $nodeAccess = $this->getActionAccess($method);
+                if ($nodeAccess['page'])
+                array_push($actions, $nodeAccess);
             }
         }
         return $actions;

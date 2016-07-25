@@ -7,7 +7,11 @@
  */
 class AbReportController extends AbBaseController
 {
-    public function createAction()
+    /**
+     * @comment 报表创建模块入口
+     * @page
+     */
+    public function indexAction()
     {
         $tableNames = $this->tableNames();
         $data = array('table_names' => $tableNames);
