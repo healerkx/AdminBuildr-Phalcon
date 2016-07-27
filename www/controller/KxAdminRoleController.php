@@ -13,6 +13,12 @@ class KxAdminRoleController extends AbBaseController
             $items = $result['items']->toArray();
         }
 
+
+        foreach ($items as &$item)
+        {
+            $item['status'] = $item['status'] == 1 ? "正常" : "停用";
+        }
+
         $data = array(
             'item_has_checkbox' => true,
             'item_has_operator' => true,
@@ -158,20 +164,24 @@ class KxAdminRoleController extends AbBaseController
         parent::showTabViews($views, '角色访问控制', $data);
     }
 
+    /**
+     * @param $roleId
+     * @page: 修改角色能看到的菜单组
+     *
+     */
     public function editMenuGroupsAction($roleId) {
         if (!isset($roleId)) {
-            // TODO: 没有参数
-            // TODO: Redirect to ...
+            parent::errorPage("editMenuGroupsAction take no parameter: roleId");
         }
+
         $role = KxAdminRole::findFirst($roleId);
         if (!$role) {
-            // TODO: 没有这个角色
-            // TODO: Redirect to ...
-        }
-        $menuGroups = array(array('id'=>1, 'name'=>"ddd"), array('id'=>1, 'name'=>'Name'));
+            parent::errorPage("editMenuGroupsAction take wrong parameter: roleId=($roleId)");        }
+
+        $menus = KxAdminRoleMenu::find("role_id=$roleId");
 
         $data = array(
-            'edit_menu_groups' => $menuGroups,
+            'menus' => $menus->toArray(),
             'role_name' => $role->name
         );
         $views = [
@@ -191,6 +201,11 @@ class KxAdminRoleController extends AbBaseController
         return parent::result($data);
     }
 
+    /**
+     * @param $id
+     * @ajax
+     * @comment: 删除角色 access_status = 0;
+     */
     public function deleteAction($id) {
         $item = KxAdminRole::findFirst($id);
         $item->access_status = 0;

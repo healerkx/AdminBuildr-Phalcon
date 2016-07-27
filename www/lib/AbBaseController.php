@@ -141,6 +141,12 @@ class AbBaseController extends Controller
             array("controller" => $controller, "action" => $action));
     }
 
+    public function errorPage($errorMsg)
+    {
+        // $this->setFlash($errorMsg);
+        $this->forward("common/error");
+    }
+
     public function redirect($controllerAction) {
         $this->response->redirect($controllerAction)->sendHeaders();
     }

@@ -43,8 +43,6 @@ class AbModuleController extends AbBaseController
             $uploadUrls[] = $cfg['url'];
         }
 
-        $enumDefines =
-
         $data = array(
             'table_names' => $tableNames,
             'enum_defines' => AbEnumController::getEnumClasses(),

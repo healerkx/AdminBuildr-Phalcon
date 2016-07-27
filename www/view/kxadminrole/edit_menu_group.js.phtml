@@ -1,7 +1,19 @@
 <script>
     var menuGroup = '{{ edit_menu_groups|json_encode }}'.toJson();
 </script>
+<style>
+    tr.current
+    {
+        border: 2px solid #ccc;
+    }
 
+    #menu_group_table
+    {
+        border-collapse: collapse;
+    }
+
+
+</style>
 <script>
 
     function addNewMenuGroup(id, name) {
@@ -20,7 +32,7 @@
         }
     }
 
-    function exchangeItems(a, b) {
+function exchangeItems(a, b) {
         a.insertBefore(b);
     }
 
@@ -44,15 +56,18 @@
 
     $(function(){
 
-        $('#group-edit-pane').delegate('a.edit', 'click', function(){
-            var item = $(this).parent();
 
+        $('#menu_group_table').delegate('tr.entry', 'click', function(){
+            var self = $(this);
+
+            self.siblings().removeClass('current');
+            self.addClass('current');
         });
 
-        $('#group-edit-pane').delegate('a.moveUp, a.moveDown', 'click', function(){
+        $('#menu_group_operator').delegate('a.moveUp, a.moveDown', 'click', function(){
             var $t = $(this);
             var direct = $t.attr('direct');
-            var item = $(this).parent().parent();
+            var item = $('#menu_group_table tr.current');
             if (direct == 'd') {
                 exchangeItems(item.next(), item);
             } else if (direct == 'u') {

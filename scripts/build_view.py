@@ -209,7 +209,7 @@ def build_view(config):
 
     # confirm
     view_confirm_filename = os.path.join(full_path, "confirm.phtml")
-    create_file_from_string_template("confirm.tpl.html", d, view_confirm_filename)
+    create_file_from_string_template("view_confirm.tpl.html", d, view_confirm_filename)
 
     return [
         view_index_filename,
