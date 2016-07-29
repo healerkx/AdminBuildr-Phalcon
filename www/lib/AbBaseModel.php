@@ -57,7 +57,7 @@ class AbBaseModel extends Model
                     $params['like'] = true;
                 }
 
-                if (!empty($value)) {
+                if (!empty($value) || $value === '0') {
                     $binds = array_merge($binds, self::addCondition($query, $key, $value, $params));
                 }
             }

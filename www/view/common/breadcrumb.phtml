@@ -5,18 +5,16 @@
             <a href="#"></a>
             <i class="icon-angle-right"></i>
         </li>
-        <li class="home level2">
-            <a href="#"></a>
+
+        {% for index, breadcrumb in breadcrumbs %}
+        <li class="level{{index+2}}">
+            <a href="#">{{ breadcrumb }}</a>
+            {% if index + 1 < breadcrumbs|length %}
             <i class="icon-angle-right"></i>
+            {% endif %}
         </li>
-        <li class="home level3">
-            <a href="#"></a>
-            <i class="icon-angle-right"></i>
-        </li>
-        <li class="home level4">
-            <a href="#"></a>
-            <i class="icon-angle-right"></i>
-        </li>
+
+        {% endfor %}
         <!-- 4 levels at most -->
         {% if breadcrumb_with_date_picker %}
         <li class="pull-right no-text-shadow">
