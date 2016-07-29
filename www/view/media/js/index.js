@@ -873,6 +873,10 @@ var Index = function () {
             $('input.date-picker').datepicker({
                 format: 'yyyy-mm-dd',
             });
+
+            $('input.datetime-picker').datetimepicker({
+                format: 'yyyy-mm-dd HH:ii:ss',
+            });
         }
 
     };

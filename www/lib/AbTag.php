@@ -175,9 +175,12 @@ HTML;
 <div class="DTP">
     <label class="control-label">{{label}}</label>
     <div class="controls">
-        <input class="m-wrap m-ctrl-medium date-picker" readonly
+        <div class="input-append date form_meridian_datetime">
+        <input class="m-wrap m-ctrl-medium datetime-picker" readonly
                placeholder="{{placeholder}}" size="16" type="text"
                name="{{field}}" value="{{value}}"/>
+        </div>
+
     </div>
 </div>
 HTML;

@@ -48,7 +48,9 @@ def build_model(config, base_model_name):
     module_name = config['module_name']
 
     fields_config = model['info']['FieldsConfig']
-    unhandled_fields = model['info']['UnhandledFields']
+    unhandled_fields = []
+    if 'UnhandledFields' in model['info']:
+        unhandled_fields = model['info']['UnhandledFields']
     d = init_dict()
     d['model_name'] = config['module_name']
     d['module_name'] = config['module_name']

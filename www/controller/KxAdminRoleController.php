@@ -117,13 +117,11 @@ class KxAdminRoleController extends AbBaseController
      */
     public function editRoleAccessAction($roleId) {
         if (!isset($roleId)) {
-            // TODO: 没有参数
-            // TODO: Redirect to ...
+            parent::errorPage("editRoleAccessAction expect one parameter \$roleId");
         }
         $role = KxAdminRole::findFirst($roleId);
         if (!$role) {
-            // TODO: 没有这个角色
-            // TODO: Redirect to ...
+            parent::errorPage("editRoleAccessAction take wrong parameter \$roleId=($roleId)");
         }
 
         $access = KxAdminAccess::getAccess($role->role_id);
@@ -152,9 +150,11 @@ class KxAdminRoleController extends AbBaseController
         }
         unset($nodes);
 
+        $menus = KxAdminRoleMenu::find("role_id=$roleId");
+
         $data = array(
             'controllerNodes' => $controllerNodes,
-
+            'menus' => $menus->toArray(),
             'role_name' => $role->name
         );
         $views = [
