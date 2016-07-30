@@ -8,6 +8,8 @@ class {{ controller_name }} extends {{ base_controller_name }}
 {
 	/**
 	 * @access Role
+	 * @page
+	 * @comment:
 	 */
 	public function indexAction()
 	{
@@ -27,12 +29,16 @@ class {{ controller_name }} extends {{ base_controller_name }}
 			'headers' => {{model_name}}::headers()
 			);
 		$views = array('name' => '查看列表', 'template' => '{{lower(model_name)}}/index');
+
+		// parent::showBreadcrumb(['', ''], false);
 		parent::showPager($_GET['__pager_current'], $result['page_count']);
 		parent::showTabViews($views, '查看', $data);
 	}
 
 	/**
 	 * @access Role
+	 * @page
+	 * @comment:
 	 */
 	public function createAction()
 	{
@@ -46,6 +52,7 @@ class {{ controller_name }} extends {{ base_controller_name }}
 			// TODO: Commit support
 			'i' => $init);
 
+		// parent::showBreadcrumb(['', ''], false);
 		parent::addDialog('确定', '{{lower(model_name)}}/confirm');
 		parent::showTabViews($views, '新建', $data);
 	}
@@ -53,6 +60,8 @@ class {{ controller_name }} extends {{ base_controller_name }}
 	/**
 	 * @param $id
 	 * @access Role
+	 * @page
+	 * @comment:
 	 */
 	public function updateAction($id)
 	{
@@ -68,11 +77,17 @@ class {{ controller_name }} extends {{ base_controller_name }}
 			'formSaveActionUrl' => "{{firstlower(model_name)}}/save/$id",
 			'i' => $item);
 
+		// parent::showBreadcrumb(['', ''], false);
 		parent::addDialog('确定', '{{lower(model_name)}}/confirm');
 		parent::showTabViews($views, '编辑', $data);
 
 	}
 
+	/**
+	 * @param $id
+	 * @page
+	 * @comment:
+	 */
 	public function viewAction($id) {
 		if (!isset($id)) {
 			parent::redirect('common/error', "This action need parameter \$id");
@@ -82,12 +97,15 @@ class {{ controller_name }} extends {{ base_controller_name }}
 		];
 		$item = {{model_name}}::getItemById($id);
 		$data = array('itemViewMode' => 'view', 'i' => $item);
+
+		// parent::showBreadcrumb(['', ''], false);
 		parent::showTabViews($views, '查看', $data);
 	}
 
 	/**
 	 * @param $id int
 	 * @access Role
+	 * @ajax
 	 */
 	public function saveAction($id = 0)
 	{
@@ -118,6 +136,7 @@ class {{ controller_name }} extends {{ base_controller_name }}
 	/**
 	 * @param $id
 	 * @access Role
+     * @ajax
 	 */
 	public function deleteAction($id)
 	{
@@ -135,6 +154,10 @@ class {{ controller_name }} extends {{ base_controller_name }}
 		return parent::error(-1, array('error' => 'No field set for deletion'));
 	}
 
+    /**
+     * @param $type
+     * @ajax
+     */
 	public function exportAction($type)
 	{
 		// TODO: Header

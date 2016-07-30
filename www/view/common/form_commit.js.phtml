@@ -2,11 +2,14 @@
 
     function validateError(error, elem, errorStyle) {
         var errorMsg = error.text();
+
+        var group = elem.closest('div.control-group');
         if (!String.isEmpty(errorMsg)) {
             var style = errorStyle || "error";
-            var group = elem.closest('div.control-group');
-            group.addClass(style);
-            group.find('span.help-inline').text(errorMsg);
+            group.addClass(style).find('span.help-inline').text(errorMsg);
+        } else {
+            elem.removeClass('error');
+            group.removeClass('error').find('span.help-inline').text('');
         }
     }
 
