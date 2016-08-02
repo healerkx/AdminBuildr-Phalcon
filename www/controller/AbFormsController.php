@@ -18,14 +18,4 @@ class AbFormsController extends AbBaseController
         parent::showTabViews($views, "Forms Creator", $data);
     }
 
-    public function examplesAction() {
-        $views = [
-            ["name" =>'实例', "template" => "abforms/examples"]
-            ];
-
-        $data = array();
-        $this->preloadChinaProvince();
-        parent::showPager(3, 23);
-        parent::showTabViews($views, "Forms Creator - Example", $data);
-    }
 }

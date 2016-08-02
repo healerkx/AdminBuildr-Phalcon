@@ -23,8 +23,8 @@
                 url: $options.action,
                 type: 'post',
                 success: function(data) {
-                    if ($options.handler) {
-                        $options.handler.apply(null, [data, form]);
+                    if ($options.successHandler) {
+                        $options.successHandler.apply(null, [data, form]);
                     }
                 }
             });

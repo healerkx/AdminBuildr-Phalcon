@@ -3,8 +3,11 @@
     var $options = {
         action: '{{ formSaveActionUrl }}',
 
-        handler: function(data, form) {
+        successHandler: function(data, form) {
             console.log(data);
+
+            bootbox.alert("保存成功", function () {
+            });
         },
         errorPlacement: function(error, element) {
             validateError(error, element)
