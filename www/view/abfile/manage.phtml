@@ -1,7 +1,7 @@
 <div>
     <div class="row-fluid">
 
-        <div widget-class="EntryEditList" widget-id="action-edit-list">
+        <div widget-class="FileUploaderList" widget-id="action-edit-list">
             <table class="manage table table-striped table-bordered table-hover table-full-width dataTable">
                 <thead>
                 <tr>
@@ -11,8 +11,9 @@
                     <td>操作</td>
                 </tr>
                 <tr class="entry-template" style="display: none">
-                    <td><input class="value" type="text"/></td>
-                    <td><input class="name" type="text"/></td>
+                    <td><span class="value" type="text"></span></td>
+                    <td><span class="name" type="text"></span></td>
+                    <td><span class="name" type="text"></span></td>
                     <td>
                         <a class="btn blue property small" data-toggle="modal">属性</a>
                         <a class="btn blue del small" data-toggle="modal">放弃</a>
@@ -22,9 +23,9 @@
                 <tbody>
                 {% for i in actions %}
                 <tr>
-                    <td><input class="value" type="text" value="{{i['url']}}" readonly/></td>
-                    <td><input class="name" type="text" value="{{i['filename_pattern']}}" readonly/></td>
-                    <td><input class="name" type="text" value="{{i['subdir_pattern']}}" readonly/></td>
+                    <td><span value="{{i['url']}}" >{{i['url']}}</span></td>
+                    <td><span value="{{i['filename_pattern']}}">{{i['filename_pattern']}}</span></td>
+                    <td><span value="{{i['subdir_pattern']}}">{{i['subdir_pattern']}}</span></td>
                     <td><a class="btn blue property small" data-toggle="modal">属性</a></td>
                 </tr>
                 {% endfor %}

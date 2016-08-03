@@ -26,9 +26,6 @@ def load_upload_config():
     parser.add_option("-n", "--name", action="store",
                   dest="controller_name", help="Provide controller name")
 
-    parser.add_option("-p", "--path", action="store",
-                  dest="dir", help="Provide controller name")
-
     parser.add_option("-f", "--filename-pattern", action="store", default='',
                   dest="filename_pattern", help="Provide filename pattern")
 

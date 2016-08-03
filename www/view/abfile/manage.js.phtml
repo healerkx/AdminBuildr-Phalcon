@@ -34,7 +34,7 @@
             var $post = {
                 overwrite: overwrite,
                 controller: controller,
-                path: domNode.find('[name=path]').val(),
+                // path: domNode.find('[name=path]').val(),
                 filename_pattern: filenamePattern,
                 subdir_pattern: subdirPattern
             };
@@ -63,6 +63,7 @@
                             // TODO: 不能重复, 否则覆盖
                             var r = data.toJson();
                             console.log(r);
+                            window.location.reload();
                         }
                 );
             }
@@ -70,10 +71,20 @@
         }
     });
 
+    $class('FileUploaderList', EntryEditList, {
+
+        onAddEntry: function() {
+            var d = new SettingsDialog();
+            d.show();
+        }
+    });
+
+
     $(function() {
         $('table.manage').delegate('a.property', 'click', function(){
             var d = new SettingsDialog();
             d.show();
         });
+
     })
 </script>

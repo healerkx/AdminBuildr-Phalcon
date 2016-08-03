@@ -28,7 +28,6 @@ class AbFileController extends AbBaseController
     {
         $overwrite = $this->request->getPost('overwrite');
         $controller = $this->request->getPost('controller');
-        $path = $this->request->getPost('path');
         $filenamePattern = $this->request->getPost('filename_pattern');
         $subdirPattern = $this->request->getPost('subdir_pattern');
 
@@ -43,31 +42,32 @@ class AbFileController extends AbBaseController
         }
 
         $configPath = ApplicationConfig::getConfigPath('config.json');
-        $cmdLine = "--name=$controller --path=$path --filename-pattern=$filenamePattern --subdir-pattern=$subdirPattern --config=\"$configPath\"";
+        $cmdLine = "--name=$controller --filename-pattern=$filenamePattern --subdir-pattern=$subdirPattern --config=\"$configPath\"";
 
         $c = Python3::run("build_upload_controller.py", $cmdLine);
-        return parent::result($c);
+
+        $this->addFileUploaderModel($controller, $filenamePattern, $subdirPattern);
+        return parent::result(array('post' => $this->request->getPost()));
     }
 
-    public function addControllerAction()
+    public function addFileUploaderModel($url, $filenamePattern, $subdirPattern)
     {
-        $url = $this->request->getPost('url');
-        $filenamePattern = $this->request->getPost('filename_pattern');
-        $subdirPattern = $this->request->getPost('subdir_pattern');
-        $cfg = new KxUploadConfig();
-        $cfg->url = $url;
-        $cfg->filename_pattern = $filenamePattern;
-        $cfg->subdir_pattern = $subdirPattern;
-        $cfg->status = 1;
-        $time = date('Y-m-d h:i:s');
-        $cfg->create_time = $time;
-        $cfg->update_time = $time;
+        $data = array(
+            'url' => $url,
+            'filename_pattern' => $filenamePattern,
+            'subdir_pattern' => $subdirPattern
+        );
 
-        $r = $cfg->save();
-        if ($r) {
-            return parent::result(array('result' => $r, 'post' => $this->request->getPost()));
-        }
-        // TODO:
+        $path = ApplicationConfig::getConfig('product')['path'] . '\\www\\model\\file-upload\\';
+
+        return $this->createUploadPolicyFile($path, $url, $data);
+    }
+
+    private function createUploadPolicyFile($path, $url, $data)
+    {
+        $fileName = $path . "{$url}.json";
+        file_put_contents($fileName, json_encode($data), JSON_PRETTY_PRINT);
+        return true;
     }
 
     /**
