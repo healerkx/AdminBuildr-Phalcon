@@ -250,7 +250,11 @@ def get_search_field(field_config):
     field_template = ''
     search = int(more['search'])
 
-    if field_mode == 'datetime':    # Only support range
+    if field_mode == 'primaryKey':
+        field_template = text_field
+        m['validate'] = ''
+
+    elif field_mode == 'datetime':    # Only support range
         # assert(search == 3)
         field_template = date_search_range
 
@@ -264,19 +268,6 @@ def get_search_field(field_config):
         elif search == 3: # Range
             m['validate'] = ''
             field_template = text_search_range
-
-    """
-    if search == 0: # Do not search
-        return None
-    elif search == 1: # Exactly
-        return get_html_for_form_view(field_config, 'Create')
-    elif search == 2: # Like
-        return ""
-    elif search == 3: # Range
-        return ""
-    elif search == 4: # Show enum
-        return ""
-    """
 
     content = field_template.strip()
     t = MyTemplate(content)
