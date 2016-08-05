@@ -254,13 +254,42 @@
         }
     });
 
-    $class('FileDialog', FieldPropertyDialog, {
+    $class('FileUpload', null, {
+        refreshUpload: function(domNode) {
+            var self = this;
+            domNode.delegate('a.refresh', 'click', function() {
+                $.get('/abFile/refresh', function(json) {
+                    console.log(json);
+                    if (json.error == 0) {
+                        self.updateUpload(json.data);
+                    }
+                }, 'json');
+            });
+
+            domNode.find('a.refresh').click();
+        },
+
+        updateUpload: function (data) {
+            var select = this._domNode.find('select');
+            select.find('option.upload').remove();
+            // console.log(data)
+            for (var i in data) {
+                var item = data[i];
+                select.append('<option class="upload" value="{0}">{1}</option>'
+                            .format(item['url'] + '/upload', item['url'] + '/upload'));
+            }
+        },
+    });
+
+    $class('FileDialog', [FieldPropertyDialog, FileUpload], {
         template:'abmodule/dialog-file',
 
         show: function (context, e) {
             // TODO: fill data into dom.
             var domNode = this.showDialog(context, e);
             selectOneValueOnly(domNode.find('td[field=search] select'), 0, true);
+
+            this.refreshUpload(domNode);
         },
 
         getProperties: function () {
@@ -275,13 +304,14 @@
     });
 
     // TODO: set image size
-    $class('ImageDialog', FieldPropertyDialog, {
+    $class('ImageDialog', [FieldPropertyDialog, FileUpload], {
         template:'abmodule/dialog-img',
 
         show: function (context, e) {
             // TODO: fill data into dom.
             var domNode = this.showDialog(context, e);
             selectOneValueOnly(domNode.find('td[field=search] select'), 0, true);
+            this.refreshUpload(domNode);
         },
 
         getProperties: function () {

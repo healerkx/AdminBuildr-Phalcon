@@ -14,16 +14,7 @@ class AbFileController extends AbBaseController
         $views = [
             ["name" =>'上传管理', "template" => "abfile/manage"]];
 
-        $uploads = array();
-        $path = self::getFileUploadPath();
-        $dir = @dir($path);
-        while (($fileName = $dir->read()) !== false) {
-            if ($fileName == '.' || $fileName == '..') continue;
-
-            $contents = file_get_contents($path . $fileName);
-            $uploads[] = json_decode($contents, true);
-
-        }
+        $uploads = self::getAllUpload();
 
         $data = array(
             'uploads' => $uploads
@@ -92,6 +83,29 @@ class AbFileController extends AbBaseController
         $pathName = KxFile::convertFileName('', $this->pathPattern);
 
         KxFile::upload($fileName, $pathName, $this->cleanupTargetDir);
+    }
+
+    /**
+     * Test code for convertFileName from pattern
+     */
+    public function refreshAction()
+    {
+        parent::result(self::getAllUpload());
+    }
+
+    private static function getAllUpload()
+    {
+        $uploads = array();
+        $path = self::getFileUploadPath();
+        $dir = @dir($path);
+        while (($fileName = $dir->read()) !== false) {
+            if ($fileName == '.' || $fileName == '..') continue;
+
+            $contents = file_get_contents($path . $fileName);
+            $uploads[] = json_decode($contents, true);
+
+        }
+        return $uploads;
     }
 
     /**

@@ -37,16 +37,11 @@ class AbModuleController extends AbBaseController
         parent::addDialog('文件上传设置', 'abmodule/dialog-file');
         parent::addDialog('图片上传设置', 'abmodule/dialog-img');
 
-        $uploadConfigs = KxUploadConfig::find();
-        $uploadUrls = array();
-        foreach ($uploadConfigs->toArray() as $cfg) {
-            $uploadUrls[] = $cfg['url'];
-        }
-
         $data = array(
             'table_names' => $tableNames,
             'enum_defines' => AbEnumController::getEnumClasses(),
-            'upload_urls' => $uploadUrls);
+            //'upload_urls' => $uploadUrls
+        );
         // $this->session->set('a', '323');
         parent::showTabViews($views, '创建CURD模块', $data);
     }

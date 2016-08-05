@@ -9,12 +9,10 @@
                 <td>
                     <div class="controls">
                         <select type="text" name="upload_path">
-                            {% for i in upload_urls %}
-                            <option value="{{i}}">{{i}}</option>
-                            {% endfor %}
                             <option value="__UPLOAD_URL__">临时选择(查找生成文件中的__UPLOAD_URL__)</option>
                         </select>
                     </div>
+                    <a class="btn refresh">刷新</a>
                 </td>
 
             </tr>
