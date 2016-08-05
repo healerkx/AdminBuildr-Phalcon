@@ -53,19 +53,8 @@
 
         onOk: function () {
             if (this.controller) {
-                $.post('abFile/addController',
-                        {
-                            url: this.controller + '/upload',
-                            filename_pattern: this.filenamePattern,
-                            subdir_pattern: this.subdirPattern,
-                        }, function(data)
-                        {
-                            // TODO: 不能重复, 否则覆盖
-                            var r = data.toJson();
-                            console.log(r);
-                            window.location.reload();
-                        }
-                );
+                window.location.reload();
+
             }
             return true;
         }

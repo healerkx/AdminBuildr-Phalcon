@@ -14,11 +14,19 @@ class AbFileController extends AbBaseController
         $views = [
             ["name" =>'上传管理', "template" => "abfile/manage"]];
 
-        $cfgs = KxUploadConfig::find();
-        $actions = $cfgs->toArray();
+        $uploads = array();
+        $path = self::getFileUploadPath();
+        $dir = @dir($path);
+        while (($fileName = $dir->read()) !== false) {
+            if ($fileName == '.' || $fileName == '..') continue;
+
+            $contents = file_get_contents($path . $fileName);
+            $uploads[] = json_decode($contents, true);
+
+        }
 
         $data = array(
-            'actions' => $actions
+            'uploads' => $uploads
         );
         parent::addDialog('Action属性', 'abfile/settings');
         parent::showTabViews($views, '文件上传管理', $data);
@@ -58,9 +66,7 @@ class AbFileController extends AbBaseController
             'subdir_pattern' => $subdirPattern
         );
 
-        $path = ApplicationConfig::getConfig('product')['path'] . '\\www\\model\\file-upload\\';
-
-        return $this->createUploadPolicyFile($path, $url, $data);
+        return $this->createUploadPolicyFile(self::getFileUploadPath(), $url, $data);
     }
 
     private function createUploadPolicyFile($path, $url, $data)
@@ -68,6 +74,12 @@ class AbFileController extends AbBaseController
         $fileName = $path . "{$url}.json";
         file_put_contents($fileName, json_encode($data), JSON_PRETTY_PRINT);
         return true;
+    }
+
+    private static function getFileUploadPath()
+    {
+        $path = ApplicationConfig::getConfig('product')['path'] . '\\www\\model\\file-upload\\';
+        return $path;
     }
 
     /**
